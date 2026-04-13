@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InkCoverage.app — Free Online Ink Coverage Analyzer for Prepress</title>
+<meta name="description" content="Free online ink coverage analyzer. Upload a PDF, select a crop area, and get per-channel CMYK and spot color coverage percentages. Built for flexo and offset prepress professionals.">
+<meta name="keywords" content="ink coverage, CMYK coverage, prepress, flexo, offset, spot color, PDF analyzer, ink density, tiffsep, color separation">
+<meta name="author" content="InkCoverage.app">
+<meta property="og:title" content="InkCoverage.app — Free Ink Coverage Analyzer">
+<meta property="og:description" content="Upload a PDF and get per-channel CMYK and spot color coverage percentages. Free, open source, no install required.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://inkcoverage.app">
+<link rel="canonical" href="https://inkcoverage.app">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9698389990685032" crossorigin="anonymous"></script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0e0f13;
+    --surface: #16171d;
+    --surface2: #1e1f27;
+    --surface3: #262731;
+    --border: #2a2b36;
+    --border-light: #363745;
+    --text: #e8e9ed;
+    --text-dim: #8b8d9a;
+    --text-muted: #5c5e6e;
+    --accent: #6c8aff;
+    --accent-dim: #4a62cc;
+    --cyan-color: #00cfff;
+    --magenta-color: #ff2d95;
+    --yellow-color: #ffd600;
+    --black-color: #888;
+    --spot-color: #ff8a3d;
+    --success: #34d399;
+    --danger: #f87171;
+    --crop-border: #6c8aff;
+    --crop-bg: rgba(108, 138, 255, 0.08);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ---- Layout ---- */
+  .app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    flex-wrap: wrap;
+  }
+
+  .header-logo {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--cyan-color), var(--magenta-color), var(--yellow-color));
+    flex-shrink: 0;
+  }
+
+  .header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  .header h1 span {
+    color: var(--text-dim);
+    font-weight: 400;
+    margin-left: 8px;
+    font-size: 14px;
+  }
+
+  .header-links {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.15s;
+  }
+
+  .header-links a:hover {
+    color: var(--text);
+  }
+
+  .github-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .github-link svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+
+  .main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ---- Sidebar / Controls ---- */
+  .sidebar {
+    width: 320px;
+    min-width: 320px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .sidebar-section {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-section:last-child {
+    border-bottom: none;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+
+  /* Upload area */
+  .upload-zone {
+    border: 2px dashed var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface2);
+  }
+
+  .upload-zone:hover {
+    border-color: var(--accent);
+    background: rgba(108, 138, 255, 0.04);
+  }
+
+  .upload-zone.dragover {
+    border-color: var(--accent);
+    background: rgba(108, 138, 255, 0.08);
+  }
+
+  .upload-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+
+  .upload-text {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  .upload-text strong {
+    color: var(--accent);
+  }
+
+  .upload-hint {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  .file-info {
+    background: var(--surface2);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .file-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    background: var(--surface3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .file-details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .file-name {
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .file-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .btn-remove {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    font-size: 18px;
+    line-height: 1;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+
+  .btn-remove:hover {
+    color: var(--danger);
+    background: rgba(248, 113, 113, 0.1);
+  }
+
+  /* Page selector */
+  .page-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .page-btn {
+    width: 36px; height: 36px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-light);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.15s;
+  }
+
+  .page-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: rgba(108, 138, 255, 0.08);
+  }
+
+  .page-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .page-input-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  .page-input {
+    width: 48px;
+    height: 36px;
+    text-align: center;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-light);
+    background: var(--surface2);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .page-input:focus {
+    border-color: var(--accent);
+  }
+
+  /* Crop info */
+  .crop-info {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .crop-dims {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    background: var(--surface2);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin-top: 10px;
+  }
+
+  .btn-reset-crop {
+    margin-top: 10px;
+    display: inline-block;
+    font-size: 12px;
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: inherit;
+  }
+
+  .btn-reset-crop:hover {
+    color: var(--text);
+  }
+
+  /* Analyze button */
+  .btn-analyze {
+    width: 100%;
+    height: 48px;
+    border-radius: var(--radius);
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: -0.2px;
+  }
+
+  .btn-analyze:hover:not(:disabled) {
+    background: var(--accent-dim);
+    transform: translateY(-1px);
+  }
+
+  .btn-analyze:disabled {
+    opacity: 0.4;
+    cursor: default;
+    transform: none;
+  }
+
+  .btn-analyze.analyzing {
+    background: var(--surface3);
+    color: var(--text-dim);
+  }
+
+  /* ---- Canvas area ---- */
+  .canvas-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    background: var(--bg);
+    position: relative;
+    overflow: auto;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--text-muted);
+  }
+
+  .empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.3;
+  }
+
+  .empty-state h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
+  .empty-state p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .preview-container {
+    position: relative;
+    display: inline-block;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .preview-container img {
+    display: block;
+    max-width: calc(100vw - 320px - 380px - 96px);
+    max-height: calc(100vh - 120px);
+    width: auto;
+    height: auto;
+  }
+
+  /* Crop overlay */
+  .crop-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    cursor: crosshair;
+  }
+
+  .crop-shade {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.55);
+    pointer-events: none;
+  }
+
+  .crop-rect {
+    position: absolute;
+    border: 2px solid var(--crop-border);
+    background: var(--crop-bg);
+    pointer-events: none;
+    box-shadow: 0 0 0 1px rgba(108, 138, 255, 0.3);
+  }
+
+  .crop-rect::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border: 1px dashed rgba(255,255,255,0.2);
+  }
+
+  .crop-handle {
+    position: absolute;
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border: 2px solid #fff;
+    border-radius: 2px;
+    pointer-events: auto;
+    z-index: 2;
+  }
+
+  .crop-handle.tl { top: -5px; left: -5px; cursor: nw-resize; }
+  .crop-handle.tr { top: -5px; right: -5px; cursor: ne-resize; }
+  .crop-handle.bl { bottom: -5px; left: -5px; cursor: sw-resize; }
+  .crop-handle.br { bottom: -5px; right: -5px; cursor: se-resize; }
+
+  .crop-size-label {
+    position: absolute;
+    bottom: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    white-space: nowrap;
+    background: var(--surface);
+    padding: 2px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+  }
+
+  /* ---- Results panel ---- */
+  .results-panel {
+    width: 360px;
+    min-width: 360px;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .results-panel.hidden {
+    display: none;
+  }
+
+  .results-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .results-header h2 {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .btn-close-results {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 20px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+
+  .btn-close-results:hover {
+    color: var(--text);
+    background: var(--surface2);
+  }
+
+  .results-body {
+    padding: 0;
+    flex: 1;
+  }
+
+  .result-group {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .result-group:last-child {
+    border-bottom: none;
+  }
+
+  .result-group-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+
+  .ink-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+  }
+
+  .ink-row + .ink-row {
+    border-top: 1px solid var(--border);
+  }
+
+  .ink-swatch {
+    width: 14px; height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .ink-name {
+    font-size: 13px;
+    font-weight: 500;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ink-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: right;
+  }
+
+  .ink-bar-bg {
+    width: 80px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--surface3);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .ink-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+
+  /* Total rows */
+  .total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+  }
+
+  .total-row + .total-row {
+    border-top: 1px solid var(--border);
+  }
+
+  .total-label {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .total-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* Ad slot */
+  .ad-slot {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    min-height: 100px;
+  }
+
+  .ad-slot-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    opacity: 0.5;
+    margin-bottom: 8px;
+  }
+
+  /* Loading spinner */
+  .spinner {
+    display: inline-block;
+    width: 18px; height: 18px;
+    border: 2px solid var(--border-light);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Loading overlay for preview */
+  .loading-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(14, 15, 19, 0.85);
+    z-index: 10;
+    gap: 12px;
+  }
+
+  .loading-overlay .spinner {
+    width: 32px; height: 32px;
+    border-width: 3px;
+    margin: 0;
+  }
+
+  .loading-overlay span {
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  /* Error toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--danger);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+    max-width: 90vw;
+    text-align: center;
+  }
+
+  .toast.visible {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Footer */
+  .footer {
+    padding: 12px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  .footer a {
+    color: var(--text-dim);
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    color: var(--text);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+
+  /* Hidden file input */
+  #fileInput { display: none; }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 1100px) {
+    .results-panel { width: 300px; min-width: 300px; }
+    .preview-container img {
+      max-width: calc(100vw - 320px - 300px - 64px);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .main {
+      flex-direction: column;
+    }
+    .sidebar {
+      width: 100%;
+      min-width: unset;
+      max-height: none;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .canvas-area {
+      min-height: 300px;
+      padding: 16px;
+    }
+    .preview-container img {
+      max-width: calc(100vw - 32px);
+      max-height: 50vh;
+    }
+    .results-panel {
+      width: 100%;
+      min-width: unset;
+      border-left: none;
+      border-top: 1px solid var(--border);
+    }
+    .header h1 span {
+      display: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo"></div>
+    <h1>InkCoverage<span>Ink Coverage Analyzer</span></h1>
+    <div class="header-links">
+      <a href="https://github.com/inkcoverage/inkcoverage" class="github-link" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Source
+      </a>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Upload section -->
+      <div class="sidebar-section">
+        <div class="section-label">Document</div>
+        <div id="uploadArea">
+          <div class="upload-zone" id="uploadZone">
+            <div class="upload-icon">&#128196;</div>
+            <div class="upload-text">
+              Drop PDF here or<br><strong>click to browse</strong>
+            </div>
+            <div class="upload-hint">Max 50 MB. Your file is processed on the server and deleted within 10 minutes.</div>
+          </div>
+        </div>
+        <div id="fileInfoArea" style="display:none;">
+          <div class="file-info">
+            <div class="file-icon">&#128196;</div>
+            <div class="file-details">
+              <div class="file-name" id="fileName"></div>
+              <div class="file-meta" id="fileMeta"></div>
+            </div>
+            <button class="btn-remove" id="btnRemove" title="Remove file">&times;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page selector -->
+      <div class="sidebar-section" id="pageSelectorSection" style="display:none;">
+        <div class="section-label">Page</div>
+        <div class="page-selector">
+          <button class="page-btn" id="btnPrevPage">&#8249;</button>
+          <div class="page-input-group">
+            <input type="number" class="page-input" id="pageInput" min="1" value="1">
+            <span>of <span id="totalPages">1</span></span>
+          </div>
+          <button class="page-btn" id="btnNextPage">&#8250;</button>
+        </div>
+      </div>
+
+      <!-- Crop info -->
+      <div class="sidebar-section" id="cropInfoSection" style="display:none;">
+        <div class="section-label">Crop Area</div>
+        <div class="crop-info">
+          Draw a rectangle on the preview to define the analysis area. Only pixels inside the crop will be measured.
+        </div>
+        <div class="crop-dims" id="cropDims" style="display:none;">
+          <span id="cropDimsText"></span>
+        </div>
+        <button class="btn-reset-crop" id="btnResetCrop" style="display:none;">Reset to full page</button>
+      </div>
+
+      <!-- Analyze button -->
+      <div class="sidebar-section" id="analyzeSection" style="display:none;">
+        <button class="btn-analyze" id="btnAnalyze">Analyze Ink Coverage</button>
+      </div>
+
+      <!-- Ad slot: sidebar bottom -->
+      <div class="ad-slot" id="adSlotSidebar">
+        <!-- AdSense unit — uncomment and configure after approval -->
+        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+      </div>
+    </div>
+
+    <!-- Canvas / Preview area -->
+    <div class="canvas-area" id="canvasArea">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-state-icon">&#127912;</div>
+        <h2>No document loaded</h2>
+        <p>Upload a PDF to get started</p>
+      </div>
+
+      <div class="preview-container" id="previewContainer" style="display:none;">
+        <img id="previewImg" src="" alt="Page preview">
+        <div class="crop-overlay" id="cropOverlay"></div>
+        <div id="loadingOverlay" class="loading-overlay" style="display:none;">
+          <div class="spinner"></div>
+          <span id="loadingText">Loading preview...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results panel -->
+    <div class="results-panel hidden" id="resultsPanel">
+      <div class="results-header">
+        <h2>Ink Coverage</h2>
+        <button class="btn-close-results" id="btnCloseResults">&times;</button>
+      </div>
+      <div class="results-body" id="resultsBody">
+      </div>
+      <!-- Ad slot: below results -->
+      <div class="ad-slot" id="adSlotResults">
+        <!-- AdSense unit — uncomment and configure after approval -->
+        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    InkCoverage.app &mdash; Free, open-source ink coverage analyzer.
+    <a href="/privacy">Privacy Policy</a> &middot;
+    <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener">Source on GitHub</a>.
+    Powered by Ghostscript.
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<input type="file" id="fileInput" accept=".pdf,application/pdf">
+
+<script>
+// ---- State ----
+const state = {
+  pdfId: null,
+  fileName: null,
+  pageCount: 1,
+  currentPage: 1,
+  pdfWidthPt: 612,
+  pdfHeightPt: 792,
+  crop: null,
+  results: null,
+  isLoading: false,
+  isAnalyzing: false,
+};
+
+// ---- DOM refs ----
+const $ = (s) => document.querySelector(s);
+const uploadZone = $('#uploadZone');
+const fileInput = $('#fileInput');
+const uploadArea = $('#uploadArea');
+const fileInfoArea = $('#fileInfoArea');
+const fileNameEl = $('#fileName');
+const fileMeta = $('#fileMeta');
+const btnRemove = $('#btnRemove');
+const pageSelectorSection = $('#pageSelectorSection');
+const pageInput = $('#pageInput');
+const totalPagesSpan = $('#totalPages');
+const btnPrevPage = $('#btnPrevPage');
+const btnNextPage = $('#btnNextPage');
+const cropInfoSection = $('#cropInfoSection');
+const cropDims = $('#cropDims');
+const cropDimsText = $('#cropDimsText');
+const btnResetCrop = $('#btnResetCrop');
+const analyzeSection = $('#analyzeSection');
+const btnAnalyze = $('#btnAnalyze');
+const canvasArea = $('#canvasArea');
+const emptyState = $('#emptyState');
+const previewContainer = $('#previewContainer');
+const previewImg = $('#previewImg');
+const cropOverlay = $('#cropOverlay');
+const loadingOverlay = $('#loadingOverlay');
+const loadingTextEl = $('#loadingText');
+const resultsPanel = $('#resultsPanel');
+const resultsBody = $('#resultsBody');
+const btnCloseResults = $('#btnCloseResults');
+const toast = $('#toast');
+
+// ---- API helpers ----
+// API base is same origin (no localhost hardcode)
+const API = '';
+
+function showToast(message, duration = 4000) {
+  toast.textContent = message;
+  toast.classList.add('visible');
+  setTimeout(() => toast.classList.remove('visible'), duration);
+}
+
+async function apiUpload(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await fetch(`${API}/api/upload`, { method: 'POST', body: formData });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.detail || `Upload failed (${res.status})`);
+  }
+  return res.json();
+}
+
+async function apiPreview(id, page) {
+  const res = await fetch(`${API}/api/preview`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, page }),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.detail || 'Preview failed');
+  }
+  return res.json();
+}
+
+async function apiAnalyze(id, page, cropLeft, cropTop, cropWidth, cropHeight, pdfWidthPt, pdfHeightPt) {
+  const res = await fetch(`${API}/api/analyze`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, page, cropLeft, cropTop, cropWidth, cropHeight, pdfWidthPt, pdfHeightPt }),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.detail || `Analysis failed (${res.status})`);
+  }
+  return res.json();
+}
+
+// ---- Upload ----
+uploadZone.addEventListener('click', () => fileInput.click());
+
+uploadZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  uploadZone.classList.add('dragover');
+});
+
+uploadZone.addEventListener('dragleave', () => {
+  uploadZone.classList.remove('dragover');
+});
+
+uploadZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'))) {
+    handleFile(file);
+  } else {
+    showToast('Please upload a PDF file.');
+  }
+});
+
+fileInput.addEventListener('change', () => {
+  if (fileInput.files[0]) handleFile(fileInput.files[0]);
+});
+
+async function handleFile(file) {
+  showLoading('Uploading PDF...');
+  try {
+    const data = await apiUpload(file);
+    state.pdfId = data.id;
+    state.fileName = data.fileName;
+    state.pageCount = data.pageCount;
+    state.currentPage = 1;
+    state.crop = null;
+    state.results = null;
+
+    uploadArea.style.display = 'none';
+    fileInfoArea.style.display = 'block';
+    fileNameEl.textContent = data.fileName;
+    fileMeta.textContent = `${data.pageCount} page${data.pageCount > 1 ? 's' : ''}`;
+
+    if (data.pageCount > 1) {
+      pageSelectorSection.style.display = 'block';
+      totalPagesSpan.textContent = data.pageCount;
+      pageInput.max = data.pageCount;
+      pageInput.value = 1;
+      updatePageButtons();
+    } else {
+      pageSelectorSection.style.display = 'none';
+    }
+
+    cropInfoSection.style.display = 'block';
+    analyzeSection.style.display = 'block';
+    resultsPanel.classList.add('hidden');
+
+    await loadPreview();
+  } catch (err) {
+    showToast(err.message || 'Failed to upload PDF.');
+    console.error(err);
+    hideLoading();
+  }
+}
+
+btnRemove.addEventListener('click', () => {
+  state.pdfId = null;
+  state.fileName = null;
+  state.crop = null;
+  state.results = null;
+
+  uploadArea.style.display = 'block';
+  fileInfoArea.style.display = 'none';
+  pageSelectorSection.style.display = 'none';
+  cropInfoSection.style.display = 'none';
+  analyzeSection.style.display = 'none';
+  emptyState.style.display = 'block';
+  previewContainer.style.display = 'none';
+  resultsPanel.classList.add('hidden');
+  fileInput.value = '';
+});
+
+// ---- Page navigation ----
+btnPrevPage.addEventListener('click', () => {
+  if (state.currentPage > 1) {
+    state.currentPage--;
+    pageInput.value = state.currentPage;
+    updatePageButtons();
+    state.crop = null;
+    updateCropUI();
+    loadPreview();
+  }
+});
+
+btnNextPage.addEventListener('click', () => {
+  if (state.currentPage < state.pageCount) {
+    state.currentPage++;
+    pageInput.value = state.currentPage;
+    updatePageButtons();
+    state.crop = null;
+    updateCropUI();
+    loadPreview();
+  }
+});
+
+pageInput.addEventListener('change', () => {
+  let val = parseInt(pageInput.value);
+  if (isNaN(val) || val < 1) val = 1;
+  if (val > state.pageCount) val = state.pageCount;
+  pageInput.value = val;
+  state.currentPage = val;
+  updatePageButtons();
+  state.crop = null;
+  updateCropUI();
+  loadPreview();
+});
+
+function updatePageButtons() {
+  btnPrevPage.disabled = state.currentPage <= 1;
+  btnNextPage.disabled = state.currentPage >= state.pageCount;
+}
+
+// ---- Preview ----
+async function loadPreview() {
+  showLoading('Rendering page...');
+  emptyState.style.display = 'none';
+  previewContainer.style.display = 'inline-block';
+
+  try {
+    const data = await apiPreview(state.pdfId, state.currentPage);
+    state.pdfWidthPt = data.widthPt;
+    state.pdfHeightPt = data.heightPt;
+    previewImg.src = data.image;
+    previewImg.onload = () => {
+      hideLoading();
+      clearCropOverlay();
+    };
+  } catch (err) {
+    showToast(err.message || 'Failed to load preview.');
+    console.error(err);
+    hideLoading();
+  }
+}
+
+function showLoading(text) {
+  state.isLoading = true;
+  loadingTextEl.textContent = text;
+  loadingOverlay.style.display = 'flex';
+}
+
+function hideLoading() {
+  state.isLoading = false;
+  loadingOverlay.style.display = 'none';
+}
+
+// ---- Crop tool ----
+let isDragging = false;
+let isResizing = false;
+let resizeHandle = null;
+let dragStartX, dragStartY;
+let cropStartState = null;
+
+cropOverlay.addEventListener('mousedown', (e) => {
+  if (state.isLoading || state.isAnalyzing) return;
+  e.preventDefault();
+
+  const rect = cropOverlay.getBoundingClientRect();
+  const x = (e.clientX - rect.left) / rect.width;
+  const y = (e.clientY - rect.top) / rect.height;
+
+  if (state.crop && e.target.classList.contains('crop-handle')) {
+    isResizing = true;
+    resizeHandle = e.target.dataset.handle;
+    cropStartState = { ...state.crop };
+    dragStartX = x;
+    dragStartY = y;
+    return;
+  }
+
+  isDragging = true;
+  dragStartX = x;
+  dragStartY = y;
+  state.crop = { x, y, w: 0, h: 0 };
+});
+
+// Touch support for mobile
+cropOverlay.addEventListener('touchstart', (e) => {
+  if (state.isLoading || state.isAnalyzing) return;
+  e.preventDefault();
+  const touch = e.touches[0];
+
+  const rect = cropOverlay.getBoundingClientRect();
+  const x = (touch.clientX - rect.left) / rect.width;
+  const y = (touch.clientY - rect.top) / rect.height;
+
+  if (state.crop && e.target.classList.contains('crop-handle')) {
+    isResizing = true;
+    resizeHandle = e.target.dataset.handle;
+    cropStartState = { ...state.crop };
+    dragStartX = x;
+    dragStartY = y;
+    return;
+  }
+
+  isDragging = true;
+  dragStartX = x;
+  dragStartY = y;
+  state.crop = { x, y, w: 0, h: 0 };
+}, { passive: false });
+
+function handleMove(clientX, clientY) {
+  if (!isDragging && !isResizing) return;
+
+  const rect = cropOverlay.getBoundingClientRect();
+  const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+  const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+
+  if (isDragging) {
+    state.crop = {
+      x: Math.min(dragStartX, x),
+      y: Math.min(dragStartY, y),
+      w: Math.abs(x - dragStartX),
+      h: Math.abs(y - dragStartY),
+    };
+  }
+
+  if (isResizing) {
+    const dx = x - dragStartX;
+    const dy = y - dragStartY;
+    const c = cropStartState;
+
+    let nx = c.x, ny = c.y, nw = c.w, nh = c.h;
+
+    if (resizeHandle.includes('l')) {
+      nx = Math.min(c.x + c.w - 0.01, c.x + dx);
+      nw = c.w - (nx - c.x);
+    }
+    if (resizeHandle.includes('r')) {
+      nw = Math.max(0.01, c.w + dx);
+    }
+    if (resizeHandle.includes('t')) {
+      ny = Math.min(c.y + c.h - 0.01, c.y + dy);
+      nh = c.h - (ny - c.y);
+    }
+    if (resizeHandle.includes('b')) {
+      nh = Math.max(0.01, c.h + dy);
+    }
+
+    nx = Math.max(0, nx);
+    ny = Math.max(0, ny);
+    if (nx + nw > 1) nw = 1 - nx;
+    if (ny + nh > 1) nh = 1 - ny;
+
+    state.crop = { x: nx, y: ny, w: nw, h: nh };
+  }
+
+  renderCropOverlay();
+  updateCropUI();
+}
+
+document.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
+document.addEventListener('touchmove', (e) => {
+  if (isDragging || isResizing) {
+    e.preventDefault();
+    handleMove(e.touches[0].clientX, e.touches[0].clientY);
+  }
+}, { passive: false });
+
+function handleEnd() {
+  if (isDragging || isResizing) {
+    isDragging = false;
+    isResizing = false;
+    resizeHandle = null;
+    cropStartState = null;
+
+    if (state.crop && state.crop.w < 0.01 && state.crop.h < 0.01) {
+      state.crop = null;
+      clearCropOverlay();
+      updateCropUI();
+    }
+  }
+}
+
+document.addEventListener('mouseup', handleEnd);
+document.addEventListener('touchend', handleEnd);
+
+function renderCropOverlay() {
+  if (!state.crop) {
+    clearCropOverlay();
+    return;
+  }
+
+  const c = state.crop;
+  const pct = (v) => (v * 100).toFixed(4) + '%';
+
+  cropOverlay.innerHTML = `
+    <div class="crop-shade" style="top:0;left:0;right:0;height:${pct(c.y)}"></div>
+    <div class="crop-shade" style="top:${pct(c.y)};left:0;width:${pct(c.x)};height:${pct(c.h)}"></div>
+    <div class="crop-shade" style="top:${pct(c.y)};left:${pct(c.x + c.w)};right:0;height:${pct(c.h)}"></div>
+    <div class="crop-shade" style="top:${pct(c.y + c.h)};left:0;right:0;bottom:0"></div>
+    <div class="crop-rect" style="left:${pct(c.x)};top:${pct(c.y)};width:${pct(c.w)};height:${pct(c.h)}">
+      <div class="crop-handle tl" data-handle="tl"></div>
+      <div class="crop-handle tr" data-handle="tr"></div>
+      <div class="crop-handle bl" data-handle="bl"></div>
+      <div class="crop-handle br" data-handle="br"></div>
+    </div>
+  `;
+}
+
+function clearCropOverlay() {
+  cropOverlay.innerHTML = '';
+}
+
+function updateCropUI() {
+  if (state.crop && state.crop.w > 0.01 && state.crop.h > 0.01) {
+    const wPt = (state.crop.w * state.pdfWidthPt).toFixed(1);
+    const hPt = (state.crop.h * state.pdfHeightPt).toFixed(1);
+    const wMm = (wPt * 0.3528).toFixed(1);
+    const hMm = (hPt * 0.3528).toFixed(1);
+    cropDimsText.textContent = `${wMm} \u00d7 ${hMm} mm  (${wPt} \u00d7 ${hPt} pt)`;
+    cropDims.style.display = 'block';
+    btnResetCrop.style.display = 'inline-block';
+  } else {
+    cropDims.style.display = 'none';
+    btnResetCrop.style.display = 'none';
+  }
+}
+
+btnResetCrop.addEventListener('click', () => {
+  state.crop = null;
+  clearCropOverlay();
+  updateCropUI();
+});
+
+// ---- Analyze ----
+btnAnalyze.addEventListener('click', async () => {
+  if (!state.pdfId || state.isAnalyzing) return;
+
+  state.isAnalyzing = true;
+  btnAnalyze.disabled = true;
+  btnAnalyze.classList.add('analyzing');
+  btnAnalyze.innerHTML = '<span class="spinner"></span>Analyzing...';
+
+  let cropLeft, cropTop, cropWidth, cropHeight;
+  if (state.crop && state.crop.w > 0.01 && state.crop.h > 0.01) {
+    cropLeft = state.crop.x * state.pdfWidthPt;
+    cropTop = state.crop.y * state.pdfHeightPt;
+    cropWidth = state.crop.w * state.pdfWidthPt;
+    cropHeight = state.crop.h * state.pdfHeightPt;
+  } else {
+    cropLeft = 0;
+    cropTop = 0;
+    cropWidth = state.pdfWidthPt;
+    cropHeight = state.pdfHeightPt;
+  }
+
+  try {
+    const data = await apiAnalyze(
+      state.pdfId, state.currentPage,
+      cropLeft, cropTop, cropWidth, cropHeight,
+      state.pdfWidthPt, state.pdfHeightPt
+    );
+    state.results = data;
+    renderResults(data);
+    resultsPanel.classList.remove('hidden');
+  } catch (err) {
+    showToast(err.message || 'Analysis failed.');
+    console.error(err);
+  } finally {
+    state.isAnalyzing = false;
+    btnAnalyze.disabled = false;
+    btnAnalyze.classList.remove('analyzing');
+    btnAnalyze.textContent = 'Analyze Ink Coverage';
+  }
+});
+
+// ---- Results rendering ----
+function getInkColor(name) {
+  const n = name.toLowerCase();
+  if (n === 'cyan') return 'var(--cyan-color)';
+  if (n === 'magenta') return 'var(--magenta-color)';
+  if (n === 'yellow') return 'var(--yellow-color)';
+  if (n === 'black') return 'var(--black-color)';
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  const hue = Math.abs(hash) % 360;
+  return `hsl(${hue}, 70%, 55%)`;
+}
+
+function renderResults(data) {
+  const cmykNames = ['cyan', 'magenta', 'yellow', 'black'];
+  const cmykChannels = data.channels.filter(ch => cmykNames.includes(ch.name.toLowerCase()));
+  const spotChannels = data.channels.filter(ch => !cmykNames.includes(ch.name.toLowerCase()));
+
+  const cmykOrder = { cyan: 0, magenta: 1, yellow: 2, black: 3 };
+  cmykChannels.sort((a, b) => (cmykOrder[a.name.toLowerCase()] || 0) - (cmykOrder[b.name.toLowerCase()] || 0));
+
+  let html = '';
+
+  if (cmykChannels.length > 0) {
+    html += `<div class="result-group">
+      <div class="result-group-title">Process Colors (CMYK)</div>`;
+    cmykChannels.forEach(ch => { html += renderInkRow(ch); });
+    html += `</div>`;
+  }
+
+  if (spotChannels.length > 0) {
+    html += `<div class="result-group">
+      <div class="result-group-title">Spot Colors</div>`;
+    spotChannels.forEach(ch => { html += renderInkRow(ch); });
+    html += `</div>`;
+  }
+
+  html += `<div class="result-group">
+    <div class="result-group-title">Totals</div>`;
+
+  if (cmykChannels.length > 0) {
+    html += `<div class="total-row">
+      <span class="total-label">CMYK combined</span>
+      <span class="total-value">${data.cmykTotal.toFixed(2)}%</span>
+    </div>`;
+  }
+
+  if (spotChannels.length > 0) {
+    html += `<div class="total-row">
+      <span class="total-label">Spot combined</span>
+      <span class="total-value">${data.spotTotal.toFixed(2)}%</span>
+    </div>`;
+  }
+
+  html += `<div class="total-row">
+    <span class="total-label">Total ink</span>
+    <span class="total-value" style="color:var(--accent)">${data.grandTotal.toFixed(2)}%</span>
+  </div>`;
+
+  html += `</div>`;
+
+  resultsBody.innerHTML = html;
+}
+
+function renderInkRow(ch) {
+  const color = getInkColor(ch.name);
+  const pct = ch.coverage.toFixed(2);
+  const barWidth = Math.min(100, ch.coverage);
+
+  return `<div class="ink-row">
+    <div class="ink-swatch" style="background:${color}"></div>
+    <div class="ink-name">${ch.name}</div>
+    <div class="ink-bar-bg"><div class="ink-bar" style="width:${barWidth}%;background:${color}"></div></div>
+    <div class="ink-pct">${pct}%</div>
+  </div>`;
+}
+
+btnCloseResults.addEventListener('click', () => {
+  resultsPanel.classList.add('hidden');
+});
+</script>
+
+<!-- Structured data for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "InkCoverage.app",
+  "url": "https://inkcoverage.app",
+  "description": "Free online ink coverage analyzer for prepress. Upload a PDF and get per-channel CMYK and spot color coverage percentages.",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+</body>
+</html>

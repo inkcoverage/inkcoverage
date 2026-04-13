@@ -1,0 +1,18 @@
+services:
+  inkcoverage:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - MAX_UPLOAD_MB=50
+      - ANALYSIS_DPI=72
+      - PREVIEW_DPI=150
+      - FILE_TTL_SECONDS=600
+      - RATE_LIMIT_MAX=30
+    restart: unless-stopped
+    # Limit resources to prevent abuse
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G
