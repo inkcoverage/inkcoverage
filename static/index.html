@@ -15,6 +15,15 @@
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9698389990685032" crossorigin="anonymous"></script>
 
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -571,6 +580,23 @@
     border: 1px solid rgba(255,255,255,0.1);
   }
 
+  .ink-swatch.spot-swatch {
+    background: transparent;
+    border: 1.5px solid var(--text-muted);
+    position: relative;
+  }
+
+  .ink-swatch.spot-swatch::after {
+    content: '';
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-dim);
+  }
+
   .ink-name {
     font-size: 13px;
     font-weight: 500;
@@ -726,6 +752,130 @@
     color: var(--text);
   }
 
+  /* Help modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+  }
+
+  .modal-backdrop.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    width: 560px;
+    max-width: 90vw;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 16px 64px rgba(0,0,0,0.5);
+    transform: scale(0.95);
+    transition: transform 0.2s;
+  }
+
+  .modal-backdrop.visible .modal {
+    transform: scale(1);
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .modal-header h2 {
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 22px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+
+  .modal-close:hover {
+    color: var(--text);
+    background: var(--surface2);
+  }
+
+  .modal-body {
+    padding: 24px;
+  }
+
+  .help-step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .help-step:last-child {
+    margin-bottom: 0;
+  }
+
+  .help-step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .help-step-content h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .help-step-content p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .help-tip {
+    margin-top: 20px;
+    padding: 14px 16px;
+    background: var(--surface2);
+    border-radius: var(--radius);
+    border-left: 3px solid var(--accent);
+  }
+
+  .help-tip p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .help-tip strong {
+    color: var(--text);
+  }
+
   /* Scrollbar */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -782,6 +932,7 @@
     <div class="header-logo"></div>
     <h1>InkCoverage<span>Ink Coverage Analyzer</span></h1>
     <div class="header-links">
+      <a href="#" id="btnHelp" onclick="openHelp(); return false;">Help</a>
       <a href="https://github.com/inkcoverage/inkcoverage" class="github-link" target="_blank" rel="noopener">
         <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         Source
@@ -894,6 +1045,56 @@
     <a href="/privacy">Privacy Policy</a> &middot;
     <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener">Source on GitHub</a>.
     Powered by Ghostscript.
+  </div>
+</div>
+
+<!-- Help modal -->
+<div class="modal-backdrop" id="helpModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>How to Use InkCoverage</h2>
+      <button class="modal-close" onclick="closeHelp()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="help-step">
+        <div class="help-step-num">1</div>
+        <div class="help-step-content">
+          <h3>Upload a PDF</h3>
+          <p>Click the upload area or drag and drop a PDF file (up to 50 MB). Your file is processed on the server and automatically deleted within 10 minutes.</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <div class="help-step-num">2</div>
+        <div class="help-step-content">
+          <h3>Select a page</h3>
+          <p>If your PDF has multiple pages, use the page selector in the sidebar to navigate between them. A preview of the current page will be shown.</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <div class="help-step-num">3</div>
+        <div class="help-step-content">
+          <h3>Draw a crop area (optional)</h3>
+          <p>Click and drag on the preview to select a specific region to analyze. Resize the crop by dragging the corner handles. If no crop is drawn, the full page will be analyzed.</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <div class="help-step-num">4</div>
+        <div class="help-step-content">
+          <h3>Analyze</h3>
+          <p>Click the <strong>Analyze Ink Coverage</strong> button. The results panel will show the coverage percentage for each ink channel: Cyan, Magenta, Yellow, Black, and any spot colors present in the PDF.</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <div class="help-step-num">5</div>
+        <div class="help-step-content">
+          <h3>Read the results</h3>
+          <p>Each ink channel shows the percentage of the selected area covered by that ink. The totals section shows combined CMYK coverage, spot color coverage, and the grand total. These values are essential for prepress quality control.</p>
+        </div>
+      </div>
+      <div class="help-tip">
+        <p><strong>Tip:</strong> Use the crop tool to measure ink coverage on specific design elements like logos, barcodes, or color patches rather than the full page.</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1436,21 +1637,51 @@ function renderResults(data) {
   resultsBody.innerHTML = html;
 }
 
+function isSpotColor(name) {
+  const cmyk = ['cyan', 'magenta', 'yellow', 'black'];
+  return !cmyk.includes(name.toLowerCase());
+}
+
 function renderInkRow(ch) {
   const color = getInkColor(ch.name);
   const pct = ch.coverage.toFixed(2);
   const barWidth = Math.min(100, ch.coverage);
+  const spot = isSpotColor(ch.name);
+  const barColor = spot ? 'var(--spot-color)' : color;
+
+  const swatchHtml = spot
+    ? `<div class="ink-swatch spot-swatch"></div>`
+    : `<div class="ink-swatch" style="background:${color}"></div>`;
 
   return `<div class="ink-row">
-    <div class="ink-swatch" style="background:${color}"></div>
+    ${swatchHtml}
     <div class="ink-name">${ch.name}</div>
-    <div class="ink-bar-bg"><div class="ink-bar" style="width:${barWidth}%;background:${color}"></div></div>
+    <div class="ink-bar-bg"><div class="ink-bar" style="width:${barWidth}%;background:${barColor}"></div></div>
     <div class="ink-pct">${pct}%</div>
   </div>`;
 }
 
 btnCloseResults.addEventListener('click', () => {
   resultsPanel.classList.add('hidden');
+});
+
+// ---- Help modal ----
+const helpModal = document.getElementById('helpModal');
+
+function openHelp() {
+  helpModal.classList.add('visible');
+}
+
+function closeHelp() {
+  helpModal.classList.remove('visible');
+}
+
+helpModal.addEventListener('click', (e) => {
+  if (e.target === helpModal) closeHelp();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && helpModal.classList.contains('visible')) closeHelp();
 });
 </script>
 
