@@ -2,7 +2,9 @@ services:
   inkcoverage:
     build: .
     ports:
-      - "8000:8000"
+      - "80:8000"
+    volumes:
+      - ./static:/app/static:ro
     environment:
       - MAX_UPLOAD_MB=50
       - ANALYSIS_DPI=72
