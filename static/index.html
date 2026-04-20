@@ -656,9 +656,15 @@
   /* Ko-fi button */
   .kofi-section {
     padding: 16px 24px;
+    border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: center;
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+    z-index: 10;
+    margin-top: auto;
   }
 
   .kofi-btn {
