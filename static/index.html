@@ -829,6 +829,102 @@
     background: var(--success);
   }
 
+/* Analyze All button */
+.btn-analyze-all {
+  width: 100%;
+  height: 38px;
+  margin-top: 8px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-light);
+  background: var(--surface2);
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: -0.1px;
+}
+
+.btn-analyze-all:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--text);
+  background: rgba(108, 138, 255, 0.08);
+}
+
+.btn-analyze-all:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Batch results table */
+.batch-table-wrap {
+  overflow-x: auto;
+  padding: 0 24px 20px;
+}
+
+.batch-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  min-width: 280px;
+}
+
+.batch-table th {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+  padding: 8px 10px 8px 0;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.batch-table th:first-child {
+  text-align: left;
+}
+
+.batch-table td {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 7px 10px 7px 0;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+
+.batch-table td:first-child {
+  color: var(--text-muted);
+  text-align: left;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.batch-table td.batch-grand {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.batch-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.batch-table tbody tr:hover td {
+  color: var(--text);
+}
+
+.batch-section-title {
+  padding: 16px 24px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+
   /* Loading spinner */
   .spinner {
     display: inline-block;
@@ -1194,6 +1290,7 @@
       <!-- Analyze button -->
       <div class="sidebar-section" id="analyzeSection" style="display:none;">
         <button class="btn-analyze" id="btnAnalyze" data-i18n="btn_analyze">Analyze Ink Coverage</button>
+        <button class="btn-analyze-all" id="btnAnalyzeAll" style="display:none;" data-i18n="btn_analyze_all">Analyze All Pages</button>
       </div>
       </div><!-- end .sidebar-scroll -->
 
@@ -1338,6 +1435,7 @@ const translations = {
     crop_reset: 'Reset to full page',
     btn_analyze: 'Analyze Ink Coverage',
     btn_analyzing: 'Analyzing...',
+    btn_analyze_all: 'Analyze All Pages',
     empty_title: 'No document loaded',
     empty_sub: 'Upload a PDF to get started',
     loading_uploading: 'Uploading PDF...',
@@ -1393,6 +1491,7 @@ const translations = {
     crop_reset: 'Restablecer a página completa',
     btn_analyze: 'Analizar cobertura de tinta',
     btn_analyzing: 'Analizando...',
+    btn_analyze_all: 'Analizar todas las páginas',
     empty_title: 'Ningún documento cargado',
     empty_sub: 'Sube un PDF para comenzar',
     loading_uploading: 'Subiendo PDF...',
@@ -1448,6 +1547,7 @@ const translations = {
     crop_reset: 'Redefinir para a página inteira',
     btn_analyze: 'Analisar cobertura de tinta',
     btn_analyzing: 'Analisando...',
+    btn_analyze_all: 'Analisar todas as páginas',
     empty_title: 'Nenhum documento carregado',
     empty_sub: 'Carregue um PDF para começar',
     loading_uploading: 'Enviando PDF...',
@@ -1503,6 +1603,7 @@ const translations = {
     crop_reset: '重置为整页',
     btn_analyze: '分析油墨覆盖率',
     btn_analyzing: '正在分析...',
+    btn_analyze_all: '分析所有页面',
     empty_title: '未加载文档',
     empty_sub: '上传 PDF 以开始',
     loading_uploading: '正在上传 PDF...',
@@ -1592,6 +1693,9 @@ const state = {
   isLoading: false,
   isAnalyzing: false,
   units: localStorage.getItem('units') || 'mm',
+  pageResults: {},
+  pageDimensions: {},
+  resultsMode: 'single',
 };
 
 // ---- DOM refs ----
@@ -1614,6 +1718,7 @@ const cropDimsText = $('#cropDimsText');
 const btnResetCrop = $('#btnResetCrop');
 const analyzeSection = $('#analyzeSection');
 const btnAnalyze = $('#btnAnalyze');
+const btnAnalyzeAll = $('#btnAnalyzeAll');
 const canvasArea = $('#canvasArea');
 const emptyState = $('#emptyState');
 const previewContainer = $('#previewContainer');
@@ -1710,6 +1815,9 @@ async function handleFile(file) {
     state.currentPage = 1;
     state.crop = null;
     state.results = null;
+    state.pageResults = {};
+    state.pageDimensions = {};
+    state.resultsMode = 'single';
 
     uploadArea.style.display = 'none';
     fileInfoArea.style.display = 'block';
@@ -1722,8 +1830,10 @@ async function handleFile(file) {
       pageInput.max = data.pageCount;
       pageInput.value = 1;
       updatePageButtons();
+      btnAnalyzeAll.style.display = 'block';
     } else {
       pageSelectorSection.style.display = 'none';
+      btnAnalyzeAll.style.display = 'none';
     }
 
     cropInfoSection.style.display = 'block';
@@ -1752,6 +1862,10 @@ btnRemove.addEventListener('click', () => {
   emptyState.style.display = 'block';
   previewContainer.style.display = 'none';
   resultsPanel.classList.add('hidden');
+  btnAnalyzeAll.style.display = 'none';
+  state.pageResults = {};
+  state.pageDimensions = {};
+  state.resultsMode = 'single';
   setExportEnabled(false);
   fileInput.value = '';
 });
@@ -1762,8 +1876,6 @@ btnPrevPage.addEventListener('click', () => {
     state.currentPage--;
     pageInput.value = state.currentPage;
     updatePageButtons();
-    state.crop = null;
-    updateCropUI();
     loadPreview();
   }
 });
@@ -1773,8 +1885,6 @@ btnNextPage.addEventListener('click', () => {
     state.currentPage++;
     pageInput.value = state.currentPage;
     updatePageButtons();
-    state.crop = null;
-    updateCropUI();
     loadPreview();
   }
 });
@@ -1786,8 +1896,6 @@ pageInput.addEventListener('change', () => {
   pageInput.value = val;
   state.currentPage = val;
   updatePageButtons();
-  state.crop = null;
-  updateCropUI();
   loadPreview();
 });
 
@@ -1806,10 +1914,12 @@ async function loadPreview() {
     const data = await apiPreview(state.pdfId, state.currentPage);
     state.pdfWidthPt = data.widthPt;
     state.pdfHeightPt = data.heightPt;
+    state.pageDimensions[state.currentPage] = { widthPt: data.widthPt, heightPt: data.heightPt };
     previewImg.src = data.image;
     previewImg.onload = () => {
       hideLoading();
-      clearCropOverlay();
+      renderCropOverlay();
+      updateCropUI();
     };
   } catch (err) {
     showToast(err.message || t('toast_preview_fail'));
@@ -2045,6 +2155,8 @@ btnAnalyze.addEventListener('click', async () => {
       state.pdfWidthPt, state.pdfHeightPt
     );
     state.results = data;
+    state.pageResults[state.currentPage] = data;
+    state.resultsMode = 'single';
     renderResults(data);
     resultsPanel.classList.remove('hidden');
     setExportEnabled(true);
@@ -2058,6 +2170,59 @@ btnAnalyze.addEventListener('click', async () => {
     btnAnalyze.textContent = t('btn_analyze');
   }
 });
+
+// ---- Analyze All Pages ----
+async function analyzeAllPages() {
+  if (!state.pdfId || state.isAnalyzing) return;
+  state.isAnalyzing = true;
+  btnAnalyze.disabled = true;
+  btnAnalyzeAll.disabled = true;
+
+  for (let page = 1; page <= state.pageCount; page++) {
+    btnAnalyzeAll.innerHTML = `<span class="spinner"></span>${page} / ${state.pageCount}`;
+
+    // Get page dimensions (use cache or fetch via preview)
+    if (!state.pageDimensions[page]) {
+      try {
+        const prev = await apiPreview(state.pdfId, page);
+        state.pageDimensions[page] = { widthPt: prev.widthPt, heightPt: prev.heightPt };
+      } catch (err) { continue; }
+    }
+
+    const dims = state.pageDimensions[page];
+    let cropLeft, cropTop, cropWidth, cropHeight;
+    if (state.crop && state.crop.w > 0.01 && state.crop.h > 0.01) {
+      cropLeft   = state.crop.x * dims.widthPt;
+      cropTop    = state.crop.y * dims.heightPt;
+      cropWidth  = state.crop.w * dims.widthPt;
+      cropHeight = state.crop.h * dims.heightPt;
+    } else {
+      cropLeft = 0; cropTop = 0;
+      cropWidth = dims.widthPt; cropHeight = dims.heightPt;
+    }
+
+    try {
+      const result = await apiAnalyze(
+        state.pdfId, page,
+        cropLeft, cropTop, cropWidth, cropHeight,
+        dims.widthPt, dims.heightPt
+      );
+      state.pageResults[page] = result;
+    } catch (err) { /* skip failed pages */ }
+  }
+
+  state.resultsMode = 'batch';
+  renderBatchResults();
+  resultsPanel.classList.remove('hidden');
+  setExportEnabled(true);
+
+  state.isAnalyzing = false;
+  btnAnalyze.disabled = false;
+  btnAnalyzeAll.disabled = false;
+  btnAnalyzeAll.textContent = t('btn_analyze_all');
+}
+
+btnAnalyzeAll.addEventListener('click', analyzeAllPages);
 
 // ---- Results rendering ----
 function getInkColor(name) {
@@ -2147,6 +2312,40 @@ function renderInkRow(ch) {
   </div>`;
 }
 
+function renderBatchResults() {
+  const pages = Object.keys(state.pageResults).map(Number).sort((a, b) => a - b);
+  if (pages.length === 0) return;
+
+  // Collect all unique channel names in CMYK-first order
+  const cmykOrder = { cyan: 0, magenta: 1, yellow: 2, black: 3 };
+  const channelSet = new Set();
+  pages.forEach(p => state.pageResults[p].channels.forEach(ch => channelSet.add(ch.name)));
+  const channels = [...channelSet].sort((a, b) => {
+    const ai = cmykOrder[a.toLowerCase()] ?? 99;
+    const bi = cmykOrder[b.toLowerCase()] ?? 99;
+    return ai !== bi ? ai - bi : a.localeCompare(b);
+  });
+
+  let html = `<div class="batch-section-title">${t('results_title')} — ${t('section_page')} 1–${pages[pages.length - 1]}</div>`;
+  html += `<div class="batch-table-wrap"><table class="batch-table"><thead><tr>`;
+  html += `<th>${t('section_page')}</th>`;
+  channels.forEach(ch => html += `<th>${ch}</th>`);
+  html += `<th>${t('total_grand')}</th></tr></thead><tbody>`;
+
+  pages.forEach(p => {
+    const r = state.pageResults[p];
+    html += `<tr><td>${p}</td>`;
+    channels.forEach(ch => {
+      const found = r.channels.find(c => c.name === ch);
+      html += `<td>${found ? found.coverage.toFixed(2) + '%' : '—'}</td>`;
+    });
+    html += `<td class="batch-grand">${r.grandTotal.toFixed(2)}%</td></tr>`;
+  });
+
+  html += `</tbody></table></div>`;
+  resultsBody.innerHTML = html;
+}
+
 btnCloseResults.addEventListener('click', () => {
   resultsPanel.classList.add('hidden');
 });
@@ -2161,56 +2360,97 @@ function setExportEnabled(enabled) {
 }
 
 function buildResultsText() {
-  const r = state.results;
-  const cmykNames = ['cyan', 'magenta', 'yellow', 'black'];
-  const cmyk = r.channels.filter(ch => cmykNames.includes(ch.name.toLowerCase()));
-  const spots = r.channels.filter(ch => !cmykNames.includes(ch.name.toLowerCase()));
+  const pages = Object.keys(state.pageResults).map(Number).sort((a, b) => a - b);
+  if (pages.length === 0) return '';
+
+  const cmykOrder = { cyan: 0, magenta: 1, yellow: 2, black: 3 };
   const pad = (s, n) => s.length >= n ? s : s + ' '.repeat(n - s.length);
+  const lines = ['InkCoverage.app'];
+  if (state.fileName) lines.push(state.fileName);
+  lines.push('');
 
-  const lines = [
-    'InkCoverage.app',
-    state.fileName ? `${state.fileName}  —  ${t('section_page')} ${state.currentPage}` : '',
-    '',
-  ];
-
-  if (cmyk.length > 0) {
-    lines.push(t('group_cmyk'));
-    cmyk.forEach(ch => lines.push(`  ${pad(ch.name, 14)} ${ch.coverage.toFixed(2)} %`));
+  if (pages.length === 1) {
+    // Single page: existing readable format
+    const r = state.pageResults[pages[0]];
+    lines.push(`${t('section_page')} ${pages[0]}`);
     lines.push('');
+    const cmyk = r.channels.filter(ch => (cmykOrder[ch.name.toLowerCase()] ?? 99) < 4);
+    const spots = r.channels.filter(ch => (cmykOrder[ch.name.toLowerCase()] ?? 99) >= 4);
+    if (cmyk.length > 0) {
+      lines.push(t('group_cmyk'));
+      cmyk.forEach(ch => lines.push(`  ${pad(ch.name, 14)} ${ch.coverage.toFixed(2)} %`));
+      lines.push('');
+    }
+    if (spots.length > 0) {
+      lines.push(t('group_spot'));
+      spots.forEach(ch => lines.push(`  ${pad(ch.name, 14)} ${ch.coverage.toFixed(2)} %`));
+      lines.push('');
+    }
+    lines.push(t('group_totals'));
+    if (cmyk.length > 0)  lines.push(`  ${pad(t('total_cmyk'), 16)} ${r.cmykTotal.toFixed(2)} %`);
+    if (spots.length > 0) lines.push(`  ${pad(t('total_spot'), 16)} ${r.spotTotal.toFixed(2)} %`);
+    lines.push(`  ${pad(t('total_grand'), 16)} ${r.grandTotal.toFixed(2)} %`);
+  } else {
+    // Multi-page: table format
+    const channelSet = new Set();
+    pages.forEach(p => state.pageResults[p].channels.forEach(ch => channelSet.add(ch.name)));
+    const channels = [...channelSet].sort((a, b) => {
+      const ai = cmykOrder[a.toLowerCase()] ?? 99;
+      const bi = cmykOrder[b.toLowerCase()] ?? 99;
+      return ai !== bi ? ai - bi : a.localeCompare(b);
+    });
+    const colW = 9;
+    const header = pad(t('section_page'), 6) + channels.map(ch => pad(ch.slice(0, colW - 1), colW)).join('') + pad(t('total_grand'), colW);
+    lines.push(header);
+    lines.push('-'.repeat(header.length));
+    pages.forEach(p => {
+      const r = state.pageResults[p];
+      let row = pad(String(p), 6);
+      channels.forEach(ch => {
+        const found = r.channels.find(c => c.name === ch);
+        row += pad(found ? found.coverage.toFixed(2) + '%' : '—', colW);
+      });
+      row += pad(r.grandTotal.toFixed(2) + '%', colW);
+      lines.push(row);
+    });
   }
-  if (spots.length > 0) {
-    lines.push(t('group_spot'));
-    spots.forEach(ch => lines.push(`  ${pad(ch.name, 14)} ${ch.coverage.toFixed(2)} %`));
-    lines.push('');
-  }
-
-  lines.push(t('group_totals'));
-  if (cmyk.length > 0)  lines.push(`  ${pad(t('total_cmyk'), 14)} ${r.cmykTotal.toFixed(2)} %`);
-  if (spots.length > 0) lines.push(`  ${pad(t('total_spot'), 14)} ${r.spotTotal.toFixed(2)} %`);
-  lines.push(`  ${pad(t('total_grand'), 14)} ${r.grandTotal.toFixed(2)} %`);
 
   return lines.join('\n');
 }
 
 function buildResultsCsv() {
-  const r = state.results;
-  const cmykNames = ['cyan', 'magenta', 'yellow', 'black'];
-  const header = state.fileName
-    ? `# InkCoverage.app — ${state.fileName} — Page ${state.currentPage}\n`
-    : '# InkCoverage.app\n';
-  const rows = [header + 'Channel,Coverage (%),Type'];
-  r.channels.forEach(ch => {
-    const type = cmykNames.includes(ch.name.toLowerCase()) ? 'CMYK' : 'Spot';
-    rows.push(`${ch.name},${ch.coverage.toFixed(2)},${type}`);
+  const pages = Object.keys(state.pageResults).map(Number).sort((a, b) => a - b);
+  if (pages.length === 0) return '';
+
+  const cmykOrder = { cyan: 0, magenta: 1, yellow: 2, black: 3 };
+  const channelSet = new Set();
+  pages.forEach(p => state.pageResults[p].channels.forEach(ch => channelSet.add(ch.name)));
+  const channels = [...channelSet].sort((a, b) => {
+    const ai = cmykOrder[a.toLowerCase()] ?? 99;
+    const bi = cmykOrder[b.toLowerCase()] ?? 99;
+    return ai !== bi ? ai - bi : a.localeCompare(b);
   });
-  rows.push(`CMYK Total,${r.cmykTotal.toFixed(2)},Total`);
-  if (r.spotTotal > 0) rows.push(`Spot Total,${r.spotTotal.toFixed(2)},Total`);
-  rows.push(`Grand Total,${r.grandTotal.toFixed(2)},Total`);
+
+  const headerComment = state.fileName ? `# InkCoverage.app — ${state.fileName}\n` : '# InkCoverage.app\n';
+  const colHeaders = ['Page', ...channels, 'CMYK Total', 'Spot Total', 'Grand Total'].join(',');
+  const rows = [headerComment + colHeaders];
+
+  pages.forEach(p => {
+    const r = state.pageResults[p];
+    const cells = [p];
+    channels.forEach(ch => {
+      const found = r.channels.find(c => c.name === ch);
+      cells.push(found ? found.coverage.toFixed(2) : '');
+    });
+    cells.push(r.cmykTotal.toFixed(2), r.spotTotal.toFixed(2), r.grandTotal.toFixed(2));
+    rows.push(cells.join(','));
+  });
+
   return rows.join('\n');
 }
 
 btnCopyResults.addEventListener('click', async () => {
-  if (!state.results) return;
+  if (Object.keys(state.pageResults).length === 0) return;
   try {
     await navigator.clipboard.writeText(buildResultsText());
     showToast(t('toast_copied'), 2500, 'success');
@@ -2220,14 +2460,16 @@ btnCopyResults.addEventListener('click', async () => {
 });
 
 btnDownloadCsv.addEventListener('click', () => {
-  if (!state.results) return;
+  if (Object.keys(state.pageResults).length === 0) return;
   const csv = buildResultsCsv();
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   const base = (state.fileName || 'inkcoverage').replace(/\.pdf$/i, '');
   a.href = url;
-  a.download = `${base}_p${state.currentPage}_coverage.csv`;
+  const pages = Object.keys(state.pageResults);
+  const suffix = pages.length > 1 ? `_p1-${pages.length}` : `_p${state.currentPage}`;
+  a.download = `${base}${suffix}_coverage.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
