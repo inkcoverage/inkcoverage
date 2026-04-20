@@ -446,9 +446,15 @@
   }
 
   .empty-state-icon {
-    font-size: 48px;
     margin-bottom: 16px;
     opacity: 0.3;
+    line-height: 0;
+  }
+
+  .empty-state-icon svg {
+    width: 56px;
+    height: 56px;
+    color: var(--text-muted);
   }
 
   .empty-state h2 {
@@ -1239,7 +1245,18 @@
     <!-- Canvas / Preview area -->
     <div class="canvas-area" id="canvasArea">
       <div class="empty-state" id="emptyState">
-        <div class="empty-state-icon">&#127912;</div>
+        <div class="empty-state-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 72" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Document body -->
+            <path d="M10 6 H40 L54 20 V66 Q54 68 52 68 H12 Q10 68 10 66 Z"/>
+            <!-- Folded corner -->
+            <polyline points="40,6 40,20 54,20"/>
+            <!-- Question mark body -->
+            <path d="M25 34 Q25 27 32 27 Q39 27 39 33 Q39 38 32 40" stroke-width="3.5"/>
+            <!-- Question mark dot -->
+            <circle cx="32" cy="47" r="2" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
         <h2 data-i18n="empty_title">No document loaded</h2>
         <p data-i18n="empty_sub">Upload a PDF to get started</p>
         <div class="empty-state-desc">
