@@ -438,6 +438,19 @@
     background: var(--bg);
     position: relative;
     overflow: auto;
+    transition: box-shadow 0.15s;
+  }
+
+  .canvas-area.dragover {
+    box-shadow: inset 0 0 0 3px var(--accent);
+    background: rgba(108, 138, 255, 0.04);
+  }
+
+  .canvas-area.dragover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
   }
 
   .empty-state {
@@ -1743,6 +1756,30 @@ uploadZone.addEventListener('dragleave', () => {
 uploadZone.addEventListener('drop', (e) => {
   e.preventDefault();
   uploadZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'))) {
+    handleFile(file);
+  } else {
+    showToast(t('toast_pdf_only'));
+  }
+});
+
+// Canvas area also accepts drops
+canvasArea.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  canvasArea.classList.add('dragover');
+});
+
+canvasArea.addEventListener('dragleave', (e) => {
+  // Only remove if leaving the canvas area itself (not entering a child element)
+  if (!canvasArea.contains(e.relatedTarget)) {
+    canvasArea.classList.remove('dragover');
+  }
+});
+
+canvasArea.addEventListener('drop', (e) => {
+  e.preventDefault();
+  canvasArea.classList.remove('dragover');
   const file = e.dataTransfer.files[0];
   if (file && (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'))) {
     handleFile(file);
