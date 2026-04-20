@@ -143,6 +143,11 @@
     border-right: 1px solid var(--border);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sidebar-scroll {
+    flex: 1;
     overflow-y: auto;
   }
 
@@ -657,14 +662,9 @@
   .kofi-section {
     padding: 16px 24px;
     border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: center;
-    position: sticky;
-    bottom: 0;
-    background: var(--surface);
-    z-index: 10;
-    margin-top: auto;
+    flex-shrink: 0;
   }
 
   .kofi-btn {
@@ -985,6 +985,7 @@
   <div class="main">
     <!-- Sidebar -->
     <div class="sidebar">
+      <div class="sidebar-scroll">
       <!-- Upload section -->
       <div class="sidebar-section">
         <div class="section-label">Document</div>
@@ -1038,6 +1039,7 @@
       <div class="sidebar-section" id="analyzeSection" style="display:none;">
         <button class="btn-analyze" id="btnAnalyze">Analyze Ink Coverage</button>
       </div>
+      </div><!-- end .sidebar-scroll -->
 
       <!-- Ko-fi -->
       <div class="kofi-section">
