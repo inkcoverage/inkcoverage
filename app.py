@@ -114,6 +114,7 @@ app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 class PreviewRequest(BaseModel):
     id: str
     page: int = Field(ge=1)
+    overprint: bool = False
 
 
 class AnalyzeRequest(BaseModel):
@@ -172,9 +173,11 @@ def _get_page_dimensions(gs: str, pdf_path: str, page: int) -> tuple[float, floa
     return (612.0, 792.0)
 
 
-def _render_preview(gs: str, pdf_path: str, page: int, out_png: str) -> None:
+def _render_preview(gs: str, pdf_path: str, page: int, out_png: str, overprint: bool = False) -> None:
+    overprint_flag = "-dSimulateOverprint=true" if overprint else "-dSimulateOverprint=false"
     cmd = [
         gs, "-q", "-dBATCH", "-dNOMEDIAATTRS", "-dNOPAUSE", "-dNOPROMPT",
+        overprint_flag,
         f"-dFirstPage={page}", f"-dLastPage={page}",
         "-sDEVICE=png16m", f"-r{PREVIEW_DPI}",
         f"-sOutputFile={out_png}", pdf_path,
@@ -371,7 +374,7 @@ async def preview(req: PreviewRequest):
 
     preview_png = str(session_dir / f"preview_{req.page}.png")
     render_future = loop.run_in_executor(
-        None, _render_preview, gs, str(pdf_path), req.page, preview_png
+        None, _render_preview, gs, str(pdf_path), req.page, preview_png, req.overprint
     )
 
     width_pt, height_pt = await dims_future
