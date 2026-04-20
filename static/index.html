@@ -12,6 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://inkcoverage.app">
 <link rel="canonical" href="https://inkcoverage.app">
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
 
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2FNRM9GVXD"></script>
@@ -79,8 +80,6 @@
 
   .header-logo {
     width: 36px; height: 36px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, var(--cyan-color), var(--magenta-color), var(--yellow-color));
     flex-shrink: 0;
   }
 
@@ -781,6 +780,55 @@
   }
 
 
+  /* Results action buttons (copy / CSV) */
+  .results-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .btn-result-action {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: var(--radius);
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  .btn-result-action:hover:not(:disabled) {
+    color: var(--text);
+    border-color: var(--border-light);
+    background: var(--surface2);
+  }
+
+  .btn-result-action:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .btn-result-action svg {
+    width: 12px; height: 12px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  .toast.success {
+    background: var(--success);
+  }
+
   /* Loading spinner */
   .spinner {
     display: inline-block;
@@ -1071,7 +1119,7 @@
 <div class="app">
   <!-- Header -->
   <div class="header">
-    <div class="header-logo"></div>
+    <img src="/static/icon.svg" class="header-logo" alt="InkCoverage icon">
     <h1>InkCoverage<span data-i18n="header_tagline">Ink Coverage Analyzer</span></h1>
     <div class="header-links">
       <div class="lang-switcher">
@@ -1081,10 +1129,6 @@
         <button class="lang-btn" data-lang="zh">ZH</button>
       </div>
       <a href="#" id="btnHelp" onclick="openHelp(); return false;" data-i18n="nav_help">Help</a>
-      <a href="https://github.com/inkcoverage/inkcoverage" class="github-link" target="_blank" rel="noopener">
-        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        Source
-      </a>
     </div>
   </div>
 
@@ -1196,7 +1240,17 @@
     <div class="results-panel hidden" id="resultsPanel">
       <div class="results-header">
         <h2 data-i18n="results_title">Ink Coverage</h2>
-        <button class="btn-close-results" id="btnCloseResults">&times;</button>
+        <div class="results-actions">
+          <button class="btn-result-action" id="btnCopyResults" disabled title="Copy results">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span data-i18n="btn_copy">Copy</span>
+          </button>
+          <button class="btn-result-action" id="btnDownloadCsv" disabled title="Download CSV">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>CSV</span>
+          </button>
+          <button class="btn-close-results" id="btnCloseResults">&times;</button>
+        </div>
       </div>
       <div class="results-body" id="resultsBody">
       </div>
@@ -1315,6 +1369,8 @@ const translations = {
     toast_upload_fail: 'Failed to upload PDF.',
     toast_preview_fail: 'Failed to load preview.',
     toast_analyze_fail: 'Analysis failed.',
+    btn_copy: 'Copy',
+    toast_copied: 'Results copied to clipboard!',
     about_label: 'What is this?',
     about_text: 'InkCoverage.app calculates the ink coverage percentage for each channel in a PDF — Cyan, Magenta, Yellow, Black, and spot colors — over any selected area. Used in flexo, offset, and digital prepress to estimate ink consumption, verify print specifications, and control print costs.',
     tag_spot: 'Spot colors',
@@ -1368,6 +1424,8 @@ const translations = {
     toast_upload_fail: 'Error al subir el PDF.',
     toast_preview_fail: 'Error al cargar la vista previa.',
     toast_analyze_fail: 'Error en el análisis.',
+    btn_copy: 'Copiar',
+    toast_copied: '¡Resultados copiados!',
     about_label: '¿Qué es esto?',
     about_text: 'InkCoverage.app calcula el porcentaje de cobertura de tinta para cada canal en un PDF — Cian, Magenta, Amarillo, Negro y colores directos — en cualquier área seleccionada. Usado en preimpresión flexo, offset y digital para estimar el consumo de tinta, verificar especificaciones de impresión y controlar costes.',
     tag_spot: 'Colores directos',
@@ -1421,6 +1479,8 @@ const translations = {
     toast_upload_fail: 'Falha ao enviar o PDF.',
     toast_preview_fail: 'Falha ao carregar a visualização.',
     toast_analyze_fail: 'Falha na análise.',
+    btn_copy: 'Copiar',
+    toast_copied: 'Resultados copiados!',
     about_label: 'O que é isso?',
     about_text: 'InkCoverage.app calcula o percentual de cobertura de tinta para cada canal em um PDF — Ciano, Magenta, Amarelo, Preto e cores especiais — em qualquer área selecionada. Usado em pré-impressão flexo, offset e digital para estimar o consumo de tinta, verificar especificações de impressão e controlar custos.',
     tag_spot: 'Cores especiais',
@@ -1474,6 +1534,8 @@ const translations = {
     toast_upload_fail: 'PDF 上传失败。',
     toast_preview_fail: '预览加载失败。',
     toast_analyze_fail: '分析失败。',
+    btn_copy: '复制',
+    toast_copied: '结果已复制到剪贴板！',
     about_label: '这是什么工具？',
     about_text: 'InkCoverage.app 计算 PDF 中每个通道（青色、品红色、黄色、黑色及专色）在任意选定区域内的油墨覆盖率百分比。广泛用于柔版、胶版及数字印刷的印前工作，帮助估算耗墨量、验证印刷规格并控制成本。',
     tag_spot: '专色',
@@ -1568,9 +1630,9 @@ const toast = $('#toast');
 // API base is same origin (no localhost hardcode)
 const API = '';
 
-function showToast(message, duration = 4000) {
+function showToast(message, duration = 4000, type = 'error') {
   toast.textContent = message;
-  toast.classList.add('visible');
+  toast.className = 'toast visible' + (type === 'success' ? ' success' : '');
   setTimeout(() => toast.classList.remove('visible'), duration);
 }
 
@@ -1690,6 +1752,7 @@ btnRemove.addEventListener('click', () => {
   emptyState.style.display = 'block';
   previewContainer.style.display = 'none';
   resultsPanel.classList.add('hidden');
+  setExportEnabled(false);
   fileInput.value = '';
 });
 
@@ -1984,6 +2047,7 @@ btnAnalyze.addEventListener('click', async () => {
     state.results = data;
     renderResults(data);
     resultsPanel.classList.remove('hidden');
+    setExportEnabled(true);
   } catch (err) {
     showToast(err.message || t('toast_analyze_fail'));
     console.error(err);
@@ -2085,6 +2149,89 @@ function renderInkRow(ch) {
 
 btnCloseResults.addEventListener('click', () => {
   resultsPanel.classList.add('hidden');
+});
+
+// ---- Copy / Export results ----
+const btnCopyResults = $('#btnCopyResults');
+const btnDownloadCsv = $('#btnDownloadCsv');
+
+function setExportEnabled(enabled) {
+  btnCopyResults.disabled = !enabled;
+  btnDownloadCsv.disabled = !enabled;
+}
+
+function buildResultsText() {
+  const r = state.results;
+  const cmykNames = ['cyan', 'magenta', 'yellow', 'black'];
+  const cmyk = r.channels.filter(ch => cmykNames.includes(ch.name.toLowerCase()));
+  const spots = r.channels.filter(ch => !cmykNames.includes(ch.name.toLowerCase()));
+  const pad = (s, n) => s.length >= n ? s : s + ' '.repeat(n - s.length);
+
+  const lines = [
+    'InkCoverage.app',
+    state.fileName ? `${state.fileName}  —  ${t('section_page')} ${state.currentPage}` : '',
+    '',
+  ];
+
+  if (cmyk.length > 0) {
+    lines.push(t('group_cmyk'));
+    cmyk.forEach(ch => lines.push(`  ${pad(ch.name, 14)} ${ch.coverage.toFixed(2)} %`));
+    lines.push('');
+  }
+  if (spots.length > 0) {
+    lines.push(t('group_spot'));
+    spots.forEach(ch => lines.push(`  ${pad(ch.name, 14)} ${ch.coverage.toFixed(2)} %`));
+    lines.push('');
+  }
+
+  lines.push(t('group_totals'));
+  if (cmyk.length > 0)  lines.push(`  ${pad(t('total_cmyk'), 14)} ${r.cmykTotal.toFixed(2)} %`);
+  if (spots.length > 0) lines.push(`  ${pad(t('total_spot'), 14)} ${r.spotTotal.toFixed(2)} %`);
+  lines.push(`  ${pad(t('total_grand'), 14)} ${r.grandTotal.toFixed(2)} %`);
+
+  return lines.join('\n');
+}
+
+function buildResultsCsv() {
+  const r = state.results;
+  const cmykNames = ['cyan', 'magenta', 'yellow', 'black'];
+  const header = state.fileName
+    ? `# InkCoverage.app — ${state.fileName} — Page ${state.currentPage}\n`
+    : '# InkCoverage.app\n';
+  const rows = [header + 'Channel,Coverage (%),Type'];
+  r.channels.forEach(ch => {
+    const type = cmykNames.includes(ch.name.toLowerCase()) ? 'CMYK' : 'Spot';
+    rows.push(`${ch.name},${ch.coverage.toFixed(2)},${type}`);
+  });
+  rows.push(`CMYK Total,${r.cmykTotal.toFixed(2)},Total`);
+  if (r.spotTotal > 0) rows.push(`Spot Total,${r.spotTotal.toFixed(2)},Total`);
+  rows.push(`Grand Total,${r.grandTotal.toFixed(2)},Total`);
+  return rows.join('\n');
+}
+
+btnCopyResults.addEventListener('click', async () => {
+  if (!state.results) return;
+  try {
+    await navigator.clipboard.writeText(buildResultsText());
+    showToast(t('toast_copied'), 2500, 'success');
+  } catch {
+    showToast('Copy failed — please select and copy manually.');
+  }
+});
+
+btnDownloadCsv.addEventListener('click', () => {
+  if (!state.results) return;
+  const csv = buildResultsCsv();
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const base = (state.fileName || 'inkcoverage').replace(/\.pdf$/i, '');
+  a.href = url;
+  a.download = `${base}_p${state.currentPage}_coverage.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 });
 
 // ---- Help modal ----
