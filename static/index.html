@@ -653,6 +653,42 @@
     font-weight: 600;
   }
 
+  /* Ko-fi button */
+  .kofi-section {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+  }
+
+  .kofi-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-light);
+    background: transparent;
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .kofi-btn:hover {
+    border-color: #ff5e5b;
+    color: #ff5e5b;
+    background: rgba(255, 94, 91, 0.07);
+  }
+
+  .kofi-btn .kofi-icon {
+    font-size: 15px;
+    line-height: 1;
+  }
+
   /* Ad slot */
   .ad-slot {
     padding: 16px 24px;
@@ -995,6 +1031,13 @@
       <!-- Analyze button -->
       <div class="sidebar-section" id="analyzeSection" style="display:none;">
         <button class="btn-analyze" id="btnAnalyze">Analyze Ink Coverage</button>
+      </div>
+
+      <!-- Ko-fi -->
+      <div class="kofi-section">
+        <a href="https://ko-fi.com/Z8Z01Y4ZE4" target="_blank" rel="noopener" class="kofi-btn">
+          <span class="kofi-icon">☕</span> Buy me a coffee
+        </a>
       </div>
 
       <!-- Ad slot: sidebar bottom -->
