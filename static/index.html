@@ -356,6 +356,47 @@
     color: var(--text);
   }
 
+  /* Units toggle */
+  .section-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .section-label-row .section-label {
+    margin-bottom: 0;
+  }
+
+  .units-toggle {
+    display: flex;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .units-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .units-btn:hover {
+    color: var(--text);
+  }
+
+  .units-btn.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
   /* Analyze button */
   .btn-analyze {
     width: 100%;
@@ -1090,7 +1131,13 @@
 
       <!-- Crop info -->
       <div class="sidebar-section" id="cropInfoSection" style="display:none;">
-        <div class="section-label" data-i18n="section_crop">Crop Area</div>
+        <div class="section-label-row">
+          <div class="section-label" data-i18n="section_crop">Crop Area</div>
+          <div class="units-toggle">
+            <button class="units-btn active" data-units="mm">mm</button>
+            <button class="units-btn" data-units="in">in</button>
+          </div>
+        </div>
         <div class="crop-info">
           <span data-i18n="crop_instruction">Draw a rectangle on the preview to define the analysis area. Only pixels inside the crop will be measured.</span>
         </div>
@@ -1482,6 +1529,7 @@ const state = {
   results: null,
   isLoading: false,
   isAnalyzing: false,
+  units: localStorage.getItem('units') || 'mm',
 };
 
 // ---- DOM refs ----
@@ -1878,11 +1926,19 @@ function clearCropOverlay() {
 
 function updateCropUI() {
   if (state.crop && state.crop.w > 0.01 && state.crop.h > 0.01) {
-    const wPt = (state.crop.w * state.pdfWidthPt).toFixed(1);
-    const hPt = (state.crop.h * state.pdfHeightPt).toFixed(1);
-    const wMm = (wPt * 0.3528).toFixed(1);
-    const hMm = (hPt * 0.3528).toFixed(1);
-    cropDimsText.textContent = `${wMm} \u00d7 ${hMm} mm  (${wPt} \u00d7 ${hPt} pt)`;
+    const wPt = state.crop.w * state.pdfWidthPt;
+    const hPt = state.crop.h * state.pdfHeightPt;
+    let dimText;
+    if (state.units === 'in') {
+      const wIn = (wPt / 72).toFixed(3);
+      const hIn = (hPt / 72).toFixed(3);
+      dimText = `${wIn} \u00d7 ${hIn} in  (${wPt.toFixed(1)} \u00d7 ${hPt.toFixed(1)} pt)`;
+    } else {
+      const wMm = (wPt * 0.3528).toFixed(1);
+      const hMm = (hPt * 0.3528).toFixed(1);
+      dimText = `${wMm} \u00d7 ${hMm} mm  (${wPt.toFixed(1)} \u00d7 ${hPt.toFixed(1)} pt)`;
+    }
+    cropDimsText.textContent = dimText;
     cropDims.style.display = 'block';
     btnResetCrop.style.display = 'inline-block';
   } else {
@@ -2053,6 +2109,25 @@ document.addEventListener('keydown', (e) => {
 // ---- Language switcher ----
 document.querySelectorAll('.lang-btn').forEach(btn => {
   btn.addEventListener('click', () => setLang(btn.dataset.lang));
+});
+
+// ---- Units toggle ----
+function setUnits(units) {
+  state.units = units;
+  localStorage.setItem('units', units);
+  document.querySelectorAll('.units-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.units === units);
+  });
+  updateCropUI();
+}
+
+document.querySelectorAll('.units-btn').forEach(btn => {
+  btn.addEventListener('click', () => setUnits(btn.dataset.units));
+});
+
+// Initialize units toggle active state
+document.querySelectorAll('.units-btn').forEach(btn => {
+  btn.classList.toggle('active', btn.dataset.units === state.units);
 });
 
 // Initialize translations on load
