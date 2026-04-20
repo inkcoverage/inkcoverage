@@ -20,7 +20,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -302,6 +302,19 @@ async def index():
 async def privacy():
     html_path = BASE_DIR / "static" / "privacy.html"
     return HTMLResponse(html_path.read_text(encoding="utf-8"))
+
+
+@app.get("/robots.txt", response_class=PlainTextResponse)
+async def robots_txt():
+    return (BASE_DIR / "static" / "robots.txt").read_text()
+
+
+@app.get("/sitemap.xml")
+async def sitemap_xml():
+    return Response(
+        (BASE_DIR / "static" / "sitemap.xml").read_text(encoding="utf-8"),
+        media_type="application/xml",
+    )
 
 
 @app.get("/api/ping")

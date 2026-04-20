@@ -13,8 +13,6 @@
 <meta property="og:url" content="https://inkcoverage.app">
 <link rel="canonical" href="https://inkcoverage.app">
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9698389990685032" crossorigin="anonymous"></script>
-
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2FNRM9GVXD"></script>
 <script>
@@ -425,6 +423,52 @@
     line-height: 1.5;
   }
 
+  .empty-state-desc {
+    margin-top: 28px;
+    max-width: 440px;
+    text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+  }
+
+  .empty-state-desc h3 {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .empty-state-desc p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .empty-state-desc p:last-child {
+    margin-bottom: 0;
+  }
+
+  .empty-state-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .feature-tag {
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 8px;
+  }
+
   .preview-container {
     position: relative;
     display: inline-block;
@@ -695,22 +739,6 @@
     line-height: 1;
   }
 
-  /* Ad slot */
-  .ad-slot {
-    padding: 16px 24px;
-    border-top: 1px solid var(--border);
-    text-align: center;
-    min-height: 100px;
-  }
-
-  .ad-slot-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-muted);
-    opacity: 0.5;
-    margin-bottom: 8px;
-  }
 
   /* Loading spinner */
   .spinner {
@@ -1085,12 +1113,6 @@
         </a>
       </div>
 
-      <!-- Ad slot: sidebar bottom -->
-      <div class="ad-slot" id="adSlotSidebar">
-        <!-- AdSense unit — uncomment and configure after approval -->
-        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
-      </div>
     </div>
 
     <!-- Canvas / Preview area -->
@@ -1099,6 +1121,18 @@
         <div class="empty-state-icon">&#127912;</div>
         <h2 data-i18n="empty_title">No document loaded</h2>
         <p data-i18n="empty_sub">Upload a PDF to get started</p>
+        <div class="empty-state-desc">
+          <h3 data-i18n="about_label">What is this?</h3>
+          <p data-i18n="about_text">InkCoverage.app calculates the ink coverage percentage for each channel in a PDF — Cyan, Magenta, Yellow, Black, and spot colors — over any selected area. Used in flexo, offset, and digital prepress to estimate ink consumption, verify print specifications, and control print costs.</p>
+          <div class="empty-state-features">
+            <span class="feature-tag">CMYK</span>
+            <span class="feature-tag" data-i18n="tag_spot">Spot colors</span>
+            <span class="feature-tag">PDF</span>
+            <span class="feature-tag" data-i18n="tag_crop">Crop tool</span>
+            <span class="feature-tag" data-i18n="tag_free">Free &amp; open source</span>
+            <span class="feature-tag" data-i18n="tag_noaccount">No account needed</span>
+          </div>
+        </div>
       </div>
 
       <div class="preview-container" id="previewContainer" style="display:none;">
@@ -1118,12 +1152,6 @@
         <button class="btn-close-results" id="btnCloseResults">&times;</button>
       </div>
       <div class="results-body" id="resultsBody">
-      </div>
-      <!-- Ad slot: below results -->
-      <div class="ad-slot" id="adSlotResults">
-        <!-- AdSense unit — uncomment and configure after approval -->
-        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
       </div>
     </div>
   </div>
@@ -1240,6 +1268,12 @@ const translations = {
     toast_upload_fail: 'Failed to upload PDF.',
     toast_preview_fail: 'Failed to load preview.',
     toast_analyze_fail: 'Analysis failed.',
+    about_label: 'What is this?',
+    about_text: 'InkCoverage.app calculates the ink coverage percentage for each channel in a PDF — Cyan, Magenta, Yellow, Black, and spot colors — over any selected area. Used in flexo, offset, and digital prepress to estimate ink consumption, verify print specifications, and control print costs.',
+    tag_spot: 'Spot colors',
+    tag_crop: 'Crop tool',
+    tag_free: 'Free & open source',
+    tag_noaccount: 'No account needed',
   },
   es: {
     page_title: 'InkCoverage.app — Analizador de cobertura de tinta gratuito para preimpresión',
@@ -1287,6 +1321,12 @@ const translations = {
     toast_upload_fail: 'Error al subir el PDF.',
     toast_preview_fail: 'Error al cargar la vista previa.',
     toast_analyze_fail: 'Error en el análisis.',
+    about_label: '¿Qué es esto?',
+    about_text: 'InkCoverage.app calcula el porcentaje de cobertura de tinta para cada canal en un PDF — Cian, Magenta, Amarillo, Negro y colores directos — en cualquier área seleccionada. Usado en preimpresión flexo, offset y digital para estimar el consumo de tinta, verificar especificaciones de impresión y controlar costes.',
+    tag_spot: 'Colores directos',
+    tag_crop: 'Herramienta de recorte',
+    tag_free: 'Gratuito y código abierto',
+    tag_noaccount: 'Sin registro',
   },
   pt: {
     page_title: 'InkCoverage.app — Analisador de cobertura de tinta gratuito para pré-impressão',
@@ -1334,6 +1374,12 @@ const translations = {
     toast_upload_fail: 'Falha ao enviar o PDF.',
     toast_preview_fail: 'Falha ao carregar a visualização.',
     toast_analyze_fail: 'Falha na análise.',
+    about_label: 'O que é isso?',
+    about_text: 'InkCoverage.app calcula o percentual de cobertura de tinta para cada canal em um PDF — Ciano, Magenta, Amarelo, Preto e cores especiais — em qualquer área selecionada. Usado em pré-impressão flexo, offset e digital para estimar o consumo de tinta, verificar especificações de impressão e controlar custos.',
+    tag_spot: 'Cores especiais',
+    tag_crop: 'Ferramenta de recorte',
+    tag_free: 'Gratuito e código aberto',
+    tag_noaccount: 'Sem cadastro',
   },
   zh: {
     page_title: 'InkCoverage.app — 免费在线油墨覆盖率分析工具',
@@ -1381,6 +1427,12 @@ const translations = {
     toast_upload_fail: 'PDF 上传失败。',
     toast_preview_fail: '预览加载失败。',
     toast_analyze_fail: '分析失败。',
+    about_label: '这是什么工具？',
+    about_text: 'InkCoverage.app 计算 PDF 中每个通道（青色、品红色、黄色、黑色及专色）在任意选定区域内的油墨覆盖率百分比。广泛用于柔版、胶版及数字印刷的印前工作，帮助估算耗墨量、验证印刷规格并控制成本。',
+    tag_spot: '专色',
+    tag_crop: '裁剪工具',
+    tag_free: '免费开源',
+    tag_noaccount: '无需注册',
   },
 };
 
