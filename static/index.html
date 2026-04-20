@@ -857,73 +857,6 @@
   cursor: default;
 }
 
-/* Batch results table */
-.batch-table-wrap {
-  overflow-x: auto;
-  padding: 0 24px 20px;
-}
-
-.batch-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px;
-  min-width: 280px;
-}
-
-.batch-table th {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: var(--text-muted);
-  padding: 8px 10px 8px 0;
-  text-align: right;
-  border-bottom: 1px solid var(--border);
-  white-space: nowrap;
-}
-
-.batch-table th:first-child {
-  text-align: left;
-}
-
-.batch-table td {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--text-dim);
-  padding: 7px 10px 7px 0;
-  text-align: right;
-  border-bottom: 1px solid var(--border);
-}
-
-.batch-table td:first-child {
-  color: var(--text-muted);
-  text-align: left;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.batch-table td.batch-grand {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.batch-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.batch-table tbody tr:hover td {
-  color: var(--text);
-}
-
-.batch-section-title {
-  padding: 16px 24px 8px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--text-muted);
-}
 
   /* Loading spinner */
   .spinner {
@@ -1871,12 +1804,24 @@ btnRemove.addEventListener('click', () => {
 });
 
 // ---- Page navigation ----
+function updateBatchResultsForPage() {
+  if (state.resultsMode !== 'batch') return;
+  if (state.pageResults[state.currentPage]) {
+    state.results = state.pageResults[state.currentPage];
+    renderResults(state.results);
+    resultsPanel.classList.remove('hidden');
+  } else {
+    resultsPanel.classList.add('hidden');
+  }
+}
+
 btnPrevPage.addEventListener('click', () => {
   if (state.currentPage > 1) {
     state.currentPage--;
     pageInput.value = state.currentPage;
     updatePageButtons();
     loadPreview();
+    updateBatchResultsForPage();
   }
 });
 
@@ -1886,6 +1831,7 @@ btnNextPage.addEventListener('click', () => {
     pageInput.value = state.currentPage;
     updatePageButtons();
     loadPreview();
+    updateBatchResultsForPage();
   }
 });
 
@@ -1897,6 +1843,7 @@ pageInput.addEventListener('change', () => {
   state.currentPage = val;
   updatePageButtons();
   loadPreview();
+  updateBatchResultsForPage();
 });
 
 function updatePageButtons() {
@@ -2105,11 +2052,11 @@ function updateCropUI() {
     if (state.units === 'in') {
       const wIn = (wPt / 72).toFixed(3);
       const hIn = (hPt / 72).toFixed(3);
-      dimText = `${wIn} \u00d7 ${hIn} in  (${wPt.toFixed(1)} \u00d7 ${hPt.toFixed(1)} pt)`;
+      dimText = `${wIn} \u00d7 ${hIn} in`;
     } else {
       const wMm = (wPt * 0.3528).toFixed(1);
       const hMm = (hPt * 0.3528).toFixed(1);
-      dimText = `${wMm} \u00d7 ${hMm} mm  (${wPt.toFixed(1)} \u00d7 ${hPt.toFixed(1)} pt)`;
+      dimText = `${wMm} \u00d7 ${hMm} mm`;
     }
     cropDimsText.textContent = dimText;
     cropDims.style.display = 'block';
@@ -2212,8 +2159,16 @@ async function analyzeAllPages() {
   }
 
   state.resultsMode = 'batch';
-  renderBatchResults();
-  resultsPanel.classList.remove('hidden');
+  // Show results for the current page (or the nearest analyzed page)
+  const analyzedPages = Object.keys(state.pageResults).map(Number).sort((a, b) => a - b);
+  const displayPage = state.pageResults[state.currentPage]
+    ? state.currentPage
+    : analyzedPages[analyzedPages.length - 1];
+  if (state.pageResults[displayPage]) {
+    state.results = state.pageResults[displayPage];
+    renderResults(state.results);
+    resultsPanel.classList.remove('hidden');
+  }
   setExportEnabled(true);
 
   state.isAnalyzing = false;
@@ -2312,39 +2267,6 @@ function renderInkRow(ch) {
   </div>`;
 }
 
-function renderBatchResults() {
-  const pages = Object.keys(state.pageResults).map(Number).sort((a, b) => a - b);
-  if (pages.length === 0) return;
-
-  // Collect all unique channel names in CMYK-first order
-  const cmykOrder = { cyan: 0, magenta: 1, yellow: 2, black: 3 };
-  const channelSet = new Set();
-  pages.forEach(p => state.pageResults[p].channels.forEach(ch => channelSet.add(ch.name)));
-  const channels = [...channelSet].sort((a, b) => {
-    const ai = cmykOrder[a.toLowerCase()] ?? 99;
-    const bi = cmykOrder[b.toLowerCase()] ?? 99;
-    return ai !== bi ? ai - bi : a.localeCompare(b);
-  });
-
-  let html = `<div class="batch-section-title">${t('results_title')} — ${t('section_page')} 1–${pages[pages.length - 1]}</div>`;
-  html += `<div class="batch-table-wrap"><table class="batch-table"><thead><tr>`;
-  html += `<th>${t('section_page')}</th>`;
-  channels.forEach(ch => html += `<th>${ch}</th>`);
-  html += `<th>${t('total_grand')}</th></tr></thead><tbody>`;
-
-  pages.forEach(p => {
-    const r = state.pageResults[p];
-    html += `<tr><td>${p}</td>`;
-    channels.forEach(ch => {
-      const found = r.channels.find(c => c.name === ch);
-      html += `<td>${found ? found.coverage.toFixed(2) + '%' : '—'}</td>`;
-    });
-    html += `<td class="batch-grand">${r.grandTotal.toFixed(2)}%</td></tr>`;
-  });
-
-  html += `</tbody></table></div>`;
-  resultsBody.innerHTML = html;
-}
 
 btnCloseResults.addEventListener('click', () => {
   resultsPanel.classList.add('hidden');
