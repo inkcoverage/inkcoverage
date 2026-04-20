@@ -114,7 +114,6 @@ app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 class PreviewRequest(BaseModel):
     id: str
     page: int = Field(ge=1)
-    overprint: bool = False
 
 
 class AnalyzeRequest(BaseModel):
@@ -173,37 +172,14 @@ def _get_page_dimensions(gs: str, pdf_path: str, page: int) -> tuple[float, floa
     return (612.0, 792.0)
 
 
-def _render_preview(gs: str, pdf_path: str, page: int, out_png: str, overprint: bool = False) -> None:
-    if overprint:
-        # Render to a CMYK device so overprint compositing happens in CMYK space,
-        # then convert to RGB PNG with Pillow.  Using png16m (RGB) with
-        # -dSimulateOverprint has no effect in GS 9.50+ because overprint is
-        # already the default and the flag is ignored for RGB output devices.
-        cmyk_tiff = out_png.replace(".png", "_cmyk.tif")
-        try:
-            cmd = [
-                gs, "-q", "-dBATCH", "-dNOMEDIAATTRS", "-dNOPAUSE", "-dNOPROMPT",
-                "-dSimulateOverprint=true",
-                f"-dFirstPage={page}", f"-dLastPage={page}",
-                "-sDEVICE=tiff32nc", f"-r{PREVIEW_DPI}",
-                f"-sOutputFile={cmyk_tiff}", pdf_path,
-            ]
-            subprocess.run(cmd, capture_output=True, timeout=60)
-            if Path(cmyk_tiff).exists():
-                from PIL import Image
-                img = Image.open(cmyk_tiff)
-                img.convert("RGB").save(out_png, "PNG")
-                img.close()
-        finally:
-            Path(cmyk_tiff).unlink(missing_ok=True)
-    else:
-        cmd = [
-            gs, "-q", "-dBATCH", "-dNOMEDIAATTRS", "-dNOPAUSE", "-dNOPROMPT",
-            f"-dFirstPage={page}", f"-dLastPage={page}",
-            "-sDEVICE=png16m", f"-r{PREVIEW_DPI}",
-            f"-sOutputFile={out_png}", pdf_path,
-        ]
-        subprocess.run(cmd, capture_output=True, timeout=60)
+def _render_preview(gs: str, pdf_path: str, page: int, out_png: str) -> None:
+    cmd = [
+        gs, "-q", "-dBATCH", "-dNOMEDIAATTRS", "-dNOPAUSE", "-dNOPROMPT",
+        f"-dFirstPage={page}", f"-dLastPage={page}",
+        "-sDEVICE=png16m", f"-r{PREVIEW_DPI}",
+        f"-sOutputFile={out_png}", pdf_path,
+    ]
+    subprocess.run(cmd, capture_output=True, timeout=60)
 
 
 def _run_tiffsep(gs: str, pdf_path: str, page: int, session_dir: str) -> None:
@@ -395,7 +371,7 @@ async def preview(req: PreviewRequest):
 
     preview_png = str(session_dir / f"preview_{req.page}.png")
     render_future = loop.run_in_executor(
-        None, _render_preview, gs, str(pdf_path), req.page, preview_png, req.overprint
+        None, _render_preview, gs, str(pdf_path), req.page, preview_png
     )
 
     width_pt, height_pt = await dims_future

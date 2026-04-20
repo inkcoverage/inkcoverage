@@ -396,64 +396,6 @@
     color: #fff;
   }
 
-  /* Overprint toggle */
-  .overprint-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    font-size: 13px;
-    color: var(--text-dim);
-    user-select: none;
-  }
-
-  .overprint-label:hover {
-    color: var(--text);
-  }
-
-  .overprint-switch {
-    position: relative;
-    flex-shrink: 0;
-  }
-
-  .overprint-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-    position: absolute;
-  }
-
-  .overprint-track {
-    display: block;
-    width: 32px;
-    height: 18px;
-    background: var(--border);
-    border-radius: 9px;
-    transition: background 0.2s;
-    position: relative;
-  }
-
-  .overprint-track::after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--text-muted);
-    transition: transform 0.2s, background 0.2s;
-  }
-
-  .overprint-switch input:checked + .overprint-track {
-    background: var(--accent);
-  }
-
-  .overprint-switch input:checked + .overprint-track::after {
-    transform: translateX(14px);
-    background: #fff;
-  }
-
   /* Analyze button */
   .btn-analyze {
     width: 100%;
@@ -1279,17 +1221,6 @@
         </div>
       </div>
 
-      <!-- Overprint toggle -->
-      <div class="sidebar-section" id="overprintSection" style="display:none;">
-        <label class="overprint-label">
-          <div class="overprint-switch">
-            <input type="checkbox" id="overprintCheck">
-            <span class="overprint-track"></span>
-          </div>
-          <span data-i18n="overprint_label">Overprint preview</span>
-        </label>
-      </div>
-
       <!-- Crop info -->
       <div class="sidebar-section" id="cropInfoSection" style="display:none;">
         <div class="section-label-row">
@@ -1468,7 +1399,7 @@ const translations = {
     btn_analyze: 'Analyze Ink Coverage',
     btn_analyzing: 'Analyzing...',
     btn_analyze_all: 'Analyze All Pages',
-    overprint_label: 'Overprint preview',
+
     empty_title: 'No document loaded',
     empty_sub: 'Upload a PDF to get started',
     loading_uploading: 'Uploading PDF...',
@@ -1525,7 +1456,7 @@ const translations = {
     btn_analyze: 'Analizar cobertura de tinta',
     btn_analyzing: 'Analizando...',
     btn_analyze_all: 'Analizar todas las páginas',
-    overprint_label: 'Vista de sobreimpresión',
+
     empty_title: 'Ningún documento cargado',
     empty_sub: 'Sube un PDF para comenzar',
     loading_uploading: 'Subiendo PDF...',
@@ -1582,7 +1513,7 @@ const translations = {
     btn_analyze: 'Analisar cobertura de tinta',
     btn_analyzing: 'Analisando...',
     btn_analyze_all: 'Analisar todas as páginas',
-    overprint_label: 'Pré-visualização de sobreimpressão',
+
     empty_title: 'Nenhum documento carregado',
     empty_sub: 'Carregue um PDF para começar',
     loading_uploading: 'Enviando PDF...',
@@ -1639,7 +1570,7 @@ const translations = {
     btn_analyze: '分析油墨覆盖率',
     btn_analyzing: '正在分析...',
     btn_analyze_all: '分析所有页面',
-    overprint_label: '叠印预览',
+
     empty_title: '未加载文档',
     empty_sub: '上传 PDF 以开始',
     loading_uploading: '正在上传 PDF...',
@@ -1729,7 +1660,6 @@ const state = {
   isLoading: false,
   isAnalyzing: false,
   units: localStorage.getItem('units') || 'mm',
-  overprint: false,
   pageResults: {},
   pageDimensions: {},
   resultsMode: 'single',
@@ -1749,8 +1679,6 @@ const pageInput = $('#pageInput');
 const totalPagesSpan = $('#totalPages');
 const btnPrevPage = $('#btnPrevPage');
 const btnNextPage = $('#btnNextPage');
-const overprintSection = $('#overprintSection');
-const overprintCheck = $('#overprintCheck');
 const cropInfoSection = $('#cropInfoSection');
 const cropDims = $('#cropDims');
 const cropDimsText = $('#cropDimsText');
@@ -1791,11 +1719,11 @@ async function apiUpload(file) {
   return res.json();
 }
 
-async function apiPreview(id, page, overprint = false) {
+async function apiPreview(id, page) {
   const res = await fetch(`${API}/api/preview`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id, page, overprint }),
+    body: JSON.stringify({ id, page }),
   });
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
@@ -1878,11 +1806,9 @@ async function handleFile(file) {
     state.currentPage = 1;
     state.crop = null;
     state.results = null;
-    state.overprint = false;
     state.pageResults = {};
     state.pageDimensions = {};
     state.resultsMode = 'single';
-    overprintCheck.checked = false;
 
     uploadArea.style.display = 'none';
     fileInfoArea.style.display = 'block';
@@ -1901,7 +1827,6 @@ async function handleFile(file) {
       btnAnalyzeAll.style.display = 'none';
     }
 
-    overprintSection.style.display = 'block';
     cropInfoSection.style.display = 'block';
     analyzeSection.style.display = 'block';
     resultsPanel.classList.add('hidden');
@@ -1923,7 +1848,6 @@ btnRemove.addEventListener('click', () => {
   uploadArea.style.display = 'block';
   fileInfoArea.style.display = 'none';
   pageSelectorSection.style.display = 'none';
-  overprintSection.style.display = 'none';
   cropInfoSection.style.display = 'none';
   analyzeSection.style.display = 'none';
   emptyState.style.display = 'block';
@@ -1992,7 +1916,7 @@ async function loadPreview() {
   previewContainer.style.display = 'inline-block';
 
   try {
-    const data = await apiPreview(state.pdfId, state.currentPage, state.overprint);
+    const data = await apiPreview(state.pdfId, state.currentPage);
     state.pdfWidthPt = data.widthPt;
     state.pdfHeightPt = data.heightPt;
     state.pageDimensions[state.currentPage] = { widthPt: data.widthPt, heightPt: data.heightPt };
@@ -2573,12 +2497,6 @@ document.querySelectorAll('.units-btn').forEach(btn => {
 // Initialize units toggle active state
 document.querySelectorAll('.units-btn').forEach(btn => {
   btn.classList.toggle('active', btn.dataset.units === state.units);
-});
-
-// ---- Overprint toggle ----
-overprintCheck.addEventListener('change', () => {
-  state.overprint = overprintCheck.checked;
-  loadPreview();
 });
 
 // Initialize translations on load
