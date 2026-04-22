@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — InkCoverage.app</title>
+<meta name="description" content="InkCoverage.app is a free, open-source ink coverage analyzer for PDF files. Built for prepress professionals, print buyers, and designers.">
+<link rel="canonical" href="https://inkcoverage.app/about">
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2FNRM9GVXD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2FNRM9GVXD');
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+
+  :root {
+    --bg: #0e0f13;
+    --surface: #16171d;
+    --surface2: #1e1f28;
+    --border: #2a2b36;
+    --text: #e8e9ed;
+    --text-dim: #8b8d9a;
+    --text-muted: #5c5e6e;
+    --accent: #6c8aff;
+    --cyan-color: #00cfff;
+    --magenta-color: #ff2d95;
+    --yellow-color: #ffd600;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .header-logo {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  .header h1 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .header h1 span {
+    color: var(--text-dim);
+    font-weight: 400;
+    margin-left: 8px;
+    font-size: 14px;
+  }
+
+  .content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    flex: 1;
+  }
+
+  .content h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    letter-spacing: -0.5px;
+  }
+
+  .content h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 36px;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .content p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+
+  .content ul {
+    padding-left: 24px;
+    margin-bottom: 14px;
+  }
+
+  .content li {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+
+  .content a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .content a:hover {
+    text-decoration: underline;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* Contact form */
+  .contact-intro {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .contact-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s;
+    resize: vertical;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: var(--text-muted);
+  }
+
+  .form-group textarea {
+    min-height: 120px;
+  }
+
+  .form-optional {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-left: 6px;
+  }
+
+  .btn-submit {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    margin-top: 4px;
+  }
+
+  .btn-submit:hover { opacity: 0.88; }
+  .btn-submit:disabled { opacity: 0.5; cursor: default; }
+
+  .form-status {
+    margin-top: 16px;
+    font-size: 14px;
+    display: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+
+  .form-status.success {
+    display: block;
+    background: rgba(72, 199, 142, 0.1);
+    border: 1px solid rgba(72, 199, 142, 0.3);
+    color: #48c78e;
+  }
+
+  .form-status.error {
+    display: block;
+    background: rgba(255, 80, 80, 0.1);
+    border: 1px solid rgba(255, 80, 80, 0.3);
+    color: #ff5050;
+  }
+
+  .footer {
+    padding: 12px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .footer a {
+    color: var(--text-dim);
+    text-decoration: none;
+  }
+
+  .footer a:hover { color: var(--text); }
+
+  @media (max-width: 600px) {
+    .content { padding: 32px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="/static/icon.svg" class="header-logo" alt="InkCoverage logo">
+  <h1><a href="/">InkCoverage</a><span>About</span></h1>
+</div>
+
+<div class="content">
+
+  <h2>About InkCoverage.app</h2>
+
+  <h3>What is it?</h3>
+  <p>InkCoverage.app is a free, browser-based tool that calculates ink coverage percentages for PDF files — by channel, by page, and over any selected area. No installation. No registration. No file retention.</p>
+
+  <h3>What does it do?</h3>
+  <p>Upload a PDF, pick a page, optionally draw a crop rectangle over the area you care about, and hit Analyze. Within seconds you get the ink coverage percentage for each separation in the file: Cyan, Magenta, Yellow, Black, and any spot or special colors. You can step through every page individually or run a full document batch analysis in one click. Results can be copied to the clipboard or exported as a CSV.</p>
+
+  <h3>Who is it for?</h3>
+  <ul>
+    <li><strong>Prepress operators</strong> verifying ink load before sending a job to press</li>
+    <li><strong>Print buyers and estimators</strong> calculating ink consumption and job cost</li>
+    <li><strong>Graphic designers</strong> checking whether their artwork is within press specifications</li>
+    <li><strong>Packaging engineers</strong> working with flexo, offset, or digital printing</li>
+    <li><strong>Anyone in print production</strong> who needs a quick, honest answer to "how much ink is on this page?"</li>
+  </ul>
+  <p>Most professional tools that do this are expensive, bundled inside larger prepress suites, or require sending your files to a third-party cloud. InkCoverage.app does one thing, does it well, and gets out of your way.</p>
+
+  <h3>Why does it exist?</h3>
+  <p>It was built out of a real need. Working in the printing industry, a lightweight tool was needed to quickly check ink coverage on incoming PDF files — something that didn't require launching a full prepress application just to get a number. Nothing satisfying existed for free. So it was built, and then made available to everyone who has the same problem.</p>
+
+  <h3>How does it work?</h3>
+  <p>Files are processed server-side using <strong>Ghostscript</strong> — the industry-standard open-source PostScript and PDF interpreter — with a Python backend managing the analysis pipeline. Each channel is separated and measured independently. Your file is automatically deleted from the server within 10 minutes of upload and is never shared, stored, or used for any other purpose.</p>
+  <p>InkCoverage.app is open-source software, licensed under AGPL-3.0. The full source code is available on <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener">GitHub</a>.</p>
+
+  <hr class="divider">
+
+  <h2>Get in touch</h2>
+  <p class="contact-sub">Found a bug? Got a feature idea? Using the tool for something interesting? We read every message — drop us a note below. Your email is optional, but leave it if you'd like a reply.</p>
+
+  <form id="contactForm">
+    <!-- Web3Forms access key — replace YOUR_ACCESS_KEY with the key from web3forms.com -->
+    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY">
+    <input type="hidden" name="subject" value="InkCoverage.app — feedback">
+    <input type="hidden" name="from_name" value="InkCoverage.app contact form">
+    <!-- Honeypot anti-spam -->
+    <input type="checkbox" name="botcheck" style="display:none">
+
+    <div class="form-group">
+      <label>Your message <span style="color:#ff5050">*</span></label>
+      <textarea name="message" id="msgField" placeholder="Tell us what you think, what's broken, what's missing, or just say hi." required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Email <span class="form-optional">— optional, only if you'd like a reply</span></label>
+      <input type="email" name="email" placeholder="your@email.com">
+    </div>
+
+    <button type="submit" class="btn-submit" id="btnSubmit">Send message</button>
+    <div class="form-status" id="formStatus"></div>
+  </form>
+
+</div>
+
+<div class="footer">
+  <a href="/">InkCoverage.app</a> &mdash;
+  <a href="/about">About</a> &mdash;
+  <a href="/privacy">Privacy Policy</a> &mdash;
+  Free, open-source ink coverage analyzer.
+</div>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById('btnSubmit');
+  const status = document.getElementById('formStatus');
+  const msg = document.getElementById('msgField').value.trim();
+
+  if (!msg) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  status.className = 'form-status';
+  status.style.display = 'none';
+
+  try {
+    const formData = new FormData(this);
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      status.className = 'form-status success';
+      status.textContent = 'Message sent — thank you! We\'ll be in touch if you left an email.';
+      this.reset();
+    } else {
+      throw new Error(data.message || 'Submission failed');
+    }
+  } catch (err) {
+    status.className = 'form-status error';
+    status.textContent = 'Something went wrong. Please try again or email us directly.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Send message';
+    status.style.display = 'block';
+  }
+});
+</script>
+
+</body>
+</html>

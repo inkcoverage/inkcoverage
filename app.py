@@ -304,6 +304,12 @@ async def privacy():
     return HTMLResponse(html_path.read_text(encoding="utf-8"))
 
 
+@app.get("/about", response_class=HTMLResponse)
+async def about():
+    html_path = BASE_DIR / "static" / "about.html"
+    return HTMLResponse(html_path.read_text(encoding="utf-8"))
+
+
 @app.get("/robots.txt", response_class=PlainTextResponse)
 async def robots_txt():
     return (BASE_DIR / "static" / "robots.txt").read_text()
