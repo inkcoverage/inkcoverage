@@ -1386,7 +1386,7 @@
 // ---- Translations ----
 const translations = {
   en: {
-    page_title: 'InkCoverage.app — Free Online Ink Coverage Analyzer for Prepress',
+    page_title: 'Free PDF Ink Coverage Calculator & Analyzer | InkCoverage.app',
     meta_desc: 'Free online ink coverage analyzer. Upload a PDF, select a crop area, and get per-channel CMYK and spot color coverage percentages. Built for flexo and offset prepress professionals.',
     header_tagline: 'Ink Coverage Analyzer',
     nav_help: 'Help',
@@ -1615,7 +1615,7 @@ const translations = {
   },
 };
 
-let currentLang = localStorage.getItem('lang') || 'en';
+let currentLang = window.__LANG__ || localStorage.getItem('lang') || 'en';
 
 function t(key) {
   const tr = translations[currentLang] || translations.en;
@@ -2478,8 +2478,11 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ---- Language switcher ----
+const _langPaths = { en: '/', es: '/es', pt: '/pt', zh: '/zh' };
 document.querySelectorAll('.lang-btn').forEach(btn => {
-  btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  btn.addEventListener('click', () => {
+    window.location.href = _langPaths[btn.dataset.lang] || '/';
+  });
 });
 
 // ---- Units toggle ----

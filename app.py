@@ -289,13 +289,108 @@ def _analyze_ink_coverage(
 
 
 # ---------------------------------------------------------------------------
+# Multilingual index rendering
+# ---------------------------------------------------------------------------
+
+_LANG_META = {
+    "en": {
+        "html_lang":      "en",
+        "url":            "https://inkcoverage.app/",
+        "title":          "Free PDF Ink Coverage Calculator & Analyzer | InkCoverage.app",
+        "description":    "Free online ink coverage analyzer. Upload a PDF, select a crop area, and get per-channel CMYK and spot color coverage percentages. Built for flexo and offset prepress professionals.",
+        "og_title":       "Free PDF Ink Coverage Calculator & Analyzer | InkCoverage.app",
+        "og_description": "Upload a PDF and get per-channel CMYK and spot color coverage percentages. Free, open source, no install required.",
+    },
+    "es": {
+        "html_lang":      "es",
+        "url":            "https://inkcoverage.app/es",
+        "title":          "Calculadora de Cobertura de Tinta PDF Gratis | InkCoverage.app",
+        "description":    "Analizador de cobertura de tinta gratuito. Sube un PDF, selecciona un área de recorte y obtén los porcentajes de cobertura CMYK y colores directos por canal.",
+        "og_title":       "Calculadora de Cobertura de Tinta PDF | InkCoverage.app",
+        "og_description": "Sube un PDF y obtén los porcentajes de cobertura CMYK y colores directos por canal. Gratis, sin instalación.",
+    },
+    "pt": {
+        "html_lang":      "pt",
+        "url":            "https://inkcoverage.app/pt",
+        "title":          "Calculadora de Cobertura de Tinta PDF Grátis | InkCoverage.app",
+        "description":    "Analisador de cobertura de tinta gratuito. Carregue um PDF, selecione uma área de recorte e obtenha os percentuais de cobertura CMYK e cores especiais por canal.",
+        "og_title":       "Calculadora de Cobertura de Tinta PDF | InkCoverage.app",
+        "og_description": "Carregue um PDF e obtenha os percentuais de cobertura CMYK e cores especiais por canal. Grátis, sem instalação.",
+    },
+    "zh": {
+        "html_lang":      "zh-Hans",
+        "url":            "https://inkcoverage.app/zh",
+        "title":          "免费PDF油墨覆盖率计算器 | InkCoverage.app",
+        "description":    "免费在线油墨覆盖率分析工具。上传 PDF，选择裁剪区域，获取每通道 CMYK 及专色覆盖率百分比。专为印前专业人员设计。",
+        "og_title":       "免费PDF油墨覆盖率计算器 | InkCoverage.app",
+        "og_description": "上传 PDF，获取每通道 CMYK 及专色覆盖率百分比。免费使用，无需安装。",
+    },
+}
+
+_HREFLANG_BLOCK = (
+    '  <link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/">\n'
+    '  <link rel="alternate" hreflang="en"      href="https://inkcoverage.app/">\n'
+    '  <link rel="alternate" hreflang="es"      href="https://inkcoverage.app/es">\n'
+    '  <link rel="alternate" hreflang="pt"      href="https://inkcoverage.app/pt">\n'
+    '  <link rel="alternate" hreflang="zh-Hans" href="https://inkcoverage.app/zh">'
+)
+
+
+def _render_index_for_lang(lang: str) -> str:
+    """Return index.html with meta tags and hreflang patched for the given language."""
+    html = (BASE_DIR / "static" / "index.html").read_text(encoding="utf-8")
+    m = _LANG_META[lang]
+
+    # Use lambdas in re.sub so & in replacement strings is never misinterpreted.
+    html = re.sub(r'<html lang="[^"]*">',
+                  lambda _: f'<html lang="{m["html_lang"]}">',  html, count=1)
+    html = re.sub(r'<title>[^<]*</title>',
+                  lambda _: f'<title>{m["title"]}</title>',      html, count=1)
+    html = re.sub(r'<meta name="description" content="[^"]*">',
+                  lambda _: f'<meta name="description" content="{m["description"]}">',
+                  html, count=1)
+    html = re.sub(r'<meta property="og:title" content="[^"]*">',
+                  lambda _: f'<meta property="og:title" content="{m["og_title"]}">',
+                  html, count=1)
+    html = re.sub(r'<meta property="og:description" content="[^"]*">',
+                  lambda _: f'<meta property="og:description" content="{m["og_description"]}">',
+                  html, count=1)
+    html = re.sub(r'<meta property="og:url" content="[^"]*">',
+                  lambda _: f'<meta property="og:url" content="{m["url"]}">',
+                  html, count=1)
+    html = re.sub(r'<link rel="canonical" href="[^"]*">',
+                  lambda _: f'<link rel="canonical" href="{m["url"]}">',
+                  html, count=1)
+
+    # Inject hreflang block + language bootstrap script before </head>
+    inject = f'{_HREFLANG_BLOCK}\n  <script>window.__LANG__="{lang}";</script>'
+    html = html.replace("</head>", inject + "\n</head>", 1)
+
+    return html
+
+
+# ---------------------------------------------------------------------------
 # Routes
 # ---------------------------------------------------------------------------
 
 @app.get("/", response_class=HTMLResponse)
 async def index():
-    html_path = BASE_DIR / "static" / "index.html"
-    return HTMLResponse(html_path.read_text(encoding="utf-8"))
+    return HTMLResponse(_render_index_for_lang("en"))
+
+
+@app.get("/es", response_class=HTMLResponse)
+async def index_es():
+    return HTMLResponse(_render_index_for_lang("es"))
+
+
+@app.get("/pt", response_class=HTMLResponse)
+async def index_pt():
+    return HTMLResponse(_render_index_for_lang("pt"))
+
+
+@app.get("/zh", response_class=HTMLResponse)
+async def index_zh():
+    return HTMLResponse(_render_index_for_lang("zh"))
 
 
 @app.get("/privacy", response_class=HTMLResponse)
