@@ -624,6 +624,26 @@
     display: none;
   }
 
+  .results-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 48px 24px;
+    color: var(--text-muted);
+    text-align: center;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    height: 100%;
+  }
+  .results-empty-state svg {
+    opacity: 0.25;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+
   .results-header {
     padding: 20px 24px;
     border-bottom: 1px solid var(--border);
@@ -635,17 +655,6 @@
   .results-header h2 {
     font-size: 15px;
     font-weight: 600;
-  }
-
-  .btn-close-results {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    font-size: 20px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    transition: all 0.15s;
   }
 
   .btn-close-results:hover {
@@ -1315,7 +1324,6 @@
             <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             <span>CSV</span>
           </button>
-          <button class="btn-close-results" id="btnCloseResults">&times;</button>
         </div>
       </div>
       <div class="results-body" id="resultsBody">
@@ -1326,6 +1334,7 @@
   <div class="footer">
     InkCoverage.app &mdash; <span data-i18n="footer_text">Free, open-source ink coverage analyzer.</span>
     <a href="/about">About</a> &middot;
+    <a href="/faq">FAQ</a> &middot;
     <a href="/contact">Contact</a> &middot;
     <a href="/privacy">Privacy Policy</a> &middot;
     <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener">Source on GitHub</a>.
@@ -1414,6 +1423,7 @@ const translations = {
     loading_rendering: 'Rendering page...',
     loading_analyzing: 'Analyzing...',
     results_title: 'Ink Coverage',
+    results_empty: 'Press Analyze to see ink coverage results',
     group_cmyk: 'Process Colors (CMYK)',
     group_spot: 'Spot Colors',
     group_totals: 'Totals',
@@ -1471,6 +1481,7 @@ const translations = {
     loading_rendering: 'Procesando página...',
     loading_analyzing: 'Analizando...',
     results_title: 'Cobertura de tinta',
+    results_empty: 'Presiona Analizar para ver los resultados',
     group_cmyk: 'Colores de proceso (CMYK)',
     group_spot: 'Colores directos',
     group_totals: 'Totales',
@@ -1528,6 +1539,7 @@ const translations = {
     loading_rendering: 'Renderizando página...',
     loading_analyzing: 'Analisando...',
     results_title: 'Cobertura de tinta',
+    results_empty: 'Clique em Analisar para ver os resultados',
     group_cmyk: 'Cores de processo (CMYK)',
     group_spot: 'Cores especiais',
     group_totals: 'Totais',
@@ -1585,6 +1597,7 @@ const translations = {
     loading_rendering: '正在渲染页面...',
     loading_analyzing: '正在分析...',
     results_title: '油墨覆盖率',
+    results_empty: '点击"分析"以查看油墨覆盖率结果',
     group_cmyk: '印刷色 (CMYK)',
     group_spot: '专色',
     group_totals: '合计',
@@ -1703,7 +1716,6 @@ const loadingOverlay = $('#loadingOverlay');
 const loadingTextEl = $('#loadingText');
 const resultsPanel = $('#resultsPanel');
 const resultsBody = $('#resultsBody');
-const btnCloseResults = $('#btnCloseResults');
 const toast = $('#toast');
 
 // ---- API helpers ----
@@ -1837,7 +1849,8 @@ async function handleFile(file) {
 
     cropInfoSection.style.display = 'block';
     analyzeSection.style.display = 'block';
-    resultsPanel.classList.add('hidden');
+    resultsPanel.classList.remove('hidden');
+    showResultsEmptyState();
 
     await loadPreview();
   } catch (err) {
@@ -1870,14 +1883,27 @@ btnRemove.addEventListener('click', () => {
 });
 
 // ---- Page navigation ----
+function showResultsEmptyState() {
+  resultsBody.innerHTML = `
+    <div class="results-empty-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <line x1="8" y1="9" x2="16" y2="9"/>
+        <line x1="8" y1="13" x2="14" y2="13"/>
+        <line x1="8" y1="17" x2="11" y2="17"/>
+      </svg>
+      <p>${t('results_empty')}</p>
+    </div>`;
+  setExportEnabled(false);
+}
+
 function updateBatchResultsForPage() {
-  if (state.resultsMode !== 'batch') return;
   if (state.pageResults[state.currentPage]) {
     state.results = state.pageResults[state.currentPage];
     renderResults(state.results);
-    resultsPanel.classList.remove('hidden');
+    setExportEnabled(true);
   } else {
-    resultsPanel.classList.add('hidden');
+    showResultsEmptyState();
   }
 }
 
@@ -2077,6 +2103,13 @@ function handleEnd() {
       clearCropOverlay();
       updateCropUI();
     }
+
+    // Crop changed — invalidate all stored results
+    if (Object.keys(state.pageResults).length > 0) {
+      state.pageResults = {};
+      state.resultsMode = 'single';
+      showResultsEmptyState();
+    }
   }
 }
 
@@ -2137,6 +2170,10 @@ btnResetCrop.addEventListener('click', () => {
   state.crop = null;
   clearCropOverlay();
   updateCropUI();
+  // Crop reset — invalidate all stored results
+  state.pageResults = {};
+  state.resultsMode = 'single';
+  showResultsEmptyState();
 });
 
 // ---- Analyze ----
@@ -2171,7 +2208,6 @@ btnAnalyze.addEventListener('click', async () => {
     state.pageResults[state.currentPage] = data;
     state.resultsMode = 'single';
     renderResults(data);
-    resultsPanel.classList.remove('hidden');
     setExportEnabled(true);
   } catch (err) {
     showToast(err.message || t('toast_analyze_fail'));
@@ -2233,7 +2269,7 @@ async function analyzeAllPages() {
   if (state.pageResults[displayPage]) {
     state.results = state.pageResults[displayPage];
     renderResults(state.results);
-    resultsPanel.classList.remove('hidden');
+    setExportEnabled(true);
   }
   setExportEnabled(true);
 
@@ -2334,9 +2370,6 @@ function renderInkRow(ch) {
 }
 
 
-btnCloseResults.addEventListener('click', () => {
-  resultsPanel.classList.add('hidden');
-});
 
 // ---- Copy / Export results ----
 const btnCopyResults = $('#btnCopyResults');
@@ -2355,53 +2388,22 @@ function buildResultsText() {
   const pad = (s, n) => s.length >= n ? s : s + ' '.repeat(n - s.length);
   const lines = ['InkCoverage.app'];
   if (state.fileName) lines.push(state.fileName);
-  lines.push('');
 
-  if (pages.length === 1) {
-    // Single page: existing readable format
-    const r = state.pageResults[pages[0]];
-    lines.push(`${t('section_page')} ${pages[0]}`);
+  pages.forEach(p => {
+    const r = state.pageResults[p];
     lines.push('');
-    const cmyk = r.channels.filter(ch => (cmykOrder[ch.name.toLowerCase()] ?? 99) < 4);
+    lines.push(`${t('section_page')} ${p}`);
+    const cmyk  = r.channels.filter(ch => (cmykOrder[ch.name.toLowerCase()] ?? 99) < 4);
     const spots = r.channels.filter(ch => (cmykOrder[ch.name.toLowerCase()] ?? 99) >= 4);
-    if (cmyk.length > 0) {
-      lines.push(t('group_cmyk'));
-      cmyk.forEach(ch => lines.push(`  ${pad(ch.name, 14)} ${ch.coverage.toFixed(2)} %`));
-      lines.push('');
-    }
+    cmyk.forEach( ch => lines.push(`  ${pad(ch.name, 16)} ${ch.coverage.toFixed(2)} %`));
+    if (cmyk.length > 0)
+      lines.push(`  ${pad(t('total_cmyk'), 16)} ${r.cmykTotal.toFixed(2)} %`);
     if (spots.length > 0) {
-      lines.push(t('group_spot'));
-      spots.forEach(ch => lines.push(`  ${pad(ch.name, 14)} ${ch.coverage.toFixed(2)} %`));
-      lines.push('');
+      spots.forEach(ch => lines.push(`  ${pad(ch.name, 16)} ${ch.coverage.toFixed(2)} %`));
+      lines.push(`  ${pad(t('total_spot'), 16)} ${r.spotTotal.toFixed(2)} %`);
     }
-    lines.push(t('group_totals'));
-    if (cmyk.length > 0)  lines.push(`  ${pad(t('total_cmyk'), 16)} ${r.cmykTotal.toFixed(2)} %`);
-    if (spots.length > 0) lines.push(`  ${pad(t('total_spot'), 16)} ${r.spotTotal.toFixed(2)} %`);
     lines.push(`  ${pad(t('total_grand'), 16)} ${r.grandTotal.toFixed(2)} %`);
-  } else {
-    // Multi-page: table format
-    const channelSet = new Set();
-    pages.forEach(p => state.pageResults[p].channels.forEach(ch => channelSet.add(ch.name)));
-    const channels = [...channelSet].sort((a, b) => {
-      const ai = cmykOrder[a.toLowerCase()] ?? 99;
-      const bi = cmykOrder[b.toLowerCase()] ?? 99;
-      return ai !== bi ? ai - bi : a.localeCompare(b);
-    });
-    const colW = 9;
-    const header = pad(t('section_page'), 6) + channels.map(ch => pad(ch.slice(0, colW - 1), colW)).join('') + pad(t('total_grand'), colW);
-    lines.push(header);
-    lines.push('-'.repeat(header.length));
-    pages.forEach(p => {
-      const r = state.pageResults[p];
-      let row = pad(String(p), 6);
-      channels.forEach(ch => {
-        const found = r.channels.find(c => c.name === ch);
-        row += pad(found ? found.coverage.toFixed(2) + '%' : '—', colW);
-      });
-      row += pad(r.grandTotal.toFixed(2) + '%', colW);
-      lines.push(row);
-    });
-  }
+  });
 
   return lines.join('\n');
 }
@@ -2411,27 +2413,22 @@ function buildResultsCsv() {
   if (pages.length === 0) return '';
 
   const cmykOrder = { cyan: 0, magenta: 1, yellow: 2, black: 3 };
-  const channelSet = new Set();
-  pages.forEach(p => state.pageResults[p].channels.forEach(ch => channelSet.add(ch.name)));
-  const channels = [...channelSet].sort((a, b) => {
-    const ai = cmykOrder[a.toLowerCase()] ?? 99;
-    const bi = cmykOrder[b.toLowerCase()] ?? 99;
-    return ai !== bi ? ai - bi : a.localeCompare(b);
-  });
+  const csvEscape = s => /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 
-  const headerComment = state.fileName ? `# InkCoverage.app — ${state.fileName}\n` : '# InkCoverage.app\n';
-  const colHeaders = ['Page', ...channels, 'CMYK Total', 'Spot Total', 'Grand Total'].join(',');
-  const rows = [headerComment + colHeaders];
+  const headerComment = state.fileName ? `# InkCoverage.app — ${state.fileName}` : '# InkCoverage.app';
+  const rows = [headerComment, 'Page,Channel,Coverage %'];
 
   pages.forEach(p => {
     const r = state.pageResults[p];
-    const cells = [p];
-    channels.forEach(ch => {
-      const found = r.channels.find(c => c.name === ch);
-      cells.push(found ? found.coverage.toFixed(2) : '');
-    });
-    cells.push(r.cmykTotal.toFixed(2), r.spotTotal.toFixed(2), r.grandTotal.toFixed(2));
-    rows.push(cells.join(','));
+    const cmyk  = r.channels.filter(ch => (cmykOrder[ch.name.toLowerCase()] ?? 99) < 4);
+    const spots = r.channels.filter(ch => (cmykOrder[ch.name.toLowerCase()] ?? 99) >= 4);
+    cmyk.forEach( ch => rows.push(`${p},${csvEscape(ch.name)},${ch.coverage.toFixed(2)}`));
+    if (cmyk.length > 0)
+      rows.push(`${p},CMYK Total,${r.cmykTotal.toFixed(2)}`);
+    spots.forEach(ch => rows.push(`${p},${csvEscape(ch.name)},${ch.coverage.toFixed(2)}`));
+    if (spots.length > 0)
+      rows.push(`${p},Spot Total,${r.spotTotal.toFixed(2)}`);
+    rows.push(`${p},Grand Total,${r.grandTotal.toFixed(2)}`);
   });
 
   return rows.join('\n');

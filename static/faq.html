@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — Ink Coverage, TAC, CMYK & Spot Colors | InkCoverage.app</title>
+<meta name="description" content="Answers to common questions about ink coverage, Total Area Coverage (TAC), CMYK, spot colors, and how to use InkCoverage.app for PDF prepress analysis.">
+<link rel="canonical" href="https://inkcoverage.app/faq">
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2FNRM9GVXD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2FNRM9GVXD');
+</script>
+<!-- FAQPage structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is ink coverage?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ink coverage is the percentage of a surface area covered by ink on a printed page. A fully solid cyan area has 100% cyan coverage; a 50% halftone has roughly 50% coverage. Coverage matters for estimating ink consumption, verifying print specifications, and controlling production costs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is TAC (Total Area Coverage)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Total Area Coverage (TAC), also called Total Ink Limit (TIL), is the sum of all ink channels on a single pixel. A pixel with 80% C + 70% M + 60% Y + 40% K has a TAC of 250%. Print standards define maximum TAC limits to prevent slow drying, ink setoff, and paper damage: typically 300–320% for offset on coated paper, 260–280% on uncoated, and 200–260% for flexo and digital. If you suspect a specific area in your file is over the TAC limit, draw a crop rectangle around that area and check the combined ink total for just that region."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are spot colors and how are they detected?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Spot colors (Pantone, HKS, custom inks) are pre-mixed inks printed from their own plate, separate from CMYK. InkCoverage.app detects every spot color channel present in the PDF and reports its coverage percentage individually."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate is the ink coverage measurement?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ghostscript separates the PDF into per-channel TIFF files at 72 DPI, then each channel is pixel-counted. At 72 DPI the result is accurate to within a fraction of a percent for typical artwork. Extremely fine detail such as hairlines or micro-text may average slightly, but overall coverage figures are reliable for ink estimation and specification checking."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I measure a specific area instead of the full page?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use the crop tool — click and drag on the page preview to draw a measurement rectangle, then resize it with the corner handles. This is useful for isolating a logo, barcode, label panel, color patch, or any suspicious high-coverage area without the surrounding white space affecting the result."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What PDF files are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Any standard PDF up to 50 MB, including files with CMYK, RGB, Lab, or mixed colorspaces. Ghostscript handles color conversion automatically. PDFs exported from Illustrator, InDesign, Acrobat, and most RIP workflows are all supported."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is ink coverage important in flexo printing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Flexography is widely used for labels, packaging, and flexible materials, where ink costs are significant and TAC limits are tighter than offset — often 220–260%. High coverage areas are also prone to dot gain and ink fill on fine reverses. Checking coverage before sending to press helps avoid reprints and specification rejections."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is this different from Acrobat Pro's ink coverage tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Acrobat Pro shows a per-channel coverage display for the visible page area. InkCoverage.app adds batch analysis across all pages at once, crop-area measurement for specific regions, CSV export for spreadsheet workflows, and works entirely in the browser with no software license required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my file kept private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your PDF is processed on the server and automatically deleted after 10 minutes. It is never stored permanently, shared, or used for any purpose other than the ink coverage calculation."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+
+  :root {
+    --bg: #0e0f13;
+    --surface: #16171d;
+    --surface2: #1e1f28;
+    --border: #2a2b36;
+    --text: #e8e9ed;
+    --text-dim: #8b8d9a;
+    --text-muted: #5c5e6e;
+    --accent: #6c8aff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .header-logo {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  .header h1 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .header h1 span {
+    color: var(--text-dim);
+    font-weight: 400;
+    margin-left: 8px;
+    font-size: 14px;
+  }
+
+  .content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    flex: 1;
+  }
+
+  .content h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .content .intro {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+  }
+
+  .faq-item {
+    border-top: 1px solid var(--border);
+    padding: 24px 0;
+  }
+
+  .faq-item:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .faq-question {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .faq-answer {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text-dim);
+  }
+
+  .faq-answer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .faq-answer a:hover {
+    text-decoration: underline;
+  }
+
+  .footer {
+    padding: 12px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .footer a {
+    color: var(--text-dim);
+    text-decoration: none;
+  }
+
+  .footer a:hover { color: var(--text); }
+
+  @media (max-width: 600px) {
+    .content { padding: 32px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="/static/icon.svg" class="header-logo" alt="InkCoverage logo">
+  <h1><a href="/">InkCoverage</a><span>FAQ</span></h1>
+</div>
+
+<div class="content">
+
+  <h2>Frequently Asked Questions</h2>
+  <p class="intro">Common questions about ink coverage, print standards, and how InkCoverage.app works.</p>
+
+  <div class="faq-item">
+    <div class="faq-question">What is ink coverage?</div>
+    <div class="faq-answer">Ink coverage is the percentage of a surface area covered by ink on a printed page. A fully solid cyan area has 100% cyan coverage; a 50% halftone has roughly 50% coverage. Coverage matters for estimating ink consumption, verifying print specifications, and controlling production costs.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">What is TAC (Total Area Coverage)?</div>
+    <div class="faq-answer">Total Area Coverage (TAC) — also called Total Ink Limit (TIL) — is the sum of all ink channels on a single pixel. A pixel with 80% C + 70% M + 60% Y + 40% K has a TAC of 250%. Print standards define maximum TAC limits to prevent slow drying, ink setoff, and paper damage: typically 300–320% for offset on coated paper, 260–280% on uncoated, and 200–260% for flexo and digital. If you suspect a specific area in your file is over the limit, draw a crop rectangle around that region and check the combined ink total — you'll get the average coverage for exactly the area you're concerned about.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">What are spot colors and how are they detected?</div>
+    <div class="faq-answer">Spot colors (Pantone, HKS, custom inks) are pre-mixed inks printed from their own plate, separate from CMYK. InkCoverage.app detects every spot color channel present in the PDF and reports its coverage percentage individually — so a file with CMYK plus two Pantone colors will show six separate channels in the results.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">How accurate is the ink coverage measurement?</div>
+    <div class="faq-answer">Ghostscript separates the PDF into per-channel TIFF files at 72 DPI, then each channel is pixel-counted. At 72 DPI the result is accurate to within a fraction of a percent for typical artwork. Extremely fine detail — hairlines, micro-text — may average slightly, but overall coverage figures are reliable for ink estimation and specification checking.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">Can I measure a specific area instead of the full page?</div>
+    <div class="faq-answer">Yes. Use the crop tool — click and drag on the page preview to draw a measurement rectangle, then resize it using the corner handles. This is useful for isolating a logo, barcode, label panel, color patch, or any area you suspect may be over a TAC limit — without the surrounding white space affecting the result.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">What PDF files are supported?</div>
+    <div class="faq-answer">Any standard PDF up to 50 MB, including files with CMYK, RGB, Lab, or mixed colorspaces. Ghostscript handles color conversion automatically. PDFs exported from Illustrator, InDesign, Acrobat, and most RIP workflows are all supported. Files with spot colors (Pantone, HKS, custom) are fully handled — each spot appears as a separate channel.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">Why is ink coverage important in flexo printing?</div>
+    <div class="faq-answer">Flexography is widely used for labels, packaging, and flexible materials, where ink costs are significant and TAC limits are tighter than offset — often 220–260%. High-coverage areas are also prone to dot gain and ink fill on fine reverses. Checking coverage before sending to press helps avoid reprints and specification rejections.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">How is this different from Acrobat Pro's ink coverage tool?</div>
+    <div class="faq-answer">Acrobat Pro's Output Preview shows per-channel coverage for the visible page area. InkCoverage.app adds batch analysis across all pages at once, crop-area measurement for specific regions, CSV export for spreadsheet workflows, and works entirely in the browser — no software license required.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">Is my file kept private?</div>
+    <div class="faq-answer">Your PDF is processed on the server and automatically deleted after 10 minutes. It is never stored permanently, shared, or used for any purpose other than the ink coverage calculation. See the <a href="/privacy">Privacy Policy</a> for full details.</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <a href="/">InkCoverage.app</a> &mdash;
+  <a href="/about">About</a> &mdash;
+  <a href="/faq">FAQ</a> &mdash;
+  <a href="/contact">Contact</a> &mdash;
+  <a href="/privacy">Privacy Policy</a> &mdash;
+  Free, open-source ink coverage analyzer.
+</div>
+
+</body>
+</html>

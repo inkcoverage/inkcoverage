@@ -374,6 +374,7 @@ def _render_index_for_lang(lang: str) -> str:
 # ---------------------------------------------------------------------------
 
 @app.get("/", response_class=HTMLResponse)
+@app.head("/")
 async def index():
     return HTMLResponse(_render_index_for_lang("en"))
 
@@ -411,6 +412,12 @@ async def contact():
     return HTMLResponse(html_path.read_text(encoding="utf-8"))
 
 
+@app.get("/faq", response_class=HTMLResponse)
+async def faq():
+    html_path = BASE_DIR / "static" / "faq.html"
+    return HTMLResponse(html_path.read_text(encoding="utf-8"))
+
+
 @app.get("/robots.txt", response_class=PlainTextResponse)
 async def robots_txt():
     return (BASE_DIR / "static" / "robots.txt").read_text()
@@ -425,6 +432,7 @@ async def sitemap_xml():
 
 
 @app.get("/api/ping")
+@app.head("/api/ping")
 async def ping():
     return {"status": "ok"}
 
