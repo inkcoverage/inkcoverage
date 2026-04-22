@@ -1,8 +1,8 @@
 FROM python:3.12-slim
 
-# Install Ghostscript
+# Install Ghostscript and fonts for og:image generation
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends ghostscript && \
+    apt-get install -y --no-install-recommends ghostscript fonts-liberation && \
     rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
