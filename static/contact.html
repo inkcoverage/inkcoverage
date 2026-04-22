@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — InkCoverage.app</title>
+<meta name="description" content="Get in touch with the InkCoverage.app team. Share feedback, report bugs, or just say hello.">
+<link rel="canonical" href="https://inkcoverage.app/contact">
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2FNRM9GVXD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2FNRM9GVXD');
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+
+  :root {
+    --bg: #0e0f13;
+    --surface: #16171d;
+    --surface2: #1e1f28;
+    --border: #2a2b36;
+    --text: #e8e9ed;
+    --text-dim: #8b8d9a;
+    --text-muted: #5c5e6e;
+    --accent: #6c8aff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .header-logo {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  .header h1 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .header h1 span {
+    color: var(--text-dim);
+    font-weight: 400;
+    margin-left: 8px;
+    font-size: 14px;
+  }
+
+  .content {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    flex: 1;
+  }
+
+  .content h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .content .lead {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    margin-bottom: 36px;
+  }
+
+  .content .lead em {
+    font-style: normal;
+    color: var(--text);
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+    margin-bottom: 7px;
+  }
+
+  .form-optional {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-left: 6px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s;
+    resize: vertical;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: var(--text-muted);
+  }
+
+  .form-group textarea {
+    min-height: 140px;
+  }
+
+  .btn-submit {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    margin-top: 4px;
+  }
+
+  .btn-submit:hover { opacity: 0.88; }
+  .btn-submit:disabled { opacity: 0.5; cursor: default; }
+
+  .form-status {
+    margin-top: 16px;
+    font-size: 14px;
+    display: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+
+  .form-status.success {
+    display: block;
+    background: rgba(72, 199, 142, 0.1);
+    border: 1px solid rgba(72, 199, 142, 0.3);
+    color: #48c78e;
+  }
+
+  .form-status.error {
+    display: block;
+    background: rgba(255, 80, 80, 0.1);
+    border: 1px solid rgba(255, 80, 80, 0.3);
+    color: #ff5050;
+  }
+
+  .footer {
+    padding: 12px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .footer a {
+    color: var(--text-dim);
+    text-decoration: none;
+  }
+
+  .footer a:hover { color: var(--text); }
+
+  @media (max-width: 600px) {
+    .content { padding: 32px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="/static/icon.svg" class="header-logo" alt="InkCoverage logo">
+  <h1><a href="/">InkCoverage</a><span>Contact</span></h1>
+</div>
+
+<div class="content">
+  <h2>Get in touch</h2>
+  <p class="lead">
+    Found a bug? Got a feature idea? Using the tool for something we haven't thought of?
+    We genuinely enjoy hearing from people in the industry —
+    <em>every message gets read</em>. No bots, no ticket queues.
+    Drop us a note and we'll get back to you if you leave an email.
+  </p>
+
+  <form id="contactForm">
+    <!-- Web3Forms access key — replace YOUR_ACCESS_KEY with the key from web3forms.com -->
+    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY">
+    <input type="hidden" name="subject" value="InkCoverage.app — message">
+    <input type="hidden" name="from_name" value="InkCoverage.app contact form">
+    <!-- Honeypot anti-spam -->
+    <input type="checkbox" name="botcheck" style="display:none">
+
+    <div class="form-group">
+      <label>Your message <span style="color:#ff5050">*</span></label>
+      <textarea name="message" id="msgField"
+        placeholder="Tell us what you think, what's broken, what's missing, what would make your workflow easier — or just say hello." required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Email <span class="form-optional">— optional, only if you'd like a reply</span></label>
+      <input type="email" name="email" placeholder="your@email.com">
+    </div>
+
+    <button type="submit" class="btn-submit" id="btnSubmit">Send message</button>
+    <div class="form-status" id="formStatus"></div>
+  </form>
+</div>
+
+<div class="footer">
+  <a href="/">InkCoverage.app</a> &mdash;
+  <a href="/about">About</a> &mdash;
+  <a href="/contact">Contact</a> &mdash;
+  <a href="/privacy">Privacy Policy</a> &mdash;
+  Free, open-source ink coverage analyzer.
+</div>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById('btnSubmit');
+  const status = document.getElementById('formStatus');
+  const msg = document.getElementById('msgField').value.trim();
+
+  if (!msg) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  status.className = 'form-status';
+  status.style.display = 'none';
+
+  try {
+    const formData = new FormData(this);
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      status.className = 'form-status success';
+      status.textContent = "Message sent — thank you! We'll be in touch if you left an email.";
+      this.reset();
+    } else {
+      throw new Error(data.message || 'Submission failed');
+    }
+  } catch (err) {
+    status.className = 'form-status error';
+    status.textContent = 'Something went wrong. Please try again in a moment.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Send message';
+    status.style.display = 'block';
+  }
+});
+</script>
+
+</body>
+</html>

@@ -126,117 +126,6 @@
     text-decoration: underline;
   }
 
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 48px 0;
-  }
-
-  /* Contact form */
-  .contact-intro {
-    font-size: 17px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 8px;
-  }
-
-  .contact-sub {
-    font-size: 14px;
-    color: var(--text-muted);
-    margin-bottom: 28px;
-  }
-
-  .form-group {
-    margin-bottom: 16px;
-  }
-
-  .form-group label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: var(--text-muted);
-    margin-bottom: 6px;
-  }
-
-  .form-group input,
-  .form-group textarea {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.15s;
-    resize: vertical;
-  }
-
-  .form-group input:focus,
-  .form-group textarea:focus {
-    border-color: var(--accent);
-  }
-
-  .form-group input::placeholder,
-  .form-group textarea::placeholder {
-    color: var(--text-muted);
-  }
-
-  .form-group textarea {
-    min-height: 120px;
-  }
-
-  .form-optional {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
-    margin-left: 6px;
-  }
-
-  .btn-submit {
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 11px 28px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    margin-top: 4px;
-  }
-
-  .btn-submit:hover { opacity: 0.88; }
-  .btn-submit:disabled { opacity: 0.5; cursor: default; }
-
-  .form-status {
-    margin-top: 16px;
-    font-size: 14px;
-    display: none;
-    padding: 12px 16px;
-    border-radius: 8px;
-  }
-
-  .form-status.success {
-    display: block;
-    background: rgba(72, 199, 142, 0.1);
-    border: 1px solid rgba(72, 199, 142, 0.3);
-    color: #48c78e;
-  }
-
-  .form-status.error {
-    display: block;
-    background: rgba(255, 80, 80, 0.1);
-    border: 1px solid rgba(255, 80, 80, 0.3);
-    color: #ff5050;
-  }
-
   .footer {
     padding: 12px 24px;
     border-top: 1px solid var(--border);
@@ -292,82 +181,15 @@
   <p>Files are processed server-side using <strong>Ghostscript</strong> — the industry-standard open-source PostScript and PDF interpreter — with a Python backend managing the analysis pipeline. Each channel is separated and measured independently. Your file is automatically deleted from the server within 10 minutes of upload and is never shared, stored, or used for any other purpose.</p>
   <p>InkCoverage.app is open-source software, licensed under AGPL-3.0. The full source code is available on <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener">GitHub</a>.</p>
 
-  <hr class="divider">
-
-  <h2>Get in touch</h2>
-  <p class="contact-sub">Found a bug? Got a feature idea? Using the tool for something interesting? We read every message — drop us a note below. Your email is optional, but leave it if you'd like a reply.</p>
-
-  <form id="contactForm">
-    <!-- Web3Forms access key — replace YOUR_ACCESS_KEY with the key from web3forms.com -->
-    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY">
-    <input type="hidden" name="subject" value="InkCoverage.app — feedback">
-    <input type="hidden" name="from_name" value="InkCoverage.app contact form">
-    <!-- Honeypot anti-spam -->
-    <input type="checkbox" name="botcheck" style="display:none">
-
-    <div class="form-group">
-      <label>Your message <span style="color:#ff5050">*</span></label>
-      <textarea name="message" id="msgField" placeholder="Tell us what you think, what's broken, what's missing, or just say hi." required></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Email <span class="form-optional">— optional, only if you'd like a reply</span></label>
-      <input type="email" name="email" placeholder="your@email.com">
-    </div>
-
-    <button type="submit" class="btn-submit" id="btnSubmit">Send message</button>
-    <div class="form-status" id="formStatus"></div>
-  </form>
-
 </div>
 
 <div class="footer">
   <a href="/">InkCoverage.app</a> &mdash;
   <a href="/about">About</a> &mdash;
+  <a href="/contact">Contact</a> &mdash;
   <a href="/privacy">Privacy Policy</a> &mdash;
   Free, open-source ink coverage analyzer.
 </div>
-
-<script>
-document.getElementById('contactForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-
-  const btn = document.getElementById('btnSubmit');
-  const status = document.getElementById('formStatus');
-  const msg = document.getElementById('msgField').value.trim();
-
-  if (!msg) return;
-
-  btn.disabled = true;
-  btn.textContent = 'Sending…';
-  status.className = 'form-status';
-  status.style.display = 'none';
-
-  try {
-    const formData = new FormData(this);
-    const res = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      body: formData,
-    });
-    const data = await res.json();
-
-    if (data.success) {
-      status.className = 'form-status success';
-      status.textContent = 'Message sent — thank you! We\'ll be in touch if you left an email.';
-      this.reset();
-    } else {
-      throw new Error(data.message || 'Submission failed');
-    }
-  } catch (err) {
-    status.className = 'form-status error';
-    status.textContent = 'Something went wrong. Please try again or email us directly.';
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Send message';
-    status.style.display = 'block';
-  }
-});
-</script>
 
 </body>
 </html>

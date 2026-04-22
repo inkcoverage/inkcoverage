@@ -310,6 +310,12 @@ async def about():
     return HTMLResponse(html_path.read_text(encoding="utf-8"))
 
 
+@app.get("/contact", response_class=HTMLResponse)
+async def contact():
+    html_path = BASE_DIR / "static" / "contact.html"
+    return HTMLResponse(html_path.read_text(encoding="utf-8"))
+
+
 @app.get("/robots.txt", response_class=PlainTextResponse)
 async def robots_txt():
     return (BASE_DIR / "static" / "robots.txt").read_text()
