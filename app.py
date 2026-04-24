@@ -380,42 +380,57 @@ async def index():
 
 
 @app.get("/es", response_class=HTMLResponse)
+@app.head("/es")
 async def index_es():
     return HTMLResponse(_render_index_for_lang("es"))
 
 
 @app.get("/pt", response_class=HTMLResponse)
+@app.head("/pt")
 async def index_pt():
     return HTMLResponse(_render_index_for_lang("pt"))
 
 
 @app.get("/zh", response_class=HTMLResponse)
+@app.head("/zh")
 async def index_zh():
     return HTMLResponse(_render_index_for_lang("zh"))
 
 
 @app.get("/privacy", response_class=HTMLResponse)
+@app.head("/privacy")
 async def privacy():
     html_path = BASE_DIR / "static" / "privacy.html"
     return HTMLResponse(html_path.read_text(encoding="utf-8"))
 
 
 @app.get("/about", response_class=HTMLResponse)
+@app.head("/about")
 async def about():
     html_path = BASE_DIR / "static" / "about.html"
     return HTMLResponse(html_path.read_text(encoding="utf-8"))
 
 
 @app.get("/contact", response_class=HTMLResponse)
+@app.head("/contact")
 async def contact():
     html_path = BASE_DIR / "static" / "contact.html"
     return HTMLResponse(html_path.read_text(encoding="utf-8"))
 
 
 @app.get("/faq", response_class=HTMLResponse)
+@app.head("/faq")
 async def faq():
     html_path = BASE_DIR / "static" / "faq.html"
     return HTMLResponse(html_path.read_text(encoding="utf-8"))
+
+
+@app.get("/BingSiteAuth.xml")
+async def bing_auth():
+    return Response(
+        (BASE_DIR / "static" / "BingSiteAuth.xml").read_text(encoding="utf-8"),
+        media_type="application/xml",
+    )
 
 
 @app.get("/robots.txt", response_class=PlainTextResponse)
