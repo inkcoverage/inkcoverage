@@ -57,17 +57,65 @@
   <!-- About -->
   <url>
     <loc>https://inkcoverage.app/about</loc>
-    <lastmod>2026-04-22</lastmod>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+
+  <!-- About — Spanish -->
+  <url>
+    <loc>https://inkcoverage.app/es/about</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- About — Portuguese -->
+  <url>
+    <loc>https://inkcoverage.app/pt/about</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- About — Chinese Simplified -->
+  <url>
+    <loc>https://inkcoverage.app/zh/about</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 
   <!-- FAQ -->
   <url>
     <loc>https://inkcoverage.app/faq</loc>
-    <lastmod>2026-04-22</lastmod>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+
+  <!-- FAQ — Spanish -->
+  <url>
+    <loc>https://inkcoverage.app/es/faq</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- FAQ — Portuguese -->
+  <url>
+    <loc>https://inkcoverage.app/pt/faq</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- FAQ — Chinese Simplified -->
+  <url>
+    <loc>https://inkcoverage.app/zh/faq</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 
   <!-- Contact -->

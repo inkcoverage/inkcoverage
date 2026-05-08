@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preguntas Frecuentes — Cobertura de Tinta, TAC, CMYK | InkCoverage.app</title>
+<meta name="description" content="Respuestas a preguntas comunes sobre cobertura de tinta, Cobertura Total de Área (TAC), CMYK, colores directos y cómo usar InkCoverage.app para análisis de PDF en preprensa.">
+<link rel="canonical" href="https://inkcoverage.app/es/faq">
+<link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/faq">
+<link rel="alternate" hreflang="en"      href="https://inkcoverage.app/faq">
+<link rel="alternate" hreflang="es"      href="https://inkcoverage.app/es/faq">
+<link rel="alternate" hreflang="pt"      href="https://inkcoverage.app/pt/faq">
+<link rel="alternate" hreflang="zh-Hans" href="https://inkcoverage.app/zh/faq">
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2FNRM9GVXD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2FNRM9GVXD');
+</script>
+<!-- FAQPage structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Qué es la cobertura de tinta?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "La cobertura de tinta es el porcentaje del área de superficie cubierta por tinta en una página impresa. Un área cyan completamente sólida tiene una cobertura del 100%; una trama al 50% tiene aproximadamente un 50% de cobertura. La cobertura es importante para estimar el consumo de tinta, verificar especificaciones de impresión y controlar los costos de producción."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué es el TAC (Cobertura Total de Área)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "La Cobertura Total de Área (TAC) —también llamada Límite Total de Tinta (TIL)— es la suma de todos los canales de tinta en un solo píxel. Un píxel con 80% C + 70% M + 60% Y + 40% K tiene un TAC de 250%. Los estándares de impresión definen límites máximos de TAC para evitar el secado lento, el repinte y el daño al papel: típicamente 300–320% para offset en papel estucado, 260–280% en papel sin estucar, y 200–260% para flexografía y digital. Si sospecha que un área específica supera el límite, dibuje un rectángulo de recorte alrededor de esa región y compruebe el total de tinta combinada."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué son los colores directos y cómo se detectan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Los colores directos (Pantone, HKS, tintas personalizadas) son tintas premezcladas impresas desde su propia plancha, independientemente de CMYK. InkCoverage.app detecta cada canal de color directo presente en el PDF y reporta su porcentaje de cobertura individualmente — un archivo con CMYK más dos colores Pantone mostrará seis canales separados en los resultados."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué tan precisa es la medición de cobertura de tinta?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ghostscript separa el PDF en archivos TIFF por canal a 72 PPP, luego cada canal se cuenta píxel a píxel. A 72 PPP el resultado es preciso dentro de una fracción de porcentaje para ilustraciones típicas. Los detalles extremadamente finos —filetes, microtexto— pueden promediar ligeramente, pero las cifras generales de cobertura son confiables para estimación de tinta y verificación de especificaciones."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Puedo medir un área específica en lugar de la página completa?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí. Use la herramienta de recorte — haga clic y arrastre en la vista previa de la página para dibujar un rectángulo de medición, luego redimensiónelo usando los tiradores de esquina. Esto es útil para aislar un logotipo, código de barras, panel de etiqueta, parche de color, o cualquier área que sospeche que puede superar un límite de TAC."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué archivos PDF son compatibles?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cualquier PDF estándar de hasta 50 MB, incluyendo archivos con CMYK, RGB, Lab o espacios de color mixtos. Ghostscript maneja la conversión de color automáticamente. Los PDF exportados desde Illustrator, InDesign, Acrobat y la mayoría de los flujos de trabajo RIP son compatibles. Los archivos con colores directos (Pantone, HKS, personalizados) son totalmente compatibles — cada color directo aparece como un canal separado."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Por qué es importante la cobertura de tinta en la impresión flexográfica?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "La flexografía se usa ampliamente para etiquetas, envases y materiales flexibles, donde los costos de tinta son significativos y los límites de TAC son más estrictos que en offset — generalmente 220–260%. Las áreas de alta cobertura también son propensas al ganancia de punto y al relleno de tinta en los negativos finos. Verificar la cobertura antes de enviar a prensa ayuda a evitar reimpresiones y rechazos de especificaciones."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿En qué se diferencia de la herramienta de cobertura de tinta de Acrobat Pro?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "La Vista Previa de Salida de Acrobat Pro muestra la cobertura por canal para el área de página visible. InkCoverage.app añade análisis en lote de todas las páginas a la vez, medición de área de recorte para regiones específicas, exportación CSV para flujos de trabajo en hojas de cálculo, y funciona completamente en el navegador — sin licencia de software requerida."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Mi archivo es privado?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Su PDF se procesa en el servidor y se elimina automáticamente después de 10 minutos. Nunca se almacena permanentemente, se comparte ni se usa para ningún otro propósito que no sea el cálculo de cobertura de tinta."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+
+  :root {
+    --bg: #0e0f13;
+    --surface: #16171d;
+    --surface2: #1e1f28;
+    --border: #2a2b36;
+    --text: #e8e9ed;
+    --text-dim: #8b8d9a;
+    --text-muted: #5c5e6e;
+    --accent: #6c8aff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .header-logo { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; }
+
+  .header h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+  .header h1 a { color: var(--text); text-decoration: none; }
+  .header h1 span { color: var(--text-dim); font-weight: 400; margin-left: 8px; font-size: 14px; }
+
+  .content { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; flex: 1; }
+  .content h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; }
+  .content .intro { font-size: 15px; line-height: 1.75; color: var(--text-dim); margin-bottom: 40px; }
+
+  .faq-item { border-top: 1px solid var(--border); padding: 24px 0; }
+  .faq-item:last-child { border-bottom: 1px solid var(--border); }
+  .faq-question { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 12px; line-height: 1.4; }
+  .faq-answer { font-size: 15px; line-height: 1.75; color: var(--text-dim); }
+  .faq-answer a { color: var(--accent); text-decoration: none; }
+  .faq-answer a:hover { text-decoration: underline; }
+
+  .footer {
+    padding: 12px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .footer a { color: var(--text-dim); text-decoration: none; }
+  .footer a:hover { color: var(--text); }
+
+  @media (max-width: 600px) { .content { padding: 32px 16px 60px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="/static/icon.svg" class="header-logo" alt="InkCoverage logo">
+  <h1><a href="/es">InkCoverage</a><span>Preguntas Frecuentes</span></h1>
+</div>
+
+<div class="content">
+
+  <h2>Preguntas Frecuentes</h2>
+  <p class="intro">Preguntas comunes sobre cobertura de tinta, estándares de impresión y cómo funciona InkCoverage.app.</p>
+
+  <div class="faq-item">
+    <div class="faq-question">¿Qué es la cobertura de tinta?</div>
+    <div class="faq-answer">La cobertura de tinta es el porcentaje del área de superficie cubierta por tinta en una página impresa. Un área cyan completamente sólida tiene una cobertura del 100%; una trama al 50% tiene aproximadamente un 50% de cobertura. La cobertura es importante para estimar el consumo de tinta, verificar especificaciones de impresión y controlar los costos de producción.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">¿Qué es el TAC (Cobertura Total de Área)?</div>
+    <div class="faq-answer">La Cobertura Total de Área (TAC) —también llamada Límite Total de Tinta (TIL)— es la suma de todos los canales de tinta en un solo píxel. Un píxel con 80% C + 70% M + 60% Y + 40% K tiene un TAC de 250%. Los estándares de impresión definen límites máximos de TAC para evitar el secado lento, el repinte y el daño al papel: típicamente 300–320% para offset en papel estucado, 260–280% en papel sin estucar, y 200–260% para flexografía y digital. Si sospecha que un área específica supera el límite, dibuje un rectángulo de recorte alrededor de esa región y compruebe el total de tinta combinada.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">¿Qué son los colores directos y cómo se detectan?</div>
+    <div class="faq-answer">Los colores directos (Pantone, HKS, tintas personalizadas) son tintas premezcladas impresas desde su propia plancha, independientemente de CMYK. InkCoverage.app detecta cada canal de color directo presente en el PDF y reporta su porcentaje de cobertura individualmente — un archivo con CMYK más dos colores Pantone mostrará seis canales separados en los resultados.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">¿Qué tan precisa es la medición de cobertura de tinta?</div>
+    <div class="faq-answer">Ghostscript separa el PDF en archivos TIFF por canal a 72 PPP, luego cada canal se cuenta píxel a píxel. A 72 PPP el resultado es preciso dentro de una fracción de porcentaje para ilustraciones típicas. Los detalles extremadamente finos —filetes, microtexto— pueden promediar ligeramente, pero las cifras generales de cobertura son confiables para estimación de tinta y verificación de especificaciones.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">¿Puedo medir un área específica en lugar de la página completa?</div>
+    <div class="faq-answer">Sí. Use la herramienta de recorte — haga clic y arrastre en la vista previa de la página para dibujar un rectángulo de medición, luego redimensiónelo usando los tiradores de esquina. Esto es útil para aislar un logotipo, código de barras, panel de etiqueta, parche de color, o cualquier área que sospeche que puede superar un límite de TAC.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">¿Qué archivos PDF son compatibles?</div>
+    <div class="faq-answer">Cualquier PDF estándar de hasta 50 MB, incluyendo archivos con CMYK, RGB, Lab o espacios de color mixtos. Ghostscript maneja la conversión de color automáticamente. Los PDF exportados desde Illustrator, InDesign, Acrobat y la mayoría de los flujos de trabajo RIP son compatibles. Los archivos con colores directos (Pantone, HKS, personalizados) son totalmente compatibles — cada color directo aparece como un canal separado.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">¿Por qué es importante la cobertura de tinta en la impresión flexográfica?</div>
+    <div class="faq-answer">La flexografía se usa ampliamente para etiquetas, envases y materiales flexibles, donde los costos de tinta son significativos y los límites de TAC son más estrictos que en offset — generalmente 220–260%. Las áreas de alta cobertura también son propensas a la ganancia de punto y al relleno de tinta en los negativos finos. Verificar la cobertura antes de enviar a prensa ayuda a evitar reimpresiones y rechazos de especificaciones.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">¿En qué se diferencia de la herramienta de cobertura de tinta de Acrobat Pro?</div>
+    <div class="faq-answer">La Vista Previa de Salida de Acrobat Pro muestra la cobertura por canal para el área de página visible. InkCoverage.app añade análisis en lote de todas las páginas a la vez, medición de área de recorte para regiones específicas, exportación CSV para flujos de trabajo en hojas de cálculo, y funciona completamente en el navegador — sin licencia de software requerida.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">¿Mi archivo es privado?</div>
+    <div class="faq-answer">Su PDF se procesa en el servidor y se elimina automáticamente después de 10 minutos. Nunca se almacena permanentemente, se comparte ni se usa para ningún otro propósito que no sea el cálculo de cobertura de tinta. Consulte la <a href="/privacy">Política de Privacidad</a> para todos los detalles.</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <a href="/es">InkCoverage.app</a> &mdash;
+  <a href="/es/about">Acerca de</a> &mdash;
+  <a href="/es/faq">FAQ</a> &mdash;
+  <a href="/contact">Contacto</a> &mdash;
+  <a href="/privacy">Política de Privacidad</a> &mdash;
+  Analizador de cobertura de tinta gratuito y de código abierto.
+</div>
+
+</body>
+</html>

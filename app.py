@@ -425,6 +425,42 @@ async def faq():
     return HTMLResponse(html_path.read_text(encoding="utf-8"))
 
 
+@app.get("/es/faq", response_class=HTMLResponse)
+@app.head("/es/faq")
+async def faq_es():
+    return HTMLResponse((BASE_DIR / "static" / "faq-es.html").read_text(encoding="utf-8"))
+
+
+@app.get("/pt/faq", response_class=HTMLResponse)
+@app.head("/pt/faq")
+async def faq_pt():
+    return HTMLResponse((BASE_DIR / "static" / "faq-pt.html").read_text(encoding="utf-8"))
+
+
+@app.get("/zh/faq", response_class=HTMLResponse)
+@app.head("/zh/faq")
+async def faq_zh():
+    return HTMLResponse((BASE_DIR / "static" / "faq-zh.html").read_text(encoding="utf-8"))
+
+
+@app.get("/es/about", response_class=HTMLResponse)
+@app.head("/es/about")
+async def about_es():
+    return HTMLResponse((BASE_DIR / "static" / "about-es.html").read_text(encoding="utf-8"))
+
+
+@app.get("/pt/about", response_class=HTMLResponse)
+@app.head("/pt/about")
+async def about_pt():
+    return HTMLResponse((BASE_DIR / "static" / "about-pt.html").read_text(encoding="utf-8"))
+
+
+@app.get("/zh/about", response_class=HTMLResponse)
+@app.head("/zh/about")
+async def about_zh():
+    return HTMLResponse((BASE_DIR / "static" / "about-zh.html").read_text(encoding="utf-8"))
+
+
 @app.get("/BingSiteAuth.xml")
 async def bing_auth():
     return Response(

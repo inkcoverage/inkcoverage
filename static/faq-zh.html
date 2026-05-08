@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>常见问题 — 油墨覆盖率、TAC、CMYK 与专色 | InkCoverage.app</title>
+<meta name="description" content="关于油墨覆盖率、总墨量覆盖率（TAC）、CMYK、专色以及如何使用 InkCoverage.app 进行 PDF 印前分析的常见问题解答。">
+<link rel="canonical" href="https://inkcoverage.app/zh/faq">
+<link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/faq">
+<link rel="alternate" hreflang="en"      href="https://inkcoverage.app/faq">
+<link rel="alternate" hreflang="es"      href="https://inkcoverage.app/es/faq">
+<link rel="alternate" hreflang="pt"      href="https://inkcoverage.app/pt/faq">
+<link rel="alternate" hreflang="zh-Hans" href="https://inkcoverage.app/zh/faq">
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2FNRM9GVXD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2FNRM9GVXD');
+</script>
+<!-- FAQPage structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "什么是油墨覆盖率？",
+      "acceptedAnswer": { "@type": "Answer", "text": "油墨覆盖率是印刷页面上被油墨覆盖的表面积百分比。一个完全实心的青色区域具有100%的青色覆盖率；50%的网点则大约有50%的覆盖率。覆盖率对于估算油墨消耗量、验证印刷规格和控制生产成本至关重要。" }
+    },
+    {
+      "@type": "Question",
+      "name": "什么是TAC（总墨量覆盖率）？",
+      "acceptedAnswer": { "@type": "Answer", "text": "总墨量覆盖率（TAC），也称为总墨量限制（TIL），是单个像素上所有油墨通道的总和。一个具有80% C + 70% M + 60% Y + 40% K的像素的TAC为250%。印刷标准定义了最大TAC限制，以防止干燥缓慢、背印和纸张损坏：铜版纸胶印通常为300–320%，非铜版纸为260–280%，柔版印刷和数字印刷为200–260%。如果怀疑文件中某区域超过了TAC限制，请绘制裁剪矩形并检查该区域的综合油墨总量。" }
+    },
+    {
+      "@type": "Question",
+      "name": "什么是专色？它们是如何被检测到的？",
+      "acceptedAnswer": { "@type": "Answer", "text": "专色（Pantone、HKS、自定义油墨）是从各自独立的印版印刷的预混合油墨，与CMYK分离。InkCoverage.app会检测PDF中存在的每个专色通道，并单独报告其覆盖率百分比——一个包含CMYK加两种Pantone颜色的文件将在结果中显示六个独立通道。" }
+    },
+    {
+      "@type": "Question",
+      "name": "油墨覆盖率测量的精度如何？",
+      "acceptedAnswer": { "@type": "Answer", "text": "Ghostscript以72 DPI将PDF分离为每通道TIFF文件，然后对每个通道进行像素计数。在72 DPI下，典型图稿的结果精度在百分之几以内。极细的细节（如细线、微型文字）可能会有轻微的平均效应，但总体覆盖率数据对于油墨估算和规格检查是可靠的。" }
+    },
+    {
+      "@type": "Question",
+      "name": "我可以测量特定区域而不是整页吗？",
+      "acceptedAnswer": { "@type": "Answer", "text": "可以。使用裁剪工具——在页面预览上点击并拖动以绘制测量矩形，然后使用角部手柄调整大小。这对于隔离徽标、条形码、标签面板、色块或任何您怀疑可能超过TAC限制的区域非常有用。" }
+    },
+    {
+      "@type": "Question",
+      "name": "支持哪些PDF文件？",
+      "acceptedAnswer": { "@type": "Answer", "text": "任何标准PDF，最大50 MB，包括带有CMYK、RGB、Lab或混合色彩空间的文件。Ghostscript会自动处理色彩转换。从Illustrator、InDesign、Acrobat和大多数RIP工作流程导出的PDF均受支持。带有专色（Pantone、HKS、自定义）的文件完全受支持——每种专色显示为独立通道。" }
+    },
+    {
+      "@type": "Question",
+      "name": "为什么油墨覆盖率在柔版印刷中很重要？",
+      "acceptedAnswer": { "@type": "Answer", "text": "柔版印刷广泛用于标签、包装和柔性材料，其中油墨成本显著，TAC限制比胶印更严格——通常为220–260%。高覆盖率区域也容易发生网点扩大和细反白墨迹填充。在送去印刷前检查覆盖率有助于避免重新印刷和规格不合格的问题。" }
+    },
+    {
+      "@type": "Question",
+      "name": "这与Acrobat Pro的油墨覆盖工具有何不同？",
+      "acceptedAnswer": { "@type": "Answer", "text": "Acrobat Pro的输出预览显示可见页面区域的每通道覆盖率。InkCoverage.app添加了一次性批量分析所有页面的功能、特定区域的裁剪测量、适用于电子表格工作流程的CSV导出，并完全在浏览器中运行——无需软件许可证。" }
+    },
+    {
+      "@type": "Question",
+      "name": "我的文件是否保密？",
+      "acceptedAnswer": { "@type": "Answer", "text": "您的PDF在服务器上处理，并在10分钟后自动删除。它永远不会被永久存储、共享或用于油墨覆盖率计算以外的任何目的。" }
+    }
+  ]
+}
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+
+  :root {
+    --bg: #0e0f13; --surface: #16171d; --surface2: #1e1f28;
+    --border: #2a2b36; --text: #e8e9ed; --text-dim: #8b8d9a;
+    --text-muted: #5c5e6e; --accent: #6c8aff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+  .header { display: flex; align-items: center; gap: 16px; padding: 16px 24px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .header-logo { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; }
+  .header h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+  .header h1 a { color: var(--text); text-decoration: none; }
+  .header h1 span { color: var(--text-dim); font-weight: 400; margin-left: 8px; font-size: 14px; }
+  .content { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; flex: 1; }
+  .content h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; }
+  .content .intro { font-size: 15px; line-height: 1.75; color: var(--text-dim); margin-bottom: 40px; }
+  .faq-item { border-top: 1px solid var(--border); padding: 24px 0; }
+  .faq-item:last-child { border-bottom: 1px solid var(--border); }
+  .faq-question { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 12px; line-height: 1.4; }
+  .faq-answer { font-size: 15px; line-height: 1.75; color: var(--text-dim); }
+  .faq-answer a { color: var(--accent); text-decoration: none; }
+  .faq-answer a:hover { text-decoration: underline; }
+  .footer { padding: 12px 24px; border-top: 1px solid var(--border); background: var(--surface); text-align: center; font-size: 12px; color: var(--text-muted); }
+  .footer a { color: var(--text-dim); text-decoration: none; }
+  .footer a:hover { color: var(--text); }
+  @media (max-width: 600px) { .content { padding: 32px 16px 60px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="/static/icon.svg" class="header-logo" alt="InkCoverage logo">
+  <h1><a href="/zh">InkCoverage</a><span>常见问题</span></h1>
+</div>
+
+<div class="content">
+
+  <h2>常见问题</h2>
+  <p class="intro">关于油墨覆盖率、印刷标准以及 InkCoverage.app 工作原理的常见问题。</p>
+
+  <div class="faq-item">
+    <div class="faq-question">什么是油墨覆盖率？</div>
+    <div class="faq-answer">油墨覆盖率是印刷页面上被油墨覆盖的表面积百分比。一个完全实心的青色区域具有100%的青色覆盖率；50%的网点则大约有50%的覆盖率。覆盖率对于估算油墨消耗量、验证印刷规格和控制生产成本至关重要。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">什么是TAC（总墨量覆盖率）？</div>
+    <div class="faq-answer">总墨量覆盖率（TAC），也称为总墨量限制（TIL），是单个像素上所有油墨通道的总和。一个具有80% C + 70% M + 60% Y + 40% K的像素的TAC为250%。印刷标准定义了最大TAC限制，以防止干燥缓慢、背印和纸张损坏：铜版纸胶印通常为300–320%，非铜版纸为260–280%，柔版印刷和数字印刷为200–260%。如果怀疑文件中某区域超过了TAC限制，请在该区域周围绘制裁剪矩形，检查该区域的综合油墨总量。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">什么是专色？它们是如何被检测到的？</div>
+    <div class="faq-answer">专色（Pantone、HKS、自定义油墨）是从各自独立的印版印刷的预混合油墨，与CMYK分离。InkCoverage.app会检测PDF中存在的每个专色通道，并单独报告其覆盖率百分比——一个包含CMYK加两种Pantone颜色的文件将在结果中显示六个独立通道。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">油墨覆盖率测量的精度如何？</div>
+    <div class="faq-answer">Ghostscript以72 DPI将PDF分离为每通道TIFF文件，然后对每个通道进行像素计数。在72 DPI下，典型图稿的结果精度在百分之几以内。极细的细节（如细线、微型文字）可能会有轻微的平均效应，但总体覆盖率数据对于油墨估算和规格检查是可靠的。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">我可以测量特定区域而不是整页吗？</div>
+    <div class="faq-answer">可以。使用裁剪工具——在页面预览上点击并拖动以绘制测量矩形，然后使用角部手柄调整大小。这对于隔离徽标、条形码、标签面板、色块或任何您怀疑可能超过TAC限制的区域非常有用。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">支持哪些PDF文件？</div>
+    <div class="faq-answer">任何标准PDF，最大50 MB，包括带有CMYK、RGB、Lab或混合色彩空间的文件。Ghostscript会自动处理色彩转换。从Illustrator、InDesign、Acrobat和大多数RIP工作流程导出的PDF均受支持。带有专色（Pantone、HKS、自定义）的文件完全受支持——每种专色显示为独立通道。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">为什么油墨覆盖率在柔版印刷中很重要？</div>
+    <div class="faq-answer">柔版印刷广泛用于标签、包装和柔性材料，其中油墨成本显著，TAC限制比胶印更严格——通常为220–260%。高覆盖率区域也容易发生网点扩大和细反白墨迹填充。在送去印刷前检查覆盖率有助于避免重新印刷和规格不合格的问题。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">这与Acrobat Pro的油墨覆盖工具有何不同？</div>
+    <div class="faq-answer">Acrobat Pro的输出预览显示可见页面区域的每通道覆盖率。InkCoverage.app添加了一次性批量分析所有页面的功能、特定区域的裁剪测量、适用于电子表格工作流程的CSV导出，并完全在浏览器中运行——无需软件许可证。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">我的文件是否保密？</div>
+    <div class="faq-answer">您的PDF在服务器上处理，并在10分钟后自动删除。它永远不会被永久存储、共享或用于油墨覆盖率计算以外的任何目的。详情请查看<a href="/privacy">隐私政策</a>。</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <a href="/zh">InkCoverage.app</a> &mdash;
+  <a href="/zh/about">关于</a> &mdash;
+  <a href="/zh/faq">常见问题</a> &mdash;
+  <a href="/contact">联系我们</a> &mdash;
+  <a href="/privacy">隐私政策</a> &mdash;
+  免费开源油墨覆盖率分析工具。
+</div>
+
+</body>
+</html>
