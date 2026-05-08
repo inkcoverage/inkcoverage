@@ -461,6 +461,24 @@ async def about_zh():
     return HTMLResponse((BASE_DIR / "static" / "about-zh.html").read_text(encoding="utf-8"))
 
 
+@app.get("/es/contact", response_class=HTMLResponse)
+@app.head("/es/contact")
+async def contact_es():
+    return HTMLResponse((BASE_DIR / "static" / "contact-es.html").read_text(encoding="utf-8"))
+
+
+@app.get("/pt/contact", response_class=HTMLResponse)
+@app.head("/pt/contact")
+async def contact_pt():
+    return HTMLResponse((BASE_DIR / "static" / "contact-pt.html").read_text(encoding="utf-8"))
+
+
+@app.get("/zh/contact", response_class=HTMLResponse)
+@app.head("/zh/contact")
+async def contact_zh():
+    return HTMLResponse((BASE_DIR / "static" / "contact-zh.html").read_text(encoding="utf-8"))
+
+
 @app.get("/BingSiteAuth.xml")
 async def bing_auth():
     return Response(

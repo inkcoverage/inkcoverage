@@ -1335,7 +1335,7 @@
     InkCoverage.app &mdash; <span data-i18n="footer_text">Free, open-source ink coverage analyzer.</span>
     <a href="/about" data-lang-href="about" data-i18n="nav_about">About</a> &middot;
     <a href="/faq" data-lang-href="faq" data-i18n="nav_faq">FAQ</a> &middot;
-    <a href="/contact">Contact</a> &middot;
+    <a href="/contact" data-lang-href="contact" data-i18n="nav_contact">Contact</a> &middot;
     <a href="/privacy">Privacy Policy</a> &middot;
     <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener">Source on GitHub</a>.
     Powered by Ghostscript.
@@ -1447,6 +1447,7 @@ const translations = {
     footer_text: 'Free, open-source ink coverage analyzer.',
     nav_about: 'About',
     nav_faq: 'FAQ',
+    nav_contact: 'Contact',
     toast_pdf_only: 'Please upload a PDF file.',
     toast_upload_fail: 'Failed to upload PDF.',
     toast_preview_fail: 'Failed to load preview.',
@@ -1507,6 +1508,7 @@ const translations = {
     footer_text: 'Analizador de cobertura de tinta gratuito y de código abierto.',
     nav_about: 'Acerca de',
     nav_faq: 'Preguntas Frecuentes',
+    nav_contact: 'Contacto',
     toast_pdf_only: 'Por favor, sube un archivo PDF.',
     toast_upload_fail: 'Error al subir el PDF.',
     toast_preview_fail: 'Error al cargar la vista previa.',
@@ -1567,6 +1569,7 @@ const translations = {
     footer_text: 'Analisador de cobertura de tinta gratuito e de código aberto.',
     nav_about: 'Sobre',
     nav_faq: 'Perguntas Frequentes',
+    nav_contact: 'Contato',
     toast_pdf_only: 'Por favor, carregue um arquivo PDF.',
     toast_upload_fail: 'Falha ao enviar o PDF.',
     toast_preview_fail: 'Falha ao carregar a visualização.',
@@ -1627,6 +1630,7 @@ const translations = {
     footer_text: '免费开源的油墨覆盖率分析工具。',
     nav_about: '关于',
     nav_faq: '常见问题',
+    nav_contact: '联系',
     toast_pdf_only: '请上传 PDF 文件。',
     toast_upload_fail: 'PDF 上传失败。',
     toast_preview_fail: '预览加载失败。',
@@ -1666,8 +1670,9 @@ function applyTranslations() {
   });
   // Update language-specific hrefs (footer links to translated pages)
   const langHrefs = {
-    about: { en: '/about', es: '/es/about', pt: '/pt/about', zh: '/zh/about' },
-    faq:   { en: '/faq',   es: '/es/faq',   pt: '/pt/faq',   zh: '/zh/faq'   },
+    about:   { en: '/about',   es: '/es/about',   pt: '/pt/about',   zh: '/zh/about'   },
+    faq:     { en: '/faq',     es: '/es/faq',     pt: '/pt/faq',     zh: '/zh/faq'     },
+    contact: { en: '/contact', es: '/es/contact', pt: '/pt/contact', zh: '/zh/contact' },
   };
   document.querySelectorAll('[data-lang-href]').forEach(el => {
     const key = el.getAttribute('data-lang-href');

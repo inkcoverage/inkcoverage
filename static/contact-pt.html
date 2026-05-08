@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact — InkCoverage.app</title>
-<meta name="description" content="Get in touch with the InkCoverage.app team. Share feedback, report bugs, or just say hello.">
-<link rel="canonical" href="https://inkcoverage.app/contact">
+<title>Contato — InkCoverage.app</title>
+<meta name="description" content="Entre em contato com a equipe do InkCoverage.app. Compartilhe feedback, reporte bugs ou apenas diga olá.">
+<link rel="canonical" href="https://inkcoverage.app/pt/contact">
 <link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/contact">
 <link rel="alternate" hreflang="en"      href="https://inkcoverage.app/contact">
 <link rel="alternate" hreflang="es"      href="https://inkcoverage.app/es/contact">
@@ -220,49 +220,47 @@
 
 <div class="header">
   <img src="/static/icon.svg" class="header-logo" alt="InkCoverage logo">
-  <h1><a href="/">InkCoverage</a><span>Contact</span></h1>
+  <h1><a href="/">InkCoverage</a><span>Contato</span></h1>
 </div>
 
 <div class="content">
-  <h2>Get in touch</h2>
+  <h2>Entre em contato</h2>
   <p class="lead">
-    Found a bug? Got a feature idea? Using the tool for something we haven't thought of?
-    We genuinely enjoy hearing from people in the industry —
-    <em>every message gets read</em>. No bots, no ticket queues.
-    Drop us a note and we'll get back to you if you leave an email.
+    Encontrou um bug? Tem uma ideia de recurso? Usando a ferramenta para algo que não previmos?
+    Adoramos ouvir pessoas da indústria —
+    <em>cada mensagem é lida</em>. Sem bots ou filas de atendimento.
+    Nos envie uma mensagem e entraremos em contato se você deixar um e-mail.
   </p>
 
   <form id="contactForm">
-    <!-- Web3Forms access key — replace YOUR_ACCESS_KEY with the key from web3forms.com -->
     <input type="hidden" name="access_key" value="6e70b961-76ab-4b6c-9923-f8e6fdfb6058">
-    <input type="hidden" name="subject" value="InkCoverage.app — message">
-    <input type="hidden" name="from_name" value="InkCoverage.app contact form">
-    <!-- Honeypot anti-spam -->
+    <input type="hidden" name="subject" value="InkCoverage.app — mensagem">
+    <input type="hidden" name="from_name" value="InkCoverage.app formulário de contato">
     <input type="checkbox" name="botcheck" style="display:none">
 
     <div class="form-group">
-      <label>Your message <span style="color:#ff5050">*</span></label>
+      <label>Sua mensagem <span style="color:#ff5050">*</span></label>
       <textarea name="message" id="msgField"
-        placeholder="Tell us what you think, what's broken, what's missing, what would make your workflow easier — or just say hello." required></textarea>
+        placeholder="Conte-nos o que você pensa, o que está quebrado, o que está faltando, o que tornaria seu fluxo de trabalho mais fácil — ou apenas diga olá." required></textarea>
     </div>
 
     <div class="form-group">
-      <label>Email <span class="form-optional">— optional, only if you'd like a reply</span></label>
-      <input type="email" name="email" placeholder="your@email.com">
+      <label>E-mail <span class="form-optional">— opcional, apenas se quiser uma resposta</span></label>
+      <input type="email" name="email" placeholder="seu@email.com">
     </div>
 
-    <button type="submit" class="btn-submit" id="btnSubmit">Send message</button>
+    <button type="submit" class="btn-submit" id="btnSubmit">Enviar mensagem</button>
     <div class="form-status" id="formStatus"></div>
   </form>
 </div>
 
 <div class="footer">
   <a href="/">InkCoverage.app</a> &mdash;
-  <a href="/about">About</a> &mdash;
-  <a href="/faq">FAQ</a> &mdash;
-  <a href="/contact">Contact</a> &mdash;
-  <a href="/privacy">Privacy Policy</a> &mdash;
-  Free, open-source ink coverage analyzer.
+  <a href="/pt/about">Sobre</a> &mdash;
+  <a href="/pt/faq">Perguntas Frequentes</a> &mdash;
+  <a href="/pt/contact">Contato</a> &mdash;
+  <a href="/privacy">Política de Privacidade</a> &mdash;
+  Analisador de cobertura de tinta gratuito e de código aberto.
 </div>
 
 <script>
@@ -276,7 +274,7 @@ document.getElementById('contactForm').addEventListener('submit', async function
   if (!msg) return;
 
   btn.disabled = true;
-  btn.textContent = 'Sending…';
+  btn.textContent = 'Enviando…';
   status.className = 'form-status';
   status.style.display = 'none';
 
@@ -290,17 +288,17 @@ document.getElementById('contactForm').addEventListener('submit', async function
 
     if (data.success) {
       status.className = 'form-status success';
-      status.textContent = "Message sent — thank you! We'll be in touch if you left an email.";
+      status.textContent = 'Mensagem enviada — obrigado! Entraremos em contato se você deixou um e-mail.';
       this.reset();
     } else {
       throw new Error(data.message || 'Submission failed');
     }
   } catch (err) {
     status.className = 'form-status error';
-    status.textContent = 'Something went wrong. Please try again in a moment.';
+    status.textContent = 'Algo deu errado. Por favor, tente novamente em instantes.';
   } finally {
     btn.disabled = false;
-    btn.textContent = 'Send message';
+    btn.textContent = 'Enviar mensagem';
     status.style.display = 'block';
   }
 });

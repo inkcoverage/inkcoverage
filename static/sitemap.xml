@@ -121,9 +121,33 @@
   <!-- Contact -->
   <url>
     <loc>https://inkcoverage.app/contact</loc>
-    <lastmod>2026-04-22</lastmod>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
+  </url>
+
+  <!-- Contact — Spanish -->
+  <url>
+    <loc>https://inkcoverage.app/es/contact</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Contact — Portuguese -->
+  <url>
+    <loc>https://inkcoverage.app/pt/contact</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Contact — Chinese Simplified -->
+  <url>
+    <loc>https://inkcoverage.app/zh/contact</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 
   <!-- Privacy -->
