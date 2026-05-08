@@ -1852,6 +1852,8 @@ async function handleFile(file) {
     state.pageDimensions = {};
     state.resultsMode = 'single';
 
+    gtag('event', 'file_upload', { page_count: data.pageCount });
+
     uploadArea.style.display = 'none';
     fileInfoArea.style.display = 'block';
     fileNameEl.textContent = data.fileName;
@@ -2231,6 +2233,7 @@ btnAnalyze.addEventListener('click', async () => {
     state.resultsMode = 'single';
     renderResults(data);
     setExportEnabled(true);
+    gtag('event', 'analyze', { mode: 'single', page: state.currentPage, grand_total: data.grandTotal });
   } catch (err) {
     showToast(err.message || t('toast_analyze_fail'));
     console.error(err);
@@ -2294,6 +2297,11 @@ async function analyzeAllPages() {
     setExportEnabled(true);
   }
   setExportEnabled(true);
+
+  const analyzedCount = Object.keys(state.pageResults).length;
+  if (analyzedCount > 0) {
+    gtag('event', 'analyze', { mode: 'batch', pages_analyzed: analyzedCount });
+  }
 
   state.isAnalyzing = false;
   btnAnalyze.disabled = false;
