@@ -30,15 +30,15 @@
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap');
 
   :root {
-    --bg: #0e0f13;
-    --surface: #16171d;
-    --surface2: #1e1f27;
-    --surface3: #262731;
-    --border: #2a2b36;
-    --border-light: #363745;
+    --bg: #0b0c10;
+    --surface: #13141a;
+    --surface2: #1b1c24;
+    --surface3: #23242e;
+    --border: #252630;
+    --border-light: #31323e;
     --text: #e8e9ed;
     --text-dim: #8b8d9a;
     --text-muted: #5c5e6e;
@@ -59,12 +59,34 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html {
+    min-height: 100%;
+    background:
+      radial-gradient(ellipse 90% 55% at 50% 0%, rgba(108, 138, 255, 0.14) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(255, 45, 149, 0.11) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 10% 100%, rgba(108, 138, 255, 0.07) 0%, transparent 50%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
+    background: transparent;
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.038;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
   }
 
   /* ---- Layout ---- */
@@ -80,7 +102,12 @@
     gap: 16px;
     padding: 16px 24px;
     border-bottom: 1px solid var(--border);
-    background: var(--surface);
+    background: rgba(19, 20, 26, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
     flex-wrap: wrap;
   }
 
@@ -90,9 +117,10 @@
   }
 
   .header h1 {
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
   }
 
   .header h1 span {
@@ -164,10 +192,11 @@
   }
 
   .section-label {
+    font-family: 'Syne', sans-serif;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 1.2px;
     color: var(--text-muted);
     margin-bottom: 14px;
   }
@@ -776,20 +805,98 @@
     font-weight: 600;
   }
 
-  /* Ko-fi button */
-  .kofi-section {
-    padding: 16px 24px;
+  /* Sister app cross-link */
+  .sister-app-section {
+    padding: 14px 20px;
     border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: center;
     flex-shrink: 0;
   }
 
-  .kofi-btn {
-    display: inline-flex;
+  .sister-app-link {
+    display: flex;
     align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-light);
+    background: var(--surface2);
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sister-app-link::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    opacity: 0.7;
+  }
+
+  .sister-app-link:hover {
+    border-color: var(--accent);
+    color: var(--text);
+    background: rgba(108, 138, 255, 0.07);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .sister-app-icon {
+    font-size: 18px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .sister-app-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sister-app-name {
+    font-weight: 600;
+    color: var(--accent);
+    font-size: 13px;
+  }
+
+  .sister-app-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+
+  .sister-app-arrow {
+    color: var(--text-muted);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* Ko-fi button */
+  .kofi-section {
+    padding: 14px 20px 18px;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .kofi-tagline {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .kofi-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 8px;
-    padding: 8px 16px;
+    width: 100%;
+    padding: 9px 16px;
     border-radius: var(--radius);
     border: 1px solid var(--border-light);
     background: transparent;
@@ -1261,8 +1368,21 @@
       </div>
       </div><!-- end .sidebar-scroll -->
 
+      <!-- Sister app: LabelEstimate -->
+      <div class="sister-app-section">
+        <a href="https://labelestimate.app" target="_blank" rel="noopener" class="sister-app-link">
+          <span class="sister-app-icon">🏷️</span>
+          <span class="sister-app-text">
+            <div class="sister-app-name">LabelEstimate.app</div>
+            <div class="sister-app-desc" data-i18n="sister_app_desc">Free flexo label price estimator</div>
+          </span>
+          <span class="sister-app-arrow">↗</span>
+        </a>
+      </div>
+
       <!-- Ko-fi -->
       <div class="kofi-section">
+        <p class="kofi-tagline" data-i18n="kofi_tagline">If you find this tool helpful, you're welcome to buy me a coffee ☕</p>
         <a href="https://ko-fi.com/Z8Z01Y4ZE4" target="_blank" rel="noopener" class="kofi-btn">
           <span class="kofi-icon">☕</span> <span data-i18n="kofi_btn">Buy me a coffee</span>
         </a>
@@ -1432,6 +1552,8 @@ const translations = {
     total_grand: 'Total ink',
     pages_count: (n) => `${n} ${n === 1 ? 'page' : 'pages'}`,
     kofi_btn: 'Buy me a coffee',
+    kofi_tagline: 'If you find this tool helpful, you\'re welcome to buy me a coffee ☕',
+    sister_app_desc: 'Free flexo label price estimator',
     help_title: 'How to Use InkCoverage',
     help_1_title: 'Upload a PDF',
     help_1_body: 'Click the upload area or drag and drop a PDF file (up to 50 MB). Your file is processed on the server and automatically deleted within 10 minutes.',
@@ -1493,6 +1615,8 @@ const translations = {
     total_grand: 'Total de tinta',
     pages_count: (n) => `${n} ${n === 1 ? 'página' : 'páginas'}`,
     kofi_btn: 'Invítame a un café',
+    kofi_tagline: 'Si esta herramienta te resulta útil, puedes invitarme a un café ☕',
+    sister_app_desc: 'Estimador gratuito de precios de etiquetas flexo',
     help_title: 'Cómo usar InkCoverage',
     help_1_title: 'Sube un PDF',
     help_1_body: 'Haz clic en el área de carga o arrastra y suelta un archivo PDF (hasta 50 MB). Tu archivo se procesa en el servidor y se elimina automáticamente en 10 minutos.',
@@ -1554,6 +1678,8 @@ const translations = {
     total_grand: 'Total de tinta',
     pages_count: (n) => `${n} ${n === 1 ? 'página' : 'páginas'}`,
     kofi_btn: 'Me pague um café',
+    kofi_tagline: 'Se esta ferramenta foi útil, sinta-se à vontade para me pagar um café ☕',
+    sister_app_desc: 'Estimador gratuito de preços de rótulos flexo',
     help_title: 'Como usar o InkCoverage',
     help_1_title: 'Carregue um PDF',
     help_1_body: 'Clique na área de upload ou arraste e solte um arquivo PDF (até 50 MB). Seu arquivo é processado no servidor e excluído automaticamente em 10 minutos.',
@@ -1615,6 +1741,8 @@ const translations = {
     total_grand: '总油墨量',
     pages_count: (n) => `${n} 页`,
     kofi_btn: '请我喝杯咖啡',
+    kofi_tagline: '如果您觉得这个工具有帮助，欢迎请我喝杯咖啡 ☕',
+    sister_app_desc: '免费柔印标签价格估算工具',
     help_title: '如何使用 InkCoverage',
     help_1_title: '上传 PDF',
     help_1_body: '点击上传区域或拖放 PDF 文件（最大 50 MB）。文件在服务器上处理后将在 10 分钟内自动删除。',
