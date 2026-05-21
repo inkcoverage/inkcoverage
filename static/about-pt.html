@@ -53,7 +53,8 @@
   body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
   .header { display: flex; align-items: center; gap: 16px; padding: 16px 24px; border-bottom: 1px solid var(--border); background: var(--surface); }
   .header-logo { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; }
-  .header h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+  .header h1 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -0.4px; }
+  .brand-ink { color: var(--cyan-color); }
   .header h1 a { color: var(--text); text-decoration: none; }
   .header h1 span { color: var(--text-dim); font-weight: 400; margin-left: 8px; font-size: 14px; }
   .content { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; flex: 1; }
@@ -74,7 +75,7 @@
 
 <div class="header">
   <img src="/static/icon.svg" class="header-logo" alt="InkCoverage logo">
-  <h1><a href="/pt">InkCoverage</a><span>Sobre</span></h1>
+  <h1><a href="/pt"><span class="brand-ink">Ink</span>Coverage</a><span>Sobre</span></h1>
 </div>
 
 <div class="content">
