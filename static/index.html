@@ -1440,7 +1440,7 @@
     </div>
 
     <!-- Results panel -->
-    <div class="results-panel hidden" id="resultsPanel">
+    <div class="results-panel" id="resultsPanel">
       <div class="results-header">
         <h2 data-i18n="results_title">Ink Coverage</h2>
         <div class="results-actions">
@@ -2009,7 +2009,6 @@ async function handleFile(file) {
 
     cropInfoSection.style.display = 'block';
     analyzeSection.style.display = 'block';
-    resultsPanel.classList.remove('hidden');
     showResultsEmptyState();
 
     await loadPreview();
@@ -2033,7 +2032,7 @@ btnRemove.addEventListener('click', () => {
   analyzeSection.style.display = 'none';
   emptyState.style.display = 'block';
   previewContainer.style.display = 'none';
-  resultsPanel.classList.add('hidden');
+  showResultsEmptyState();
   btnAnalyzeAll.style.display = 'none';
   state.pageResults = {};
   state.pageDimensions = {};
@@ -2675,6 +2674,9 @@ document.querySelectorAll('.units-btn').forEach(btn => {
 
 // Initialize translations on load
 applyTranslations();
+
+// Show results placeholder immediately (panel is always visible)
+showResultsEmptyState();
 </script>
 
 <!-- Structured data for SEO -->
