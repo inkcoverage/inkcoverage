@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -16,12 +16,12 @@
   gtag('config', 'G-2FNRM9GVXD');
 </script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@600;700;800&display=swap');
 
   :root {
-    --bg: #0e0f13;
-    --surface: #16171d;
-    --border: #2a2b36;
+    --bg: #0b0c10;
+    --surface: #13141a;
+    --border: #252630;
     --text: #e8e9ed;
     --text-dim: #8b8d9a;
     --text-muted: #5c5e6e;
@@ -32,10 +32,30 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html {
+    min-height: 100%;
+    background:
+      radial-gradient(ellipse 90% 55% at 50% 0%, rgba(108, 138, 255, 0.14) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(255, 45, 149, 0.11) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 10% 100%, rgba(108, 138, 255, 0.07) 0%, transparent 50%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.038;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
+    background: transparent;
     color: var(--text);
     min-height: 100vh;
   }
@@ -46,7 +66,12 @@
     gap: 16px;
     padding: 16px 24px;
     border-bottom: 1px solid var(--border);
-    background: var(--surface);
+    background: rgba(19, 20, 26, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
 
   .header-logo {
@@ -57,9 +82,10 @@
   }
 
   .header h1 {
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
   }
 
   .header h1 a {

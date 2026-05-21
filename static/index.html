@@ -847,8 +847,8 @@
   }
 
   .sister-app-icon {
-    font-size: 18px;
-    line-height: 1;
+    width: 32px;
+    height: 32px;
     flex-shrink: 0;
   }
 
@@ -858,9 +858,11 @@
   }
 
   .sister-app-name {
-    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
     color: var(--accent);
-    font-size: 13px;
+    font-size: 14px;
+    letter-spacing: -0.3px;
   }
 
   .sister-app-desc {
@@ -1371,7 +1373,13 @@
       <!-- Sister app: LabelEstimate -->
       <div class="sister-app-section">
         <a href="https://labelestimate.app" target="_blank" rel="noopener" class="sister-app-link">
-          <span class="sister-app-icon">🏷️</span>
+          <svg class="sister-app-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+            <rect width="36" height="36" rx="8" fill="#6c8aff" opacity="0.15"/>
+            <rect x="6" y="8" width="10" height="14" rx="2" fill="#6c8aff"/>
+            <rect x="18" y="8" width="4" height="14" rx="1" fill="#6c8aff" opacity="0.6"/>
+            <rect x="24" y="8" width="4" height="14" rx="1" fill="#6c8aff" opacity="0.3"/>
+            <rect x="6" y="24" width="22" height="3" rx="1.5" fill="#6c8aff" opacity="0.4"/>
+          </svg>
           <span class="sister-app-text">
             <div class="sister-app-name">LabelEstimate.app</div>
             <div class="sister-app-desc" data-i18n="sister_app_desc">Free flexo label price estimator</div>
