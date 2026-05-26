@@ -60,6 +60,11 @@
     <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/about"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://inkcoverage.app/about"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://inkcoverage.app/es/about"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://inkcoverage.app/pt/about"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://inkcoverage.app/zh/about"/>
   </url>
 
   <!-- About — Spanish -->
@@ -68,6 +73,11 @@
     <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/about"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://inkcoverage.app/about"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://inkcoverage.app/es/about"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://inkcoverage.app/pt/about"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://inkcoverage.app/zh/about"/>
   </url>
 
   <!-- About — Portuguese -->
@@ -76,6 +86,11 @@
     <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/about"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://inkcoverage.app/about"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://inkcoverage.app/es/about"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://inkcoverage.app/pt/about"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://inkcoverage.app/zh/about"/>
   </url>
 
   <!-- About — Chinese Simplified -->
@@ -84,6 +99,11 @@
     <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/about"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://inkcoverage.app/about"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://inkcoverage.app/es/about"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://inkcoverage.app/pt/about"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://inkcoverage.app/zh/about"/>
   </url>
 
   <!-- FAQ -->
@@ -92,6 +112,11 @@
     <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/faq"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://inkcoverage.app/faq"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://inkcoverage.app/es/faq"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://inkcoverage.app/pt/faq"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://inkcoverage.app/zh/faq"/>
   </url>
 
   <!-- FAQ — Spanish -->
@@ -100,6 +125,11 @@
     <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/faq"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://inkcoverage.app/faq"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://inkcoverage.app/es/faq"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://inkcoverage.app/pt/faq"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://inkcoverage.app/zh/faq"/>
   </url>
 
   <!-- FAQ — Portuguese -->
@@ -108,6 +138,11 @@
     <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/faq"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://inkcoverage.app/faq"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://inkcoverage.app/es/faq"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://inkcoverage.app/pt/faq"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://inkcoverage.app/zh/faq"/>
   </url>
 
   <!-- FAQ — Chinese Simplified -->
@@ -116,6 +151,11 @@
     <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/faq"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://inkcoverage.app/faq"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://inkcoverage.app/es/faq"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://inkcoverage.app/pt/faq"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://inkcoverage.app/zh/faq"/>
   </url>
 
   <!-- Contact -->
@@ -124,6 +164,11 @@
     <lastmod>2026-05-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/contact"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://inkcoverage.app/contact"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://inkcoverage.app/es/contact"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://inkcoverage.app/pt/contact"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://inkcoverage.app/zh/contact"/>
   </url>
 
   <!-- Contact — Spanish -->
@@ -132,6 +177,11 @@
     <lastmod>2026-05-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/contact"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://inkcoverage.app/contact"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://inkcoverage.app/es/contact"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://inkcoverage.app/pt/contact"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://inkcoverage.app/zh/contact"/>
   </url>
 
   <!-- Contact — Portuguese -->
@@ -140,6 +190,11 @@
     <lastmod>2026-05-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/contact"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://inkcoverage.app/contact"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://inkcoverage.app/es/contact"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://inkcoverage.app/pt/contact"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://inkcoverage.app/zh/contact"/>
   </url>
 
   <!-- Contact — Chinese Simplified -->
@@ -148,6 +203,11 @@
     <lastmod>2026-05-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/contact"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://inkcoverage.app/contact"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://inkcoverage.app/es/contact"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://inkcoverage.app/pt/contact"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans"   href="https://inkcoverage.app/zh/contact"/>
   </url>
 
   <!-- Privacy -->

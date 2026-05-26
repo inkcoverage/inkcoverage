@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
@@ -20,65 +20,75 @@
   gtag('js', new Date());
   gtag('config', 'G-2FNRM9GVXD');
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@600;700;800&display=swap');
-
-  :root {
-    --bg: #0b0c10; --surface: #13141a; --surface2: #1b1c24;
-    --border: #252630; --text: #e8e9ed; --text-dim: #8b8d9a;
-    --text-muted: #5c5e6e; --accent: #6c8aff;
-    --cyan-color: #00cfff; --magenta-color: #ff2d95; --yellow-color: #ffd600;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html {
-    min-height: 100%;
-    background:
-      radial-gradient(ellipse 90% 55% at 50% 0%, rgba(108, 138, 255, 0.14) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(255, 45, 149, 0.11) 0%, transparent 55%),
-      radial-gradient(ellipse 50% 40% at 10% 100%, rgba(108, 138, 255, 0.07) 0%, transparent 50%),
-      var(--bg);
-    background-attachment: fixed;
-  }
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.038;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 256px 256px;
-  }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
-  .header { display: flex; align-items: center; gap: 16px; padding: 16px 24px; border-bottom: 1px solid var(--border); background: var(--surface); }
-  .header-logo { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; }
-  .header h1 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -0.4px; }
-  .brand-ink { color: var(--cyan-color); }
-  .header h1 a { color: var(--text); text-decoration: none; }
-  .header h1 span { color: var(--text-dim); font-weight: 400; margin-left: 8px; font-size: 14px; }
-  .content { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; flex: 1; }
-  .content h2 { font-size: 28px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.5px; }
-  .content h3 { font-size: 17px; font-weight: 600; margin-top: 36px; margin-bottom: 12px; color: var(--text); }
-  .content p { font-size: 15px; line-height: 1.75; color: var(--text-dim); margin-bottom: 14px; }
-  .content ul { padding-left: 24px; margin-bottom: 14px; }
-  .content li { font-size: 15px; line-height: 1.75; color: var(--text-dim); margin-bottom: 6px; }
-  .content a { color: var(--accent); text-decoration: none; }
-  .content a:hover { text-decoration: underline; }
-  .footer { padding: 12px 24px; border-top: 1px solid var(--border); background: var(--surface); text-align: center; font-size: 12px; color: var(--text-muted); }
-  .footer a { color: var(--text-dim); text-decoration: none; }
-  .footer a:hover { color: var(--text); }
-  @media (max-width: 600px) { .content { padding: 32px 16px 60px; } }
+:root {
+  --bg:#0b0c10; --surface:#13141a; --surface2:#1b1c24;
+  --border:#252630; --border-light:#31323e;
+  --text:#ecedf1; --text-dim:#a4a6b5; --text-muted:#7a7c8e;
+  --accent:#6c8aff; --accent-teal:#00cfff; --radius:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{
+  min-height:100%;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 0%,rgba(108,138,255,.14) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 100%,rgba(255,45,149,.11) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 100%,rgba(108,138,255,.07) 0%,transparent 50%),
+    #0b0c10;
+  background-attachment:fixed;
+}
+body{font-family:'DM Sans',sans-serif;background:transparent;color:var(--text);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:1000;opacity:.038;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;}
+.header{display:flex;align-items:center;gap:12px;padding:14px 24px;border-bottom:1px solid var(--border);background:rgba(19,20,26,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}
+.header-logo{width:36px;height:36px;flex-shrink:0;}
+.header-brand{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;letter-spacing:-.3px;text-decoration:none;color:var(--text);}
+.brand-ink{color:var(--accent-teal);}
+.header-sep{color:var(--border-light);margin:0 2px;font-size:16px;}
+.header-page{font-size:13px;color:var(--text-muted);}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.try-btn{font-size:12px;font-weight:600;color:var(--text-muted);text-decoration:none;padding:5px 12px;border:1px solid var(--border-light);border-radius:6px;transition:all .15s;white-space:nowrap;}
+.try-btn:hover{color:var(--text);border-color:var(--text-muted);}
+.lang-switcher{display:flex;align-items:center;gap:1px;}
+.lang-btn{background:none;border:none;color:var(--text-muted);font-size:11px;font-weight:500;cursor:pointer;padding:4px 7px;border-radius:4px;text-decoration:none;transition:all .15s;letter-spacing:.3px;}
+.lang-btn:hover{color:var(--text);background:var(--surface2);}
+.lang-btn.active{color:var(--accent);background:rgba(108,138,255,.12);}
+.content{max-width:720px;margin:0 auto;padding:48px 24px 80px;flex:1;}
+.content h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;margin-bottom:28px;letter-spacing:-.5px;}
+.content h3{font-size:16px;font-weight:600;margin-top:36px;margin-bottom:12px;}
+.content p{font-size:15px;line-height:1.75;color:var(--text-dim);margin-bottom:14px;}
+.content ul{padding-left:24px;margin-bottom:14px;}
+.content li{font-size:15px;line-height:1.75;color:var(--text-dim);margin-bottom:6px;}
+.content li strong{color:var(--text);font-weight:600;}
+.content a{color:var(--accent);text-decoration:none;}
+.content a:hover{text-decoration:underline;}
+.footer{padding:14px 24px;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--text-muted);}
+.footer a{color:var(--text-dim);text-decoration:none;margin:0 4px;}
+.footer a:hover{color:var(--text);}
+@media(max-width:600px){.content{padding:32px 16px 60px;}.header-page{display:none;}}
 </style>
 </head>
 <body>
 
-<div class="header">
+<header class="header">
   <img src="/static/icon.svg" class="header-logo" alt="InkCoverage logo">
-  <h1><a href="/pt"><span class="brand-ink">Ink</span>Coverage</a><span>Sobre</span></h1>
-</div>
+  <a href="/pt" class="header-brand"><span class="brand-ink">Ink</span>Coverage</a>
+  <span class="header-sep">/</span>
+  <span class="header-page">Sobre</span>
+  <div class="header-right">
+    <div class="lang-switcher">
+      <a href="/about" class="lang-btn">EN</a>
+      <a href="/es/about" class="lang-btn">ES</a>
+      <a href="/pt/about" class="lang-btn active">PT</a>
+      <a href="/zh/about" class="lang-btn">ZH</a>
+    </div>
+    <a href="/pt" class="try-btn">← Analyzer</a>
+  </div>
+</header>
 
-<div class="content">
+<main class="content">
 
   <h2>Sobre o InkCoverage.app</h2>
 
@@ -105,16 +115,16 @@
   <p>Os arquivos são processados no servidor usando o <strong>Ghostscript</strong> — o interpretador PostScript e PDF de código aberto padrão da indústria — com um backend Python gerenciando o pipeline de análise. Cada canal é separado e medido independentemente. Seu arquivo é automaticamente excluído do servidor dentro de 10 minutos após o upload e nunca é compartilhado, armazenado ou usado para qualquer outro propósito.</p>
   <p>O InkCoverage.app é um software de código aberto, licenciado sob AGPL-3.0. O código-fonte completo está disponível no <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener">GitHub</a>.</p>
 
-</div>
+</main>
 
-<div class="footer">
+<footer class="footer">
   <a href="/pt">InkCoverage.app</a> &mdash;
   <a href="/pt/about">Sobre</a> &mdash;
   <a href="/pt/faq">FAQ</a> &mdash;
   <a href="/contact">Contato</a> &mdash;
   <a href="/privacy">Política de Privacidade</a> &mdash;
   Analisador de cobertura de tinta gratuito e de código aberto.
-</div>
+</footer>
 
 </body>
 </html>

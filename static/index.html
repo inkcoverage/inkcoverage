@@ -10,14 +10,14 @@
 <meta property="og:title" content="InkCoverage.app — Free Ink Coverage Analyzer">
 <meta property="og:description" content="Upload a PDF and get per-channel CMYK and spot color coverage percentages. Free, open source, no install required.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://inkcoverage.app">
+<meta property="og:url" content="https://inkcoverage.app/">
 <meta property="og:image" content="https://inkcoverage.app/static/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://inkcoverage.app/static/og-image.png">
-<link rel="canonical" href="https://inkcoverage.app">
+<link rel="canonical" href="https://inkcoverage.app/">
 <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
 
 <!-- Google Analytics (GA4) -->
@@ -125,7 +125,7 @@
 
   .brand-ink { color: var(--cyan-color); }
 
-  .header h1 span {
+  .header h1 .header-tagline {
     color: var(--text-dim);
     font-weight: 400;
     margin-left: 8px;
@@ -1282,7 +1282,7 @@
       border-left: none;
       border-top: 1px solid var(--border);
     }
-    .header h1 span {
+    .header h1 .header-tagline {
       display: none;
     }
   }
@@ -1294,7 +1294,7 @@
   <!-- Header -->
   <div class="header">
     <img src="/static/icon.svg" class="header-logo" alt="InkCoverage icon">
-    <h1><span class="brand-ink">Ink</span>Coverage<span data-i18n="header_tagline">Ink Coverage Analyzer</span></h1>
+    <h1><span class="brand-ink">Ink</span>Coverage<span class="header-tagline" data-i18n="header_tagline">Ink Coverage Analyzer</span></h1>
     <div class="header-links">
       <div class="lang-switcher">
         <button class="lang-btn active" data-lang="en">EN</button>
@@ -1375,12 +1375,14 @@
       <!-- Sister app: LabelEstimate -->
       <div class="sister-app-section">
         <a href="https://labelestimate.app" target="_blank" rel="noopener" class="sister-app-link">
-          <svg class="sister-app-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
-            <rect width="36" height="36" rx="8" fill="#6c8aff" opacity="0.15"/>
-            <rect x="9" y="6" width="3" height="22" rx="1.5" fill="#6c8aff" opacity="0.4"/>
-            <rect x="14" y="6" width="14" height="10" rx="2" fill="#6c8aff"/>
-            <rect x="14" y="18" width="14" height="4" rx="1" fill="#6c8aff" opacity="0.6"/>
-            <rect x="14" y="24" width="14" height="4" rx="1" fill="#6c8aff" opacity="0.3"/>
+          <svg class="sister-app-icon" xmlns="http://www.w3.org/2000/svg" viewBox="20 20 48 48">
+            <rect x="20" y="20" width="48" height="48" rx="9.6" fill="#f8f5f0"/>
+            <g transform="rotate(90, 44, 44)">
+              <rect x="26.49" y="42.38" width="7.68" height="16.97" rx="2.15" fill="#00b4cc" opacity=".95"/>
+              <rect x="35.6"  y="33.25" width="7.68" height="26.1"  rx="2.15" fill="#e8205a" opacity=".95"/>
+              <rect x="44.72" y="39.12" width="7.68" height="20.23" rx="2.15" fill="#f5c800" opacity=".95"/>
+              <rect x="53.84" y="28.35" width="7.68" height="31"    rx="2.15" fill="#1a1a22" opacity=".95"/>
+            </g>
           </svg>
           <span class="sister-app-text">
             <div class="sister-app-name">LabelEstimate.app</div>
