@@ -6,20 +6,7 @@
 <title>Perguntas Frequentes — Cobertura de Tinta, TAC, CMYK | InkCoverage.app</title>
 <meta name="description" content="Respostas às perguntas mais comuns sobre cobertura de tinta, Cobertura Total de Área (TAC), CMYK, cores especiais e como usar o InkCoverage.app para análise de PDF em pré-impressão.">
 <link rel="canonical" href="https://inkcoverage.app/pt/faq">
-<link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/faq">
-<link rel="alternate" hreflang="en"      href="https://inkcoverage.app/faq">
-<link rel="alternate" hreflang="es"      href="https://inkcoverage.app/es/faq">
-<link rel="alternate" hreflang="pt"      href="https://inkcoverage.app/pt/faq">
-<link rel="alternate" hreflang="zh-Hans" href="https://inkcoverage.app/zh/faq">
 <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
-<!-- Google Analytics (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2FNRM9GVXD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-2FNRM9GVXD');
-</script>
 <!-- FAQPage structured data -->
 <script type="application/ld+json">
 {
@@ -31,23 +18,23 @@
       "name": "O que é cobertura de tinta?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A cobertura de tinta é a porcentagem da área de superfície coberta por tinta em uma página impressa. Uma área ciano totalmente sólida tem 100% de cobertura; uma trama a 50% tem aproximadamente 50% de cobertura. A cobertura é importante para estimar o consumo de tinta, verificar especificações de impressão e controlar os custos de produção."
+        "text": "Meça a cobertura média de cada canal CMYK e de cor especial em uma página PDF ou área selecionada. Cada valor indica a cobertura média do canal na área medida, incluindo espaços em branco e retículas. As médias combinadas somam os canais: 100% de ciano mais 100% de magenta resulta em 200%. Os totais CMYK e de cores especiais aparecem separados; a soma de todos os canais inclui ambos. Nenhum desses totais indica a cobertura local máxima. A cobertura pode ajudar a estimar o consumo de tinta, mas não calcula diretamente sua massa ou custo nem certifica que o arquivo esteja pronto para impressão. Esses fatores também dependem da tinta, do substrato e do processo de impressão. Confirme os limites de produção com a gráfica e faça as verificações de pré-impressão adequadas."
       }
     },
     {
       "@type": "Question",
-      "name": "O que é TAC (Cobertura Total de Área)?",
+      "name": "O que é TAC (cobertura total de tinta)?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A Cobertura Total de Área (TAC) — também chamada de Limite Total de Tinta (TIL) — é a soma de todos os canais de tinta em um único pixel. Um pixel com 80% C + 70% M + 60% Y + 40% K tem um TAC de 250%. Os padrões de impressão definem limites máximos de TAC para evitar secagem lenta, repasse de tinta e danos ao papel: tipicamente 300–320% para offset em papel couchê, 260–280% em papel não couchê, e 200–260% para flexografia e digital. Se suspeitar que uma área específica ultrapassa o limite, desenhe um retângulo de recorte em torno dessa região e verifique o total combinado de tinta."
+        "text": "O TAC local soma as porcentagens de tinta em um ponto. Analisar cobertura de tinta mostra médias da área medida; uma média baixa pode esconder uma pequena área com muita tinta. Verificar limite de tinta examina os pixels renderizados da página atual ou seleção e informa o maior total e a porcentagem da área acima do limite, usando apenas os canais incluídos. Confirme o limite com a gráfica para o processo e o substrato previstos."
       }
     },
     {
       "@type": "Question",
-      "name": "O que são cores especiais e como são detectadas?",
+      "name": "Como as cores especiais são exibidas?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Cores especiais (Pantone, HKS, tintas personalizadas) são tintas pré-misturadas impressas a partir de sua própria chapa, independentemente do CMYK. O InkCoverage.app detecta cada canal de cor especial presente no PDF e reporta seu percentual de cobertura individualmente — um arquivo com CMYK mais duas cores Pantone exibirá seis canais separados nos resultados."
+        "text": "As separações nomeadas renderizadas pelo Ghostscript são listadas à parte de CMYK. As amostras e prévias usam a cor definida no PDF, sem deduzi-la do nome da tinta. Assim, P485 pode aparecer verde se essa for sua definição no documento. Branco, foil, verniz e guias de corte também podem ser canais especiais. Use as caixas para inspecionar sua localização; o nome sozinho não determina a função na produção."
       }
     },
     {
@@ -55,15 +42,15 @@
       "name": "Qual é a precisão da medição de cobertura de tinta?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "O Ghostscript separa o PDF em arquivos TIFF por canal a 72 DPI, e cada canal é contado pixel a pixel. A 72 DPI, o resultado é preciso dentro de uma fração de por cento para artes típicas. Detalhes extremamente finos — filetes, microtexto — podem ter uma leve média, mas os valores gerais de cobertura são confiáveis para estimativa de tinta e verificação de especificações."
+        "text": "Os resultados são estimativas práticas da cobertura média de tinta numa página ou seleção. Detalhes finos, seleções pequenas, conversão de cor, sobreimpressão e transparência podem afetar os resultados. Duas casas decimais não garantem precisão; confirme os trabalhos críticos de cor com as separações da sua gráfica."
       }
     },
     {
       "@type": "Question",
-      "name": "Posso medir uma área específica em vez da página inteira?",
+      "name": "Posso medir uma área ou o tamanho aproximado de um rótulo?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Sim. Use a ferramenta de recorte — clique e arraste na pré-visualização da página para desenhar um retângulo de medição, depois redimensione-o usando as alças dos cantos. Isso é útil para isolar um logotipo, código de barras, painel de etiqueta, amostra de cor ou qualquer área que você suspeite que possa exceder um limite de TAC."
+        "text": "Sim. Arraste na prévia e ajuste os cantos. O painel do documento mostra largura, altura e área selecionadas. Isso ajuda a estimar dimensões de rótulos ou facas, mas é uma seleção manual, não reconhecimento automático da faca. Analise a cobertura dessa área ou use-a como escopo da verificação do limite de tinta. Sem seleção, use a página inteira."
       }
     },
     {
@@ -71,7 +58,71 @@
       "name": "Quais arquivos PDF são suportados?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Qualquer PDF padrão de até 50 MB, incluindo arquivos com CMYK, RGB, Lab ou espaços de cor mistos. O Ghostscript trata a conversão de cores automaticamente. PDFs exportados do Illustrator, InDesign, Acrobat e a maioria dos fluxos de trabalho RIP são suportados. Arquivos com cores especiais (Pantone, HKS, personalizadas) são totalmente suportados — cada cor especial aparece como um canal separado."
+        "text": "Os limites atuais são 50 MB (52.428.800 bytes) por PDF e 100 páginas por documento. O processamento depende do Ghostscript e do conteúdo do PDF; não há garantia de funcionamento para todos os PDFs. Arquivos criptografados, danificados ou complexos podem falhar ou exigir verificações adicionais. Conteúdo RGB, Lab e baseado em ICC pode passar por conversão de cores; confira resultados críticos no seu fluxo de produção."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "O que significa conteúdo RGB detectado e onde aparecem os perfis?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A página atual contém elementos RGB que precisam ser convertidos para estimar a cobertura CMYK. Os resultados podem diferir das separações da gráfica. Para maior confiabilidade, use um PDF convertido com o perfil CMYK recomendado por ela. Informações de perfis e avisos de inspeção permanecem em Copiar, CSV e Relatório PDF; são omitidos do painel de resultados para mantê-lo compacto. Nomes de perfis são informativos e não escolhem o perfil de conversão. As exportações identificam inspeções incompletas."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Como encontro áreas acima de um limite de tinta?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Abra Verificar limite de tinta, defina a porcentagem desejada, escolha os canais incluídos e verifique a página atual ou seleção. Branco, foil, verniz e outros canais técnicos podem ser excluídos individualmente. Os resultados informam o maior total das tintas incluídas e a porcentagem da área acima do limite. A verificação usa renderização de 150 dpi e pode não captar detalhes muito finos. Não modifica a arte nem certifica uma condição de impressão."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Qual a diferença entre Mapa de calor e Sobreposição?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mapa de calor mostra apenas o mapa colorido do limite de tinta em uma página em branco. Sobreposição coloca o mesmo mapa sobre o documento para localizar a arte afetada. Clique no botão ativo para voltar ao documento sozinho. O mapa e os valores se referem à página ou seleção verificada e às tintas incluídas naquela verificação."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Posso isolar um canal, incluindo branco, foil ou verniz?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Após analisar a cobertura, use as caixas ao lado das amostras para mostrar ou ocultar canais. Alt-clique mostra apenas esse canal; outro Alt-clique restaura todos. Todos os canais também restaura a seleção completa. Ative Prévia dos canais em preto abaixo da lista para enxergar tintas claras. O PDF precisa definir foil ou verniz como um canal separado para localizá-los. Essas opções afetam apenas a visualização; não mudam medições, exportações ou as tintas incluídas no limite."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Posso analisar e exportar várias páginas?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Analisar cobertura de tinta oferece página atual, todas as páginas e intervalo. Com uma seleção, a mesma posição e dimensões são aplicadas a cada página; páginas pequenas demais são ignoradas. Copiar, CSV e Relatório incluem todas as medições concluídas, mesmo ao exibir outra página. O PDF inclui prévias, dimensões, médias de tinta, perfis e verificações do limite concluídas. Lotes parciais são identificados. Cada página analisada consome a cota; os limites de tinta são verificados separadamente na página atual."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quantos uploads, visualizações e análises posso fazer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Os limites atuais são 10 solicitações de upload, 120 solicitações de visualização de página e 30 solicitações de análise por endereço IP em uma janela móvel de uma hora. Pessoas que compartilham uma rede ou VPN podem compartilhar esses limites. Cada página de um lote conta como uma solicitação de análise separada; aceitar um PDF de 100 páginas não significa que você possa analisar todas as 100 em uma hora. As solicitações admitidas dentro do limite podem contar mesmo que o processamento falhe depois ou o servidor esteja ocupado. A capacidade volta a ficar disponível quando as solicitações anteriores saem da janela de uma hora. Se atingir um limite, aguarde antes de tentar novamente."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Por que uma página grande pode ser rejeitada mesmo que o PDF tenha menos de 50 MB?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "O tamanho do arquivo, por si só, não determina o trabalho de processamento. Os limites atuais são 20 milhões de pixels renderizados para uma visualização, 5 milhões para uma análise e 10.000 pixels em qualquer um dos lados da página renderizada. Eles dependem das dimensões da página e da resolução de renderização, portanto uma visualização pode funcionar enquanto a análise é rejeitada. Selecionar uma área pequena ainda exige renderizar a página inteira e não evita esses limites. A ferramenta não reduz automaticamente a resolução para ajustar a página ao limite. PDFs complexos também podem exceder os recursos de processamento; tente um PDF com páginas menores ou conteúdo mais simples."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "O que acontece se o servidor estiver ocupado ou o processamento demorar demais?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "O servidor processa atualmente um trabalho PDF por vez para todos os usuários, incluindo a inspeção de uploads, visualizações e análises, e aceita no máximo dois uploads simultâneos. Se não houver capacidade de processamento ou armazenamento, a solicitação retorna uma mensagem de servidor ocupado em vez de aguardar em uma fila. Aguarde um pouco e tente novamente manualmente. A transferência de um upload tem um limite de 120 segundos. Um trabalho de processamento tem um prazo máximo de 150 segundos, embora etapas individuais possam atingir seu limite de tempo antes. Se o tempo se esgotar, tente um PDF mais simples ou uma conexão mais rápida para uploads. Tentativas repetidas podem consumir seu limite por hora."
       }
     },
     {
@@ -79,15 +130,15 @@
       "name": "Por que a cobertura de tinta é importante na impressão flexográfica?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A flexografia é amplamente utilizada para rótulos, embalagens e materiais flexíveis, onde os custos de tinta são significativos e os limites de TAC são mais restritivos do que no offset — geralmente 220–260%. Áreas de alta cobertura também são propensas ao ganho de ponto e ao fechamento de tinta em negativos finos. Verificar a cobertura antes de enviar para impressão ajuda a evitar reimpressões e rejeições de especificações."
+        "text": "A cobertura pode ajudar a estimar o consumo de tinta, mas não calcula diretamente sua massa ou custo nem certifica que o arquivo esteja pronto para impressão. Esses fatores também dependem da tinta, do substrato e do processo de impressão. Confirme os limites de produção com a gráfica e faça as verificações de pré-impressão adequadas."
       }
     },
     {
       "@type": "Question",
-      "name": "Como isso é diferente da ferramenta de cobertura de tinta do Acrobat Pro?",
+      "name": "InkCoverage é uma ferramenta completa de preflight?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A Pré-visualização de Saída do Acrobat Pro mostra a cobertura por canal para a área visível da página. O InkCoverage.app adiciona análise em lote de todas as páginas de uma vez, medição de área de recorte para regiões específicas, exportação CSV para fluxos de trabalho em planilhas, e funciona inteiramente no navegador — sem necessidade de licença de software."
+        "text": "Não. Oferece cobertura média, mapa do limite de tinta, prévias de canais, dimensões selecionadas e exportações. Não certifica a adequação para impressão, corrige o PDF, identifica todos os problemas de produção ou calcula massa ou custo de tinta. Detalhes finos, conversão de cor, transparência, sobreimpressão e resolução podem afetar as estimativas. Confira resultados críticos no RIP de produção e use verificações de preflight adequadas."
       }
     },
     {
@@ -95,15 +146,12 @@
       "name": "Meu arquivo é mantido em sigilo?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Seu PDF é processado no servidor e excluído automaticamente após 10 minutos. Ele nunca é armazenado permanentemente, compartilhado ou usado para qualquer finalidade além do cálculo de cobertura de tinta."
+        "text": "Novas visualizações e análises expiram 10 minutos após o upload; usar o PDF não prolonga esse prazo. A limpeza ocorre ao iniciar o servidor e a cada 60 segundos. Os arquivos temporários são removidos quando o processamento termina, e a limpeza tenta remover quaisquer restos. Os originais expirados normalmente são removidos na primeira limpeza após a expiração; o processamento ativo pode terminar antes, e as falhas de remoção são registradas e novas tentativas são feitas, portanto a exclusão física pode demorar mais. Fechar o documento apenas limpa esta visualização do navegador. Os resultados concluídos continuam disponíveis em suas páginas para exportação até fechar ou substituir o documento ou alterar a seleção. Envie o PDF novamente para novas operações. Consulte a Política de Privacidade para todos os detalhes."
       }
     }
   ]
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:#0b0c10; --surface:#13141a; --surface2:#1b1c24;
@@ -148,87 +196,64 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:1000;o
 .footer{padding:14px 24px;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--text-muted);}
 .footer a{color:var(--text-dim);text-decoration:none;margin:0 4px;}
 .footer a:hover{color:var(--text);}
-@media(max-width:600px){.content{padding:32px 16px 60px;}.header-page{display:none;}}
+@media(max-width:600px){.content{padding:32px 16px 60px;}.header{padding:14px 16px;flex-wrap:wrap;}.header-sep,.header-page{display:none;}.header-right{flex-basis:100%;margin-left:0;justify-content:flex-end;}}
 </style>
+<link rel="stylesheet" href="/static/app-fonts.css?v=20261015-preview-pages">
+<link rel="stylesheet" href="/static/info-pages.css?v=20261015-preview-pages">
+<meta property="og:title" content="Perguntas Frequentes — Cobertura de Tinta, TAC, CMYK | InkCoverage.app">
+<meta property="og:description" content="Respostas às perguntas mais comuns sobre cobertura de tinta, Cobertura Total de Área (TAC), CMYK, cores especiais e como usar o InkCoverage.app para análise de PDF em pré-impressão.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://inkcoverage.app/pt/faq">
+<meta property="og:image" content="https://inkcoverage.app/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://inkcoverage.app/static/og-image.png">
+<meta name="twitter:title" content="Perguntas Frequentes — Cobertura de Tinta, TAC, CMYK | InkCoverage.app">
+<meta name="twitter:description" content="Respostas às perguntas mais comuns sobre cobertura de tinta, Cobertura Total de Área (TAC), CMYK, cores especiais e como usar o InkCoverage.app para análise de PDF em pré-impressão.">
+<link rel="stylesheet" href="/static/site-chrome.css?v=20261016-seven-languages">
+<script src="/static/site-navigation.js?v=20261016-seven-languages" defer></script>
+<link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/faq">
+<link rel="alternate" hreflang="en" href="https://inkcoverage.app/faq">
+<link rel="alternate" hreflang="es" href="https://inkcoverage.app/es/faq">
+<link rel="alternate" hreflang="pt" href="https://inkcoverage.app/pt/faq">
+<link rel="alternate" hreflang="zh-Hans" href="https://inkcoverage.app/zh/faq">
+<link rel="alternate" hreflang="de" href="https://inkcoverage.app/de/faq">
+<link rel="alternate" hreflang="fr" href="https://inkcoverage.app/fr/faq">
+<link rel="alternate" hreflang="uk" href="https://inkcoverage.app/uk/faq">
 </head>
-<body>
+<body class="info-page">
+<a class="skip-link" href="#main">Ir para a ferramenta</a>
 
-<header class="header">
-  <img src="/static/icon.svg" class="header-logo" alt="InkCoverage logo">
-  <a href="/pt" class="header-brand"><span class="brand-ink">Ink</span>Coverage</a>
-  <span class="header-sep">/</span>
-  <span class="header-page">Perguntas Frequentes</span>
-  <div class="header-right">
-    <div class="lang-switcher">
-      <a href="/faq" class="lang-btn">EN</a>
-      <a href="/es/faq" class="lang-btn">ES</a>
-      <a href="/pt/faq" class="lang-btn active">PT</a>
-      <a href="/zh/faq" class="lang-btn">ZH</a>
-    </div>
-    <a href="/pt" class="try-btn">← Analyzer</a>
-  </div>
-</header>
+<header class="header"><a class="brand" href="/pt"><img src="/static/icon.svg" alt=""><span class="brand-title"><span class="brand-ink">Ink</span>Coverage <span class="brand-version">2.0</span><span class="header-tagline">Analisador de cobertura de tinta</span></span></a><div class="header-links"><details class="mobile-site-menu"><summary aria-label="Navegação do site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary><nav class="mobile-site-links" aria-label="Navegação do site"><a href="/pt/about">Sobre</a><a href="/pt/faq">FAQ</a><a href="/pt/contact">Contato</a><a href="/pt/privacy">Privacidade</a></nav></details><nav class="lang-switcher" aria-label="Idioma"><a href="/faq" class="lang-btn" lang="en" hreflang="en" aria-label="English" title="English" aria-current="false">EN</a><a href="/es/faq" class="lang-btn" lang="es" hreflang="es" aria-label="Español" title="Español" aria-current="false">ES</a><a href="/pt/faq" class="lang-btn active" lang="pt" hreflang="pt" aria-label="Português" title="Português" aria-current="page">PT</a><a href="/zh/faq" class="lang-btn" lang="zh-Hans" hreflang="zh-Hans" aria-label="简体中文" title="简体中文" aria-current="false">ZH</a><a href="/de/faq" class="lang-btn" lang="de" hreflang="de" aria-label="Deutsch" title="Deutsch" aria-current="false">DE</a><a href="/fr/faq" class="lang-btn" lang="fr" hreflang="fr" aria-label="Français" title="Français" aria-current="false">FR</a><a href="/uk/faq" class="lang-btn" lang="uk" hreflang="uk" aria-label="Українська" title="Українська" aria-current="false">UK</a></nav><a href="/pt">Analisador</a></div></header>
 
-<main class="content">
+<main class="content" id="main" tabindex="-1">
 
   <h2>Perguntas Frequentes</h2>
   <p class="intro">Perguntas comuns sobre cobertura de tinta, padrões de impressão e como o InkCoverage.app funciona.</p>
 
-  <div class="faq-item">
-    <div class="faq-question">O que é cobertura de tinta?</div>
-    <div class="faq-answer">A cobertura de tinta é a porcentagem da área de superfície coberta por tinta em uma página impressa. Uma área ciano totalmente sólida tem 100% de cobertura; uma trama a 50% tem aproximadamente 50% de cobertura. A cobertura é importante para estimar o consumo de tinta, verificar especificações de impressão e controlar os custos de produção.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">O que é TAC (Cobertura Total de Área)?</div>
-    <div class="faq-answer">A Cobertura Total de Área (TAC) — também chamada de Limite Total de Tinta (TIL) — é a soma de todos os canais de tinta em um único pixel. Um pixel com 80% C + 70% M + 60% Y + 40% K tem um TAC de 250%. Os padrões de impressão definem limites máximos de TAC para evitar secagem lenta, repasse de tinta e danos ao papel: tipicamente 300–320% para offset em papel couchê, 260–280% em papel não couchê, e 200–260% para flexografia e digital. Se suspeitar que uma área específica ultrapassa o limite, desenhe um retângulo de recorte em torno dessa região e verifique o total combinado de tinta.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">O que são cores especiais e como são detectadas?</div>
-    <div class="faq-answer">Cores especiais (Pantone, HKS, tintas personalizadas) são tintas pré-misturadas impressas a partir de sua própria chapa, independentemente do CMYK. O InkCoverage.app detecta cada canal de cor especial presente no PDF e reporta seu percentual de cobertura individualmente — um arquivo com CMYK mais duas cores Pantone exibirá seis canais separados nos resultados.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">Qual é a precisão da medição de cobertura de tinta?</div>
-    <div class="faq-answer">O Ghostscript separa o PDF em arquivos TIFF por canal a 72 DPI, e cada canal é contado pixel a pixel. A 72 DPI, o resultado é preciso dentro de uma fração de por cento para artes típicas. Detalhes extremamente finos — filetes, microtexto — podem ter uma leve média, mas os valores gerais de cobertura são confiáveis para estimativa de tinta e verificação de especificações.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">Posso medir uma área específica em vez da página inteira?</div>
-    <div class="faq-answer">Sim. Use a ferramenta de recorte — clique e arraste na pré-visualização da página para desenhar um retângulo de medição, depois redimensione-o usando as alças dos cantos. Isso é útil para isolar um logotipo, código de barras, painel de etiqueta, amostra de cor ou qualquer área que você suspeite que possa exceder um limite de TAC.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">Quais arquivos PDF são suportados?</div>
-    <div class="faq-answer">Qualquer PDF padrão de até 50 MB, incluindo arquivos com CMYK, RGB, Lab ou espaços de cor mistos. O Ghostscript trata a conversão de cores automaticamente. PDFs exportados do Illustrator, InDesign, Acrobat e a maioria dos fluxos de trabalho RIP são suportados. Arquivos com cores especiais (Pantone, HKS, personalizadas) são totalmente suportados — cada cor especial aparece como um canal separado.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">Por que a cobertura de tinta é importante na impressão flexográfica?</div>
-    <div class="faq-answer">A flexografia é amplamente utilizada para rótulos, embalagens e materiais flexíveis, onde os custos de tinta são significativos e os limites de TAC são mais restritivos do que no offset — geralmente 220–260%. Áreas de alta cobertura também são propensas ao ganho de ponto e ao fechamento de tinta em negativos finos. Verificar a cobertura antes de enviar para impressão ajuda a evitar reimpressões e rejeições de especificações.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">Como isso é diferente da ferramenta de cobertura de tinta do Acrobat Pro?</div>
-    <div class="faq-answer">A Pré-visualização de Saída do Acrobat Pro mostra a cobertura por canal para a área visível da página. O InkCoverage.app adiciona análise em lote de todas as páginas de uma vez, medição de área de recorte para regiões específicas, exportação CSV para fluxos de trabalho em planilhas, e funciona inteiramente no navegador — sem necessidade de licença de software.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">Meu arquivo é mantido em sigilo?</div>
-    <div class="faq-answer">Seu PDF é processado no servidor e excluído automaticamente após 10 minutos. Ele nunca é armazenado permanentemente, compartilhado ou usado para qualquer finalidade além do cálculo de cobertura de tinta. Consulte a <a href="/privacy">Política de Privacidade</a> para todos os detalhes.</div>
-  </div>
-
+<div class="faq-item"><h3 class="faq-question">O que é cobertura de tinta?</h3><div class="faq-answer">Meça a cobertura média de cada canal CMYK e de cor especial em uma página PDF ou área selecionada. Cada valor indica a cobertura média do canal na área medida, incluindo espaços em branco e retículas. As médias combinadas somam os canais: 100% de ciano mais 100% de magenta resulta em 200%. Os totais CMYK e de cores especiais aparecem separados; a soma de todos os canais inclui ambos. Nenhum desses totais indica a cobertura local máxima. A cobertura pode ajudar a estimar o consumo de tinta, mas não calcula diretamente sua massa ou custo nem certifica que o arquivo esteja pronto para impressão. Esses fatores também dependem da tinta, do substrato e do processo de impressão. Confirme os limites de produção com a gráfica e faça as verificações de pré-impressão adequadas.</div></div>
+<div class="faq-item"><h3 class="faq-question">O que é TAC (cobertura total de tinta)?</h3><div class="faq-answer">O TAC local soma as porcentagens de tinta em um ponto. Analisar cobertura de tinta mostra médias da área medida; uma média baixa pode esconder uma pequena área com muita tinta. Verificar limite de tinta examina os pixels renderizados da página atual ou seleção e informa o maior total e a porcentagem da área acima do limite, usando apenas os canais incluídos. Confirme o limite com a gráfica para o processo e o substrato previstos.</div></div>
+<div class="faq-item"><h3 class="faq-question">Como as cores especiais são exibidas?</h3><div class="faq-answer">As separações nomeadas renderizadas pelo Ghostscript são listadas à parte de CMYK. As amostras e prévias usam a cor definida no PDF, sem deduzi-la do nome da tinta. Assim, P485 pode aparecer verde se essa for sua definição no documento. Branco, foil, verniz e guias de corte também podem ser canais especiais. Use as caixas para inspecionar sua localização; o nome sozinho não determina a função na produção.</div></div>
+<div class="faq-item"><h3 class="faq-question">Qual é a precisão da medição de cobertura de tinta?</h3><div class="faq-answer">Os resultados são estimativas práticas da cobertura média de tinta numa página ou seleção. Detalhes finos, seleções pequenas, conversão de cor, sobreimpressão e transparência podem afetar os resultados. Duas casas decimais não garantem precisão; confirme os trabalhos críticos de cor com as separações da sua gráfica.</div></div>
+<div class="faq-item"><h3 class="faq-question">Posso medir uma área ou o tamanho aproximado de um rótulo?</h3><div class="faq-answer">Sim. Arraste na prévia e ajuste os cantos. O painel do documento mostra largura, altura e área selecionadas. Isso ajuda a estimar dimensões de rótulos ou facas, mas é uma seleção manual, não reconhecimento automático da faca. Analise a cobertura dessa área ou use-a como escopo da verificação do limite de tinta. Sem seleção, use a página inteira.</div></div>
+<div class="faq-item"><h3 class="faq-question">Quais arquivos PDF são suportados?</h3><div class="faq-answer">Os limites atuais são 50 MB (52.428.800 bytes) por PDF e 100 páginas por documento. O processamento depende do Ghostscript e do conteúdo do PDF; não há garantia de funcionamento para todos os PDFs. Arquivos criptografados, danificados ou complexos podem falhar ou exigir verificações adicionais. Conteúdo RGB, Lab e baseado em ICC pode passar por conversão de cores; confira resultados críticos no seu fluxo de produção.</div></div>
+<div class="faq-item"><h3 class="faq-question">O que significa conteúdo RGB detectado e onde aparecem os perfis?</h3><div class="faq-answer">A página atual contém elementos RGB que precisam ser convertidos para estimar a cobertura CMYK. Os resultados podem diferir das separações da gráfica. Para maior confiabilidade, use um PDF convertido com o perfil CMYK recomendado por ela. Informações de perfis e avisos de inspeção permanecem em Copiar, CSV e Relatório PDF; são omitidos do painel de resultados para mantê-lo compacto. Nomes de perfis são informativos e não escolhem o perfil de conversão. As exportações identificam inspeções incompletas.</div></div>
+<div class="faq-item"><h3 class="faq-question">Como encontro áreas acima de um limite de tinta?</h3><div class="faq-answer">Abra Verificar limite de tinta, defina a porcentagem desejada, escolha os canais incluídos e verifique a página atual ou seleção. Branco, foil, verniz e outros canais técnicos podem ser excluídos individualmente. Os resultados informam o maior total das tintas incluídas e a porcentagem da área acima do limite. A verificação usa renderização de 150 dpi e pode não captar detalhes muito finos. Não modifica a arte nem certifica uma condição de impressão.</div></div>
+<div class="faq-item"><h3 class="faq-question">Qual a diferença entre Mapa de calor e Sobreposição?</h3><div class="faq-answer">Mapa de calor mostra apenas o mapa colorido do limite de tinta em uma página em branco. Sobreposição coloca o mesmo mapa sobre o documento para localizar a arte afetada. Clique no botão ativo para voltar ao documento sozinho. O mapa e os valores se referem à página ou seleção verificada e às tintas incluídas naquela verificação.</div></div>
+<div class="faq-item"><h3 class="faq-question">Posso isolar um canal, incluindo branco, foil ou verniz?</h3><div class="faq-answer">Após analisar a cobertura, use as caixas ao lado das amostras para mostrar ou ocultar canais. Alt-clique mostra apenas esse canal; outro Alt-clique restaura todos. Todos os canais também restaura a seleção completa. Ative Prévia dos canais em preto abaixo da lista para enxergar tintas claras. O PDF precisa definir foil ou verniz como um canal separado para localizá-los. Essas opções afetam apenas a visualização; não mudam medições, exportações ou as tintas incluídas no limite.</div></div>
+<div class="faq-item"><h3 class="faq-question">Posso analisar e exportar várias páginas?</h3><div class="faq-answer">Analisar cobertura de tinta oferece página atual, todas as páginas e intervalo. Com uma seleção, a mesma posição e dimensões são aplicadas a cada página; páginas pequenas demais são ignoradas. Copiar, CSV e Relatório incluem todas as medições concluídas, mesmo ao exibir outra página. O PDF inclui prévias, dimensões, médias de tinta, perfis e verificações do limite concluídas. Lotes parciais são identificados. Cada página analisada consome a cota; os limites de tinta são verificados separadamente na página atual.</div></div>
+<div class="faq-item"><h3 class="faq-question">Quantos uploads, visualizações e análises posso fazer?</h3><div class="faq-answer">Os limites atuais são 10 solicitações de upload, 120 solicitações de visualização de página e 30 solicitações de análise por endereço IP em uma janela móvel de uma hora. Pessoas que compartilham uma rede ou VPN podem compartilhar esses limites. Cada página de um lote conta como uma solicitação de análise separada; aceitar um PDF de 100 páginas não significa que você possa analisar todas as 100 em uma hora. As solicitações admitidas dentro do limite podem contar mesmo que o processamento falhe depois ou o servidor esteja ocupado. A capacidade volta a ficar disponível quando as solicitações anteriores saem da janela de uma hora. Se atingir um limite, aguarde antes de tentar novamente.</div></div>
+<div class="faq-item"><h3 class="faq-question">Por que uma página grande pode ser rejeitada mesmo que o PDF tenha menos de 50 MB?</h3><div class="faq-answer">O tamanho do arquivo, por si só, não determina o trabalho de processamento. Os limites atuais são 20 milhões de pixels renderizados para uma visualização, 5 milhões para uma análise e 10.000 pixels em qualquer um dos lados da página renderizada. Eles dependem das dimensões da página e da resolução de renderização, portanto uma visualização pode funcionar enquanto a análise é rejeitada. Selecionar uma área pequena ainda exige renderizar a página inteira e não evita esses limites. A ferramenta não reduz automaticamente a resolução para ajustar a página ao limite. PDFs complexos também podem exceder os recursos de processamento; tente um PDF com páginas menores ou conteúdo mais simples.</div></div>
+<div class="faq-item"><h3 class="faq-question">O que acontece se o servidor estiver ocupado ou o processamento demorar demais?</h3><div class="faq-answer">O servidor processa atualmente um trabalho PDF por vez para todos os usuários, incluindo a inspeção de uploads, visualizações e análises, e aceita no máximo dois uploads simultâneos. Se não houver capacidade de processamento ou armazenamento, a solicitação retorna uma mensagem de servidor ocupado em vez de aguardar em uma fila. Aguarde um pouco e tente novamente manualmente. A transferência de um upload tem um limite de 120 segundos. Um trabalho de processamento tem um prazo máximo de 150 segundos, embora etapas individuais possam atingir seu limite de tempo antes. Se o tempo se esgotar, tente um PDF mais simples ou uma conexão mais rápida para uploads. Tentativas repetidas podem consumir seu limite por hora.</div></div>
+<div class="faq-item"><h3 class="faq-question">Por que a cobertura de tinta é importante na impressão flexográfica?</h3><div class="faq-answer">A cobertura pode ajudar a estimar o consumo de tinta, mas não calcula diretamente sua massa ou custo nem certifica que o arquivo esteja pronto para impressão. Esses fatores também dependem da tinta, do substrato e do processo de impressão. Confirme os limites de produção com a gráfica e faça as verificações de pré-impressão adequadas.</div></div>
+<div class="faq-item"><h3 class="faq-question">InkCoverage é uma ferramenta completa de preflight?</h3><div class="faq-answer">Não. Oferece cobertura média, mapa do limite de tinta, prévias de canais, dimensões selecionadas e exportações. Não certifica a adequação para impressão, corrige o PDF, identifica todos os problemas de produção ou calcula massa ou custo de tinta. Detalhes finos, conversão de cor, transparência, sobreimpressão e resolução podem afetar as estimativas. Confira resultados críticos no RIP de produção e use verificações de preflight adequadas.</div></div>
+<div class="faq-item"><h3 class="faq-question">Meu arquivo é mantido em sigilo?</h3><div class="faq-answer">Novas visualizações e análises expiram 10 minutos após o upload; usar o PDF não prolonga esse prazo. A limpeza ocorre ao iniciar o servidor e a cada 60 segundos. Os arquivos temporários são removidos quando o processamento termina, e a limpeza tenta remover quaisquer restos. Os originais expirados normalmente são removidos na primeira limpeza após a expiração; o processamento ativo pode terminar antes, e as falhas de remoção são registradas e novas tentativas são feitas, portanto a exclusão física pode demorar mais. Fechar o documento apenas limpa esta visualização do navegador. Os resultados concluídos continuam disponíveis em suas páginas para exportação até fechar ou substituir o documento ou alterar a seleção. Envie o PDF novamente para novas operações. Consulte a <a href="/pt/privacy">Política de Privacidade</a> para todos os detalhes.</div></div>
 </main>
 
-<footer class="footer">
-  <a href="/pt">InkCoverage.app</a> &mdash;
-  <a href="/pt/about">Sobre</a> &mdash;
-  <a href="/pt/faq">FAQ</a> &mdash;
-  <a href="/contact">Contato</a> &mdash;
-  <a href="/privacy">Política de Privacidade</a> &mdash;
-  Analisador de cobertura de tinta gratuito e de código aberto.
-</footer>
+<footer class="footer site-footer"><span class="footer-brand">InkCoverage.app</span><nav aria-label="Navegação do site"><a href="/pt/about">Sobre</a><a href="/pt/faq">FAQ</a><a href="/pt/contact">Contato</a><a href="/pt/privacy">Privacidade</a></nav><span class="footer-caption">Analisador de cobertura de tinta gratuito e de código aberto.</span></footer>
 
 </body>
 </html>

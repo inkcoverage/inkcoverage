@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de privacidade — InkCoverage.app</title>
+<meta name="description" content="Tratamento de arquivos, preferências e contato opcional — InkCoverage.app">
+<link rel="canonical" href="https://inkcoverage.app/pt/privacy">
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+<style>
+
+  :root {
+    --bg: #0b0c10;
+    --surface: #13141a;
+    --border: #252630;
+    --text: #e8e9ed;
+    --text-dim: #8b8d9a;
+    --text-muted: #5c5e6e;
+    --accent: #6c8aff;
+    --cyan-color: #00cfff;
+    --magenta-color: #ff2d95;
+    --yellow-color: #ffd600;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html {
+    min-height: 100%;
+    background:
+      radial-gradient(ellipse 90% 55% at 50% 0%, rgba(108, 138, 255, 0.14) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(255, 45, 149, 0.11) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 10% 100%, rgba(108, 138, 255, 0.07) 0%, transparent 50%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.038;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: transparent;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(19, 20, 26, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-logo {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--cyan-color), var(--magenta-color), var(--yellow-color));
+    flex-shrink: 0;
+  }
+
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+  }
+
+  .brand-ink { color: var(--cyan-color); }
+
+  .header h1 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .header h1 .header-tagline {
+    color: var(--text-dim);
+    font-weight: 400;
+    margin-left: 8px;
+    font-size: 14px;
+  }
+
+  .content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .content h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .last-updated {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+  }
+
+  .content h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  .content p, .content li {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+
+  .content ul {
+    padding-left: 24px;
+    margin-bottom: 12px;
+  }
+
+  .content a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .content a:hover {
+    text-decoration: underline;
+  }
+
+  .footer {
+    padding: 12px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .footer a {
+    color: var(--text-dim);
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    color: var(--text);
+  }
+
+.header-right { margin-left:auto; display:flex; gap:12px; align-items:center; }
+.lang-btn { color:var(--text-dim); text-decoration:none; font-size:13px; padding:4px 7px; }
+.lang-btn.active { color:var(--accent); }
+.try-btn { color:var(--text-dim); text-decoration:none; font-size:14px; }
+</style>
+<link rel="stylesheet" href="/static/app-fonts.css?v=20261015-preview-pages">
+<link rel="stylesheet" href="/static/info-pages.css?v=20261015-preview-pages">
+<meta property="og:title" content="Política de privacidade — InkCoverage.app">
+<meta property="og:description" content="Tratamento de arquivos, preferências e contato opcional — InkCoverage.app">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://inkcoverage.app/pt/privacy">
+<meta property="og:image" content="https://inkcoverage.app/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://inkcoverage.app/static/og-image.png">
+<meta name="twitter:title" content="Política de privacidade — InkCoverage.app">
+<meta name="twitter:description" content="Tratamento de arquivos, preferências e contato opcional — InkCoverage.app">
+<link rel="stylesheet" href="/static/site-chrome.css?v=20261016-seven-languages">
+<script src="/static/site-navigation.js?v=20261016-seven-languages" defer></script>
+<link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/privacy">
+<link rel="alternate" hreflang="en" href="https://inkcoverage.app/privacy">
+<link rel="alternate" hreflang="es" href="https://inkcoverage.app/es/privacy">
+<link rel="alternate" hreflang="pt" href="https://inkcoverage.app/pt/privacy">
+<link rel="alternate" hreflang="zh-Hans" href="https://inkcoverage.app/zh/privacy">
+<link rel="alternate" hreflang="de" href="https://inkcoverage.app/de/privacy">
+<link rel="alternate" hreflang="fr" href="https://inkcoverage.app/fr/privacy">
+<link rel="alternate" hreflang="uk" href="https://inkcoverage.app/uk/privacy">
+</head>
+<body class="info-page">
+<a class="skip-link" href="#main">Ir para a ferramenta</a>
+<header class="header"><a class="brand" href="/pt"><img src="/static/icon.svg" alt=""><span class="brand-title"><span class="brand-ink">Ink</span>Coverage <span class="brand-version">2.0</span><span class="header-tagline">Analisador de cobertura de tinta</span></span></a><div class="header-links"><details class="mobile-site-menu"><summary aria-label="Navegação do site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary><nav class="mobile-site-links" aria-label="Navegação do site"><a href="/pt/about">Sobre</a><a href="/pt/faq">FAQ</a><a href="/pt/contact">Contato</a><a href="/pt/privacy">Privacidade</a></nav></details><nav class="lang-switcher" aria-label="Idioma"><a href="/privacy" class="lang-btn" lang="en" hreflang="en" aria-label="English" title="English" aria-current="false">EN</a><a href="/es/privacy" class="lang-btn" lang="es" hreflang="es" aria-label="Español" title="Español" aria-current="false">ES</a><a href="/pt/privacy" class="lang-btn active" lang="pt" hreflang="pt" aria-label="Português" title="Português" aria-current="page">PT</a><a href="/zh/privacy" class="lang-btn" lang="zh-Hans" hreflang="zh-Hans" aria-label="简体中文" title="简体中文" aria-current="false">ZH</a><a href="/de/privacy" class="lang-btn" lang="de" hreflang="de" aria-label="Deutsch" title="Deutsch" aria-current="false">DE</a><a href="/fr/privacy" class="lang-btn" lang="fr" hreflang="fr" aria-label="Français" title="Français" aria-current="false">FR</a><a href="/uk/privacy" class="lang-btn" lang="uk" hreflang="uk" aria-label="Українська" title="Українська" aria-current="false">UK</a></nav><a href="/pt">Analisador</a></div></header>
+<main class="content" id="main" tabindex="-1">
+<h2>Política de privacidade</h2><p class="last-updated">Última atualização: 16 de outubro de 2026</p>
+<section><h3>1. Processamento do PDF e expiração</h3><p>Seu PDF é enviado ao nosso servidor e processado com Ghostscript. O arquivo, a geometria da página e a seleção solicitada são usados para gerar visualizações e calcular a cobertura. PDFs e imagens temporárias não são enviados a serviços de análise de uso. Não é necessário ter uma conta.</p></section>
+<section><h3>2. Expiração do acesso e limpeza</h3><p>Novas visualizações e análises expiram 10 minutos desde o início do upload. A atividade não prolonga esse prazo. A limpeza ocorre ao iniciar o servidor e a cada 60 segundos. Arquivos temporários normalmente são removidos ao terminar o processamento; a limpeza tenta remover os restos. Originais expirados normalmente são removidos na primeira limpeza após a expiração. O trabalho ativo pode terminar antes. Falhas de remoção são registradas e novas tentativas são feitas, portanto a exclusão física pode demorar mais; não há prazo garantido para a exclusão física. Fechar apenas limpa esta visualização do navegador. Resultados concluídos que correspondam à página e seleção continuam disponíveis para exportação até fechar ou substituir o documento ou alterar a seleção. Envie o PDF novamente para novas operações.</p></section>
+<section><h3>3. Cookies, preferências e resultados operacionais</h3><p>A aplicação não usa Google Analytics, rastreadores de publicidade, cookies de análise de uso, identificadores de visitantes ou gravação de sessões. Fontes e recursos são servidos localmente. localStorage salva apenas idioma e unidades de medida (lang e units). A aplicação não salva ali documentos, seleções, resultados ou mensagens de contato. Visualizações e resultados ficam na memória da página atual; o texto copiado e os CSV baixados permanecem no dispositivo até serem removidos. Contagens agregadas de solicitações de upload, visualização e análise concluídas, rejeitadas, com falha e interrompidas ficam na memória do servidor e são gravadas periodicamente em registros operacionais. Não incluem nomes de arquivos, IDs de documentos, números ou quantidades de páginas, geometria, nomes de tintas, valores de cobertura, IPs ou identificadores do navegador.</p></section>
+<section><h3>4. Limites de solicitações e registros</h3><p>A aplicação usa endereços IP em memória para aplicar cotas compartilhadas. Os registros são liberados após a janela móvel de uma hora, em solicitações posteriores, ou ao reiniciar o servidor. Os lançadores fornecidos desativam o registro de acesso da aplicação. Registros de limpeza e resultados agregados contêm contagens e estados operacionais. Registros de hospedagem, proxy e segurança do Cloudflare podem incluir IPs, metadados das solicitações, horários e estados das respostas. Sua retenção é gerenciada separadamente do prazo dos PDFs; não afirmamos um prazo verificado de exclusão. Não coloque informações confidenciais nas URLs.</p></section>
+<section><h3>5. Transporte e hospedagem</h3><p>O site é distribuído pelo Cloudflare e hospedado na Hetzner. O site principal inkcoverage.app e o site separado beta.inkcoverage.app usam HTTPS do navegador ao Cloudflare e HTTPS com validação do certificado do Cloudflare à origem. A configuração do site principal foi verificada em 16 de outubro de 2026. A prévia local usa HTTP de loopback. O Cloudflare processa o tráfego que passa pelo serviço e pode aplicar cookies de segurança conforme suas configurações.</p></section>
+<section><h3>6. Contato opcional</h3><p>Ao pressionar Enviar mensagem, o formulário envia a mensagem e o e-mail opcional de resposta diretamente ao Web3Forms. O Web3Forms encaminha os envios para que possamos ler e responder. O serviço também pode processar metadados de rede. Mensagens e correspondência ficam separadas do processamento de PDFs e não seguem sua expiração de 10 minutos. A retenção configurada na conta do Web3Forms e o prazo de exclusão da caixa de e-mail destinatária não foram verificados de forma independente. Nenhum PDF ou resultado é anexado automaticamente. Não envie trabalhos confidenciais ou informações pessoais sensíveis.</p></section>
+<section><h3>7. Links externos e provedores</h3><p>Cloudflare e Hetzner fornecem distribuição e hospedagem. Web3Forms é usado apenas para o envio opcional do formulário. Ko-fi é um link opcional de apoio; GitHub e LabelEstimate são links externos. Não são widgets de rastreamento incorporados e só são contatados quando você decide visitá-los. Aplicam-se suas próprias políticas. A aplicação não exibe anúncios. Políticas dos provedores: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare</a>, <a href="https://www.hetzner.com/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">Hetzner</a>, <a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer">Web3Forms</a>, <a href="https://more.ko-fi.com/privacy" target="_blank" rel="noopener noreferrer">Ko-fi</a>.</p></section>
+<section><h3>8. Perguntas e alterações</h3><p>Use o <a href="/pt/contact">formulário de contato</a> para questões de privacidade ou solicitações sobre mensagens que enviou. O e-mail é opcional, mas necessário se quiser uma resposta. Você pode remover as preferências nas configurações de dados do site do navegador. Esta página é atualizada quando o tratamento muda. O código está disponível no <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener noreferrer">GitHub</a>.</p></section>
+</main>
+<footer class="footer site-footer"><span class="footer-brand">InkCoverage.app</span><nav aria-label="Navegação do site"><a href="/pt/about">Sobre</a><a href="/pt/faq">FAQ</a><a href="/pt/contact">Contato</a><a href="/pt/privacy">Privacidade</a></nav><span class="footer-caption">Analisador de cobertura de tinta gratuito e de código aberto.</span></footer>
+</body>
+</html>

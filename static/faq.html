@@ -6,20 +6,7 @@
 <title>FAQ — Ink Coverage, TAC, CMYK & Spot Colors | InkCoverage.app</title>
 <meta name="description" content="Answers to common questions about ink coverage, Total Area Coverage (TAC), CMYK, spot colors, and how to use InkCoverage.app for PDF prepress analysis.">
 <link rel="canonical" href="https://inkcoverage.app/faq">
-<link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/faq">
-<link rel="alternate" hreflang="en"      href="https://inkcoverage.app/faq">
-<link rel="alternate" hreflang="es"      href="https://inkcoverage.app/es/faq">
-<link rel="alternate" hreflang="pt"      href="https://inkcoverage.app/pt/faq">
-<link rel="alternate" hreflang="zh-Hans" href="https://inkcoverage.app/zh/faq">
 <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
-<!-- Google Analytics (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2FNRM9GVXD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-2FNRM9GVXD');
-</script>
 <!-- FAQPage structured data -->
 <script type="application/ld+json">
 {
@@ -31,7 +18,7 @@
       "name": "What is ink coverage?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Ink coverage is the percentage of a surface area covered by ink on a printed page. A fully solid cyan area has 100% cyan coverage; a 50% halftone has roughly 50% coverage. Coverage matters for estimating ink consumption, verifying print specifications, and controlling production costs."
+        "text": "Measure average coverage for each CMYK and spot-color channel across a PDF page or selected area. Each channel value is its average ink coverage across the measured area, including blank space and tints. Combined averages add the channel values: 100% cyan plus 100% magenta gives 200%. CMYK and spot totals are shown separately; the all-channel sum includes both. None of these totals is the maximum local coverage. Coverage can support ink-consumption estimates, but does not directly calculate ink mass or cost and does not certify print readiness. These also depend on the ink, substrate and printing process. Confirm production limits with your printer and use suitable preflight checks."
       }
     },
     {
@@ -39,15 +26,15 @@
       "name": "What is TAC (Total Area Coverage)?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Total Area Coverage (TAC), also called Total Ink Limit (TIL), is the sum of all ink channels on a single pixel. A pixel with 80% C + 70% M + 60% Y + 40% K has a TAC of 250%. Print standards define maximum TAC limits to prevent slow drying, ink setoff, and paper damage: typically 300–320% for offset on coated paper, 260–280% on uncoated, and 200–260% for flexo and digital. If you suspect a specific area in your file is over the TAC limit, draw a crop rectangle around that area and check the combined ink total for just that region."
+        "text": "Local TAC adds the ink percentages at one point. Analyze Ink Coverage reports averages across the measured area; a low average can hide a small heavy-ink area. Check ink limit examines the rendered pixels of the current page or selection and reports the highest total and the percentage of that area above your limit, using only the included channels. Confirm the target limit with your printer for the intended process and substrate."
       }
     },
     {
       "@type": "Question",
-      "name": "What are spot colors and how are they detected?",
+      "name": "How are spot colors displayed?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Spot colors (Pantone, HKS, custom inks) are pre-mixed inks printed from their own plate, separate from CMYK. InkCoverage.app detects every spot color channel present in the PDF and reports its coverage percentage individually."
+        "text": "Named spot separations rendered by Ghostscript are listed separately from CMYK. Their swatches and channel previews use the color defined in the PDF, rather than a color guessed from the ink name. A channel named P485 may therefore appear green if that is its document definition. White, foil, varnish and cutting guides may also be spot channels. Use the channel checkboxes to inspect their location; the name alone does not establish their production purpose."
       }
     },
     {
@@ -55,15 +42,15 @@
       "name": "How accurate is the ink coverage measurement?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Ghostscript separates the PDF into per-channel TIFF files at 72 DPI, then each channel is pixel-counted. At 72 DPI the result is accurate to within a fraction of a percent for typical artwork. Extremely fine detail such as hairlines or micro-text may average slightly, but overall coverage figures are reliable for ink estimation and specification checking."
+        "text": "Results are practical estimates of average ink coverage across a page or selection. Fine details, small selections, colour conversion, overprint and transparency can affect results. Two decimal places do not guarantee accuracy; check colour-critical jobs against your printer’s separations."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I measure a specific area instead of the full page?",
+      "name": "Can I measure a selected area or approximate label size?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Use the crop tool — click and drag on the page preview to draw a measurement rectangle, then resize it with the corner handles. This is useful for isolating a logo, barcode, label panel, color patch, or any suspicious high-coverage area without the surrounding white space affecting the result."
+        "text": "Yes. Drag on the page preview, then adjust the corner handles. The selected width, height and area are shown in the document panel. This can help estimate label or keyline dimensions, but it is a manual selection rather than automatic dieline recognition. Analyze coverage for that area or select it as the scope of an ink-limit check. Without a selection, use the whole page."
       }
     },
     {
@@ -71,7 +58,71 @@
       "name": "What PDF files are supported?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Any standard PDF up to 50 MB, including files with CMYK, RGB, Lab, or mixed colorspaces. Ghostscript handles color conversion automatically. PDFs exported from Illustrator, InDesign, Acrobat, and most RIP workflows are all supported."
+        "text": "Current upload limits are 50 MB (52,428,800 bytes) per PDF and 100 pages per document. Processing depends on Ghostscript and the PDF content; not every PDF is guaranteed to work. Encrypted, malformed or complex files may fail or need further checking. RGB, Lab and ICC-based content can undergo color conversion, so verify color-critical results against your production workflow."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does RGB content detected mean, and where are profiles shown?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The current page contains RGB content, which must be converted to estimate CMYK coverage. Results may differ from your printer’s separations. For more reliable results, use a PDF converted with your printer’s recommended CMYK profile. Profile information and color-inspection notices are retained in Copy, CSV and PDF Report; they are omitted from the results pane to keep it compact. Detected profile names are informational and do not select the conversion profile. Incomplete inspection is identified in the exports."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I find areas above an ink limit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open Check ink limit, set the target percentage, choose the channels to count, and check the current page or selection. White, foil, varnish and other technical channels can be excluded individually. Results give the highest included-ink total and the percentage of the checked area above the limit. The check uses a 150-DPI rendering, so very fine features may be missed. It does not modify the artwork or certify a printing condition."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between Heatmap and Overlay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Heatmap shows only the colored ink-limit map on a blank page. Overlay puts the same map over the document so you can locate the affected artwork. Click the active button to return to the document alone. The map and readings refer to the checked page or selection and the inks included in that check."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I isolate a channel, including white, foil or varnish?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "After coverage analysis, use the checkboxes beside the ink swatches to show or hide channels. Alt-click a channel to show it alone; Alt-click it again to restore all channels. All channels also restores the full selection. Enable Channel preview in black below the list to make light inks visible. The PDF must define foil or varnish as a separate channel for this to locate them. Preview choices affect only the view; they do not change measurements, exports or the channels included in an ink-limit check."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I analyze and export several pages?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Analyze Ink Coverage offers current page, all pages and page range. If an area is selected, the same position and dimensions apply on each chosen page; pages too small for it are skipped. Copy, CSV and Report include all completed page measurements, even when another page is displayed. The PDF report includes previews, dimensions, ink averages, profiles and completed ink-limit checks. Partial batches are labeled. Each analyzed page uses the analysis allowance; ink-limit checks are run separately on the current page."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many uploads, previews and analyses can I make?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The current allowances are 10 upload requests, 120 page-preview requests and 30 analysis requests per IP address in a rolling one-hour window. People sharing a network or VPN may share these allowances. Each page in a batch counts as a separate analysis request; accepting a 100-page PDF does not mean you can analyze all 100 pages within one hour. Requests admitted to an allowance can count even if processing later fails or the server is busy. Allowance becomes available as earlier requests leave the one-hour window. If you reach a limit, wait before retrying."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why can a large page be rejected even when the PDF is under 50 MB?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "File size alone does not determine processing work. The current limits are 20 million rendered pixels for a preview, 5 million for analysis, and 10,000 pixels on either side of the rendered page. These limits depend on page dimensions and rendering resolution, so a preview may work while analysis is rejected. Selecting a small area still requires rendering the full page and does not bypass these limits. The tool does not automatically lower resolution to make a page fit. Complex PDFs may also exceed processing resources; try a PDF with smaller pages or simpler content."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if the server is busy or processing takes too long?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The server currently processes one PDF job at a time across all users, including upload inspection, previews and analyses, and accepts at most two simultaneous uploads. If processing or storage capacity is unavailable, the request returns a busy message instead of waiting in a queue. Wait briefly and retry manually. Upload transfer has a 120-second limit. A processing job has a maximum budget of 150 seconds, although individual processing steps may time out sooner. If a timeout occurs, try a simpler PDF or a faster connection for uploads. Repeated retries can use your hourly allowance."
       }
     },
     {
@@ -79,15 +130,15 @@
       "name": "Why is ink coverage important in flexo printing?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Flexography is widely used for labels, packaging, and flexible materials, where ink costs are significant and TAC limits are tighter than offset — often 220–260%. High coverage areas are also prone to dot gain and ink fill on fine reverses. Checking coverage before sending to press helps avoid reprints and specification rejections."
+        "text": "Coverage can support ink-consumption estimates, but does not directly calculate ink mass or cost and does not certify print readiness. These also depend on the ink, substrate and printing process. Confirm production limits with your printer and use suitable preflight checks."
       }
     },
     {
       "@type": "Question",
-      "name": "How is this different from Acrobat Pro's ink coverage tool?",
+      "name": "Is InkCoverage a full preflight tool?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Acrobat Pro shows a per-channel coverage display for the visible page area. InkCoverage.app adds batch analysis across all pages at once, crop-area measurement for specific regions, CSV export for spreadsheet workflows, and works entirely in the browser with no software license required."
+        "text": "No. It provides average coverage, an ink-limit map, channel previews, selected dimensions and exports. It does not certify print readiness, correct the PDF, identify every production issue or calculate ink mass or cost. Fine details, color conversion, transparency, overprint and rendering resolution can affect the estimates. Check critical results against your production RIP and use suitable preflight checks."
       }
     },
     {
@@ -95,15 +146,12 @@
       "name": "Is my file kept private?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Your PDF is processed on the server and automatically deleted after 10 minutes. It is never stored permanently, shared, or used for any purpose other than the ink coverage calculation."
+        "text": "New previews and analyses expire 10 minutes from upload; using the PDF does not extend this time. Cleanup runs on startup and every 60 seconds. Temporary outputs are removed when processing finishes, and cleanup retries any leftovers. Expired originals are normally removed on the first cleanup after expiry; active processing can finish first, and removal failures are logged and retried, so physical deletion may take longer. Closing the document only clears this browser view. Completed results remain exportable on their pages until you close or replace the document or change the selection. Upload the PDF again for new work. See the Privacy Policy for full details."
       }
     }
   ]
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:#0b0c10; --surface:#13141a; --surface2:#1b1c24;
@@ -148,87 +196,64 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:1000;o
 .footer{padding:14px 24px;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--text-muted);}
 .footer a{color:var(--text-dim);text-decoration:none;margin:0 4px;}
 .footer a:hover{color:var(--text);}
-@media(max-width:600px){.content{padding:32px 16px 60px;}.header-page{display:none;}}
+@media(max-width:600px){.content{padding:32px 16px 60px;}.header{padding:14px 16px;flex-wrap:wrap;}.header-sep,.header-page{display:none;}.header-right{flex-basis:100%;margin-left:0;justify-content:flex-end;}}
 </style>
+<link rel="stylesheet" href="/static/app-fonts.css?v=20261015-preview-pages">
+<link rel="stylesheet" href="/static/info-pages.css?v=20261015-preview-pages">
+<meta property="og:title" content="FAQ — Ink Coverage, TAC, CMYK &amp; Spot Colors | InkCoverage.app">
+<meta property="og:description" content="Answers to common questions about ink coverage, Total Area Coverage (TAC), CMYK, spot colors, and how to use InkCoverage.app for PDF prepress analysis.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://inkcoverage.app/faq">
+<meta property="og:image" content="https://inkcoverage.app/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://inkcoverage.app/static/og-image.png">
+<meta name="twitter:title" content="FAQ — Ink Coverage, TAC, CMYK &amp; Spot Colors | InkCoverage.app">
+<meta name="twitter:description" content="Answers to common questions about ink coverage, Total Area Coverage (TAC), CMYK, spot colors, and how to use InkCoverage.app for PDF prepress analysis.">
+<link rel="stylesheet" href="/static/site-chrome.css?v=20261016-seven-languages">
+<script src="/static/site-navigation.js?v=20261016-seven-languages" defer></script>
+<link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/faq">
+<link rel="alternate" hreflang="en" href="https://inkcoverage.app/faq">
+<link rel="alternate" hreflang="es" href="https://inkcoverage.app/es/faq">
+<link rel="alternate" hreflang="pt" href="https://inkcoverage.app/pt/faq">
+<link rel="alternate" hreflang="zh-Hans" href="https://inkcoverage.app/zh/faq">
+<link rel="alternate" hreflang="de" href="https://inkcoverage.app/de/faq">
+<link rel="alternate" hreflang="fr" href="https://inkcoverage.app/fr/faq">
+<link rel="alternate" hreflang="uk" href="https://inkcoverage.app/uk/faq">
 </head>
-<body>
+<body class="info-page">
+<a class="skip-link" href="#main">Skip to the tool</a>
 
-<header class="header">
-  <img src="/static/icon.svg" class="header-logo" alt="InkCoverage logo">
-  <a href="/" class="header-brand"><span class="brand-ink">Ink</span>Coverage</a>
-  <span class="header-sep">/</span>
-  <span class="header-page">FAQ</span>
-  <div class="header-right">
-    <div class="lang-switcher">
-      <a href="/faq" class="lang-btn active">EN</a>
-      <a href="/es/faq" class="lang-btn">ES</a>
-      <a href="/pt/faq" class="lang-btn">PT</a>
-      <a href="/zh/faq" class="lang-btn">ZH</a>
-    </div>
-    <a href="/" class="try-btn">← Analyzer</a>
-  </div>
-</header>
+<header class="header"><a class="brand" href="/"><img src="/static/icon.svg" alt=""><span class="brand-title"><span class="brand-ink">Ink</span>Coverage <span class="brand-version">2.0</span><span class="header-tagline">Ink Coverage Analyzer</span></span></a><div class="header-links"><details class="mobile-site-menu"><summary aria-label="Site navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary><nav class="mobile-site-links" aria-label="Site navigation"><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a></nav></details><nav class="lang-switcher" aria-label="Language"><a href="/faq" class="lang-btn active" lang="en" hreflang="en" aria-label="English" title="English" aria-current="page">EN</a><a href="/es/faq" class="lang-btn" lang="es" hreflang="es" aria-label="Español" title="Español" aria-current="false">ES</a><a href="/pt/faq" class="lang-btn" lang="pt" hreflang="pt" aria-label="Português" title="Português" aria-current="false">PT</a><a href="/zh/faq" class="lang-btn" lang="zh-Hans" hreflang="zh-Hans" aria-label="简体中文" title="简体中文" aria-current="false">ZH</a><a href="/de/faq" class="lang-btn" lang="de" hreflang="de" aria-label="Deutsch" title="Deutsch" aria-current="false">DE</a><a href="/fr/faq" class="lang-btn" lang="fr" hreflang="fr" aria-label="Français" title="Français" aria-current="false">FR</a><a href="/uk/faq" class="lang-btn" lang="uk" hreflang="uk" aria-label="Українська" title="Українська" aria-current="false">UK</a></nav><a href="/">Analyzer</a></div></header>
 
-<main class="content">
+<main class="content" id="main" tabindex="-1">
 
   <h2>Frequently Asked Questions</h2>
   <p class="intro">Common questions about ink coverage, print standards, and how InkCoverage.app works.</p>
 
-  <div class="faq-item">
-    <div class="faq-question">What is ink coverage?</div>
-    <div class="faq-answer">Ink coverage is the percentage of a surface area covered by ink on a printed page. A fully solid cyan area has 100% cyan coverage; a 50% halftone has roughly 50% coverage. Coverage matters for estimating ink consumption, verifying print specifications, and controlling production costs.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">What is TAC (Total Area Coverage)?</div>
-    <div class="faq-answer">Total Area Coverage (TAC) — also called Total Ink Limit (TIL) — is the sum of all ink channels on a single pixel. A pixel with 80% C + 70% M + 60% Y + 40% K has a TAC of 250%. Print standards define maximum TAC limits to prevent slow drying, ink setoff, and paper damage: typically 300–320% for offset on coated paper, 260–280% on uncoated, and 200–260% for flexo and digital. If you suspect a specific area in your file is over the limit, draw a crop rectangle around that region and check the combined ink total — you'll get the average coverage for exactly the area you're concerned about.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">What are spot colors and how are they detected?</div>
-    <div class="faq-answer">Spot colors (Pantone, HKS, custom inks) are pre-mixed inks printed from their own plate, separate from CMYK. InkCoverage.app detects every spot color channel present in the PDF and reports its coverage percentage individually — so a file with CMYK plus two Pantone colors will show six separate channels in the results.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">How accurate is the ink coverage measurement?</div>
-    <div class="faq-answer">Ghostscript separates the PDF into per-channel TIFF files at 72 DPI, then each channel is pixel-counted. At 72 DPI the result is accurate to within a fraction of a percent for typical artwork. Extremely fine detail — hairlines, micro-text — may average slightly, but overall coverage figures are reliable for ink estimation and specification checking.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">Can I measure a specific area instead of the full page?</div>
-    <div class="faq-answer">Yes. Use the crop tool — click and drag on the page preview to draw a measurement rectangle, then resize it using the corner handles. This is useful for isolating a logo, barcode, label panel, color patch, or any area you suspect may be over a TAC limit — without the surrounding white space affecting the result.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">What PDF files are supported?</div>
-    <div class="faq-answer">Any standard PDF up to 50 MB, including files with CMYK, RGB, Lab, or mixed colorspaces. Ghostscript handles color conversion automatically. PDFs exported from Illustrator, InDesign, Acrobat, and most RIP workflows are all supported. Files with spot colors (Pantone, HKS, custom) are fully handled — each spot appears as a separate channel.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">Why is ink coverage important in flexo printing?</div>
-    <div class="faq-answer">Flexography is widely used for labels, packaging, and flexible materials, where ink costs are significant and TAC limits are tighter than offset — often 220–260%. High-coverage areas are also prone to dot gain and ink fill on fine reverses. Checking coverage before sending to press helps avoid reprints and specification rejections.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">How is this different from Acrobat Pro's ink coverage tool?</div>
-    <div class="faq-answer">Acrobat Pro's Output Preview shows per-channel coverage for the visible page area. InkCoverage.app adds batch analysis across all pages at once, crop-area measurement for specific regions, CSV export for spreadsheet workflows, and works entirely in the browser — no software license required.</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">Is my file kept private?</div>
-    <div class="faq-answer">Your PDF is processed on the server and automatically deleted after 10 minutes. It is never stored permanently, shared, or used for any purpose other than the ink coverage calculation. See the <a href="/privacy">Privacy Policy</a> for full details.</div>
-  </div>
-
+<div class="faq-item"><h3 class="faq-question">What is ink coverage?</h3><div class="faq-answer">Measure average coverage for each CMYK and spot-color channel across a PDF page or selected area. Each channel value is its average ink coverage across the measured area, including blank space and tints. Combined averages add the channel values: 100% cyan plus 100% magenta gives 200%. CMYK and spot totals are shown separately; the all-channel sum includes both. None of these totals is the maximum local coverage. Coverage can support ink-consumption estimates, but does not directly calculate ink mass or cost and does not certify print readiness. These also depend on the ink, substrate and printing process. Confirm production limits with your printer and use suitable preflight checks.</div></div>
+<div class="faq-item"><h3 class="faq-question">What is TAC (Total Area Coverage)?</h3><div class="faq-answer">Local TAC adds the ink percentages at one point. Analyze Ink Coverage reports averages across the measured area; a low average can hide a small heavy-ink area. Check ink limit examines the rendered pixels of the current page or selection and reports the highest total and the percentage of that area above your limit, using only the included channels. Confirm the target limit with your printer for the intended process and substrate.</div></div>
+<div class="faq-item"><h3 class="faq-question">How are spot colors displayed?</h3><div class="faq-answer">Named spot separations rendered by Ghostscript are listed separately from CMYK. Their swatches and channel previews use the color defined in the PDF, rather than a color guessed from the ink name. A channel named P485 may therefore appear green if that is its document definition. White, foil, varnish and cutting guides may also be spot channels. Use the channel checkboxes to inspect their location; the name alone does not establish their production purpose.</div></div>
+<div class="faq-item"><h3 class="faq-question">How accurate is the ink coverage measurement?</h3><div class="faq-answer">Results are practical estimates of average ink coverage across a page or selection. Fine details, small selections, colour conversion, overprint and transparency can affect results. Two decimal places do not guarantee accuracy; check colour-critical jobs against your printer’s separations.</div></div>
+<div class="faq-item"><h3 class="faq-question">Can I measure a selected area or approximate label size?</h3><div class="faq-answer">Yes. Drag on the page preview, then adjust the corner handles. The selected width, height and area are shown in the document panel. This can help estimate label or keyline dimensions, but it is a manual selection rather than automatic dieline recognition. Analyze coverage for that area or select it as the scope of an ink-limit check. Without a selection, use the whole page.</div></div>
+<div class="faq-item"><h3 class="faq-question">What PDF files are supported?</h3><div class="faq-answer">Current upload limits are 50 MB (52,428,800 bytes) per PDF and 100 pages per document. Processing depends on Ghostscript and the PDF content; not every PDF is guaranteed to work. Encrypted, malformed or complex files may fail or need further checking. RGB, Lab and ICC-based content can undergo color conversion, so verify color-critical results against your production workflow.</div></div>
+<div class="faq-item"><h3 class="faq-question">What does RGB content detected mean, and where are profiles shown?</h3><div class="faq-answer">The current page contains RGB content, which must be converted to estimate CMYK coverage. Results may differ from your printer’s separations. For more reliable results, use a PDF converted with your printer’s recommended CMYK profile. Profile information and color-inspection notices are retained in Copy, CSV and PDF Report; they are omitted from the results pane to keep it compact. Detected profile names are informational and do not select the conversion profile. Incomplete inspection is identified in the exports.</div></div>
+<div class="faq-item"><h3 class="faq-question">How do I find areas above an ink limit?</h3><div class="faq-answer">Open Check ink limit, set the target percentage, choose the channels to count, and check the current page or selection. White, foil, varnish and other technical channels can be excluded individually. Results give the highest included-ink total and the percentage of the checked area above the limit. The check uses a 150-DPI rendering, so very fine features may be missed. It does not modify the artwork or certify a printing condition.</div></div>
+<div class="faq-item"><h3 class="faq-question">What is the difference between Heatmap and Overlay?</h3><div class="faq-answer">Heatmap shows only the colored ink-limit map on a blank page. Overlay puts the same map over the document so you can locate the affected artwork. Click the active button to return to the document alone. The map and readings refer to the checked page or selection and the inks included in that check.</div></div>
+<div class="faq-item"><h3 class="faq-question">Can I isolate a channel, including white, foil or varnish?</h3><div class="faq-answer">After coverage analysis, use the checkboxes beside the ink swatches to show or hide channels. Alt-click a channel to show it alone; Alt-click it again to restore all channels. All channels also restores the full selection. Enable Channel preview in black below the list to make light inks visible. The PDF must define foil or varnish as a separate channel for this to locate them. Preview choices affect only the view; they do not change measurements, exports or the channels included in an ink-limit check.</div></div>
+<div class="faq-item"><h3 class="faq-question">Can I analyze and export several pages?</h3><div class="faq-answer">Analyze Ink Coverage offers current page, all pages and page range. If an area is selected, the same position and dimensions apply on each chosen page; pages too small for it are skipped. Copy, CSV and Report include all completed page measurements, even when another page is displayed. The PDF report includes previews, dimensions, ink averages, profiles and completed ink-limit checks. Partial batches are labeled. Each analyzed page uses the analysis allowance; ink-limit checks are run separately on the current page.</div></div>
+<div class="faq-item"><h3 class="faq-question">How many uploads, previews and analyses can I make?</h3><div class="faq-answer">The current allowances are 10 upload requests, 120 page-preview requests and 30 analysis requests per IP address in a rolling one-hour window. People sharing a network or VPN may share these allowances. Each page in a batch counts as a separate analysis request; accepting a 100-page PDF does not mean you can analyze all 100 pages within one hour. Requests admitted to an allowance can count even if processing later fails or the server is busy. Allowance becomes available as earlier requests leave the one-hour window. If you reach a limit, wait before retrying.</div></div>
+<div class="faq-item"><h3 class="faq-question">Why can a large page be rejected even when the PDF is under 50 MB?</h3><div class="faq-answer">File size alone does not determine processing work. The current limits are 20 million rendered pixels for a preview, 5 million for analysis, and 10,000 pixels on either side of the rendered page. These limits depend on page dimensions and rendering resolution, so a preview may work while analysis is rejected. Selecting a small area still requires rendering the full page and does not bypass these limits. The tool does not automatically lower resolution to make a page fit. Complex PDFs may also exceed processing resources; try a PDF with smaller pages or simpler content.</div></div>
+<div class="faq-item"><h3 class="faq-question">What happens if the server is busy or processing takes too long?</h3><div class="faq-answer">The server currently processes one PDF job at a time across all users, including upload inspection, previews and analyses, and accepts at most two simultaneous uploads. If processing or storage capacity is unavailable, the request returns a busy message instead of waiting in a queue. Wait briefly and retry manually. Upload transfer has a 120-second limit. A processing job has a maximum budget of 150 seconds, although individual processing steps may time out sooner. If a timeout occurs, try a simpler PDF or a faster connection for uploads. Repeated retries can use your hourly allowance.</div></div>
+<div class="faq-item"><h3 class="faq-question">Why is ink coverage important in flexo printing?</h3><div class="faq-answer">Coverage can support ink-consumption estimates, but does not directly calculate ink mass or cost and does not certify print readiness. These also depend on the ink, substrate and printing process. Confirm production limits with your printer and use suitable preflight checks.</div></div>
+<div class="faq-item"><h3 class="faq-question">Is InkCoverage a full preflight tool?</h3><div class="faq-answer">No. It provides average coverage, an ink-limit map, channel previews, selected dimensions and exports. It does not certify print readiness, correct the PDF, identify every production issue or calculate ink mass or cost. Fine details, color conversion, transparency, overprint and rendering resolution can affect the estimates. Check critical results against your production RIP and use suitable preflight checks.</div></div>
+<div class="faq-item"><h3 class="faq-question">Is my file kept private?</h3><div class="faq-answer">New previews and analyses expire 10 minutes from upload; using the PDF does not extend this time. Cleanup runs on startup and every 60 seconds. Temporary outputs are removed when processing finishes, and cleanup retries any leftovers. Expired originals are normally removed on the first cleanup after expiry; active processing can finish first, and removal failures are logged and retried, so physical deletion may take longer. Closing the document only clears this browser view. Completed results remain exportable on their pages until you close or replace the document or change the selection. Upload the PDF again for new work. See the <a href="/privacy">Privacy Policy</a> for full details.</div></div>
 </main>
 
-<footer class="footer">
-  <a href="/">InkCoverage.app</a> &mdash;
-  <a href="/about">About</a> &mdash;
-  <a href="/faq">FAQ</a> &mdash;
-  <a href="/contact">Contact</a> &mdash;
-  <a href="/privacy">Privacy Policy</a> &mdash;
-  Free, open-source ink coverage analyzer.
-</footer>
+<footer class="footer site-footer"><span class="footer-brand">InkCoverage.app</span><nav aria-label="Site navigation"><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a></nav><span class="footer-caption">Free, open-source ink coverage analyzer.</span></footer>
 
 </body>
 </html>

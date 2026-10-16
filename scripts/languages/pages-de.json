@@ -1,0 +1,167 @@
+{
+  "analyzer": "Analyse",
+  "about_title": "Über InkCoverage.app",
+  "about_desc": "Kostenlose, quelloffene PDF-Farbauftragsanalyse für Druckkalkulation, Druckvorstufe und Design.",
+  "about": [
+    [
+      "Was ist das?",
+      "InkCoverage ist ein kostenloser Helfer im Browser für Druckkalkulation, Druckvorstufe und Design. Er misst den mittleren Farbauftrag von CMYK- und benannten Sonderfarbkanälen in PDF-Druckdaten und hilft bei der Prüfung von Farben und ausgewählten Abmessungen."
+    ],
+    [
+      "Was kann es?",
+      "Farbauftrag analysieren misst die aktuelle Seite, alle Seiten oder einen Seitenbereich, optional mit einer Auswahl. Farbauftragsgrenze prüfen findet gerenderte Bereiche über einem Zielwert auf der aktuellen Seite oder Auswahl. Wählen Sie die zählenden Farben; Weiß, Folie, Lack und technische Kanäle können ausgeschlossen werden. Lesen Sie die höchste Summe und den Flächenanteil über dem Grenzwert ab und lokalisieren Sie die Stellen mit Heatmap oder Überlagerung."
+    ],
+    [
+      "Für wen ist es gedacht?",
+      "Für Kalkulatoren, die Druckdaten schnell prüfen und Farbauftragsdaten benötigen, sowie Fachkräfte, die Separationen oder Stellen mit hohem Farbauftrag untersuchen. InkCoverage ist ein praktischer Helfer und keine vollständige Preflight-Suite."
+    ],
+    [
+      "",
+      "@help_tip"
+    ],
+    [
+      "Was kann ich noch prüfen?",
+      "Kontrollkästchen zeigen, wo jede Farbe verwendet wird, auch Folie oder Lack, sofern die PDF diese als Sonderfarbkanäle definiert. Alt-Klick isoliert einen Kanal; die Schwarzvorschau macht helle Farben sichtbar. Eine Auswahl liefert ungefähre Etiketten- oder Konturabmessungen. Kopieren, CSV und PDF-Bericht sammeln alle abgeschlossenen Seitenmessungen; Berichte enthalten auch abgeschlossene Grenzwertprüfungen und Profilinformationen."
+    ],
+    [
+      "Warum gibt es das Werkzeug?",
+      "Es entstand aus einem konkreten Bedarf in der Druckindustrie: Eingehende PDFs sollten schnell auf Farbauftrag geprüft werden können, ohne dafür eine vollständige Druckvorstufenanwendung zu starten. Ein passendes kostenloses Werkzeug fehlte. Deshalb wurde es entwickelt und allen mit demselben Problem zur Verfügung gestellt."
+    ],
+    [
+      "Wie funktioniert es?",
+      "Die Dateien werden auf dem Server mit <strong>Ghostscript</strong>, dem quelloffenen PostScript- und PDF-Interpreter, verarbeitet. Ein Python-Backend steuert die Analyse. Jeder Kanal wird separat ausgegeben und gemessen."
+    ],
+    [
+      "",
+      "@retention"
+    ],
+    [
+      "",
+      "InkCoverage.app ist quelloffene Software unter AGPL-3.0. Der vollständige Quellcode ist auf <a href=\"https://github.com/inkcoverage/inkcoverage\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a> verfügbar."
+    ]
+  ],
+  "faq_title": "Häufige Fragen",
+  "faq_desc": "Antworten zu Farbauftrag, TAC, CMYK, Sonderfarben und PDF-Druckvorstufe mit InkCoverage.app.",
+  "faq_intro": "Häufige Fragen zu Farbauftrag, Druckvorgaben und der Funktionsweise von InkCoverage.app.",
+  "faq": [
+    [
+      "Was ist Farbauftrag?",
+      "Gemessen wird der mittlere Farbauftrag jedes CMYK- und Sonderfarbkanals über eine PDF-Seite oder Auswahl, einschließlich Leerflächen und Tonwerten. Die Summen addieren diese Mittelwerte: 100 % Cyan plus 100 % Magenta ergeben 200 %. CMYK und Sonderfarben werden getrennt summiert; die Gesamtsumme umfasst beide. Keine dieser Summen ist der höchste lokale Farbauftrag. @help_tip"
+    ],
+    [
+      "Was ist TAC (Gesamtfarbauftrag)?",
+      "Lokaler TAC addiert die Farbanteile an einem Punkt. Farbauftrag analysieren liefert Flächenmittelwerte; ein niedriger Mittelwert kann kleine stark eingefärbte Stellen verdecken. Farbauftragsgrenze prüfen untersucht die gerenderten Pixel der aktuellen Seite oder Auswahl und nennt die höchste Summe und den Flächenanteil über dem Grenzwert, nur für die einbezogenen Farben. Den Zielwert für Verfahren und Bedruckstoff mit der Druckerei abstimmen."
+    ],
+    [
+      "Wie werden Sonderfarben angezeigt?",
+      "Von Ghostscript gerenderte benannte Sonderfarbseparationen werden getrennt von CMYK aufgeführt. Farbfelder und Kanalvorschauen verwenden die in der PDF definierte Farbe, keine Vermutung anhand des Namens. Ein Kanal namens P485 kann daher grün sein. Auch Weiß, Folie, Lack und Stanzkonturen können Sonderfarbkanäle sein. Ihre Lage lässt sich mit den Kontrollkästchen prüfen; der Name allein belegt ihren Produktionszweck nicht."
+    ],
+    [
+      "Wie genau ist die Messung?",
+      "Die Ergebnisse sind praktische Schätzungen des mittleren Farbauftrags auf einer Seite oder Auswahl. Feine Details, kleine Auswahlen, Farbkonvertierung, Überdrucken und Transparenz können sie beeinflussen. Zwei Dezimalstellen garantieren keine Genauigkeit; farbkritische Aufträge mit den Separationen der Druckerei vergleichen."
+    ],
+    [
+      "Kann ich eine Auswahl oder Etikettengröße messen?",
+      "Ja. Auf der Vorschau ziehen und die Eckgriffe anpassen. Breite, Höhe und Fläche werden im Dokumentbereich angezeigt. Das hilft bei der Schätzung von Etiketten- oder Stanzkonturmaßen, ist aber eine manuelle Auswahl, keine automatische Stanzformerkennung. Den Farbauftrag dieser Fläche analysieren oder sie als Prüfbereich der Grenzwertprüfung wählen. Ohne Auswahl wird die ganze Seite verwendet."
+    ],
+    [
+      "Welche PDF-Dateien werden unterstützt?",
+      "Die aktuellen Grenzen sind 50 MB (52.428.800 Byte) pro PDF und 100 Seiten pro Dokument. Die Verarbeitung hängt von Ghostscript und dem PDF-Inhalt ab; nicht jede PDF funktioniert garantiert. Verschlüsselte, beschädigte oder komplexe Dateien können scheitern oder weitere Prüfung erfordern. RGB-, Lab- und ICC-Inhalte können konvertiert werden; farbkritische Ergebnisse mit dem Produktionsablauf abgleichen."
+    ],
+    [
+      "Was bedeutet RGB-Inhalte erkannt und wo stehen die Profile?",
+      "Die aktuelle Seite enthält RGB-Inhalte, die zur CMYK-Schätzung konvertiert werden müssen. Ergebnisse können von den Separationen Ihrer Druckerei abweichen. Eine mit dem empfohlenen CMYK-Profil konvertierte PDF verwenden. Profilinformationen und Hinweise zur Farbprüfung bleiben in Kopieren, CSV und PDF-Bericht erhalten; im Ergebnisbereich werden sie aus Platzgründen ausgeblendet. Erkannte Profilnamen dienen der Information und wählen kein Konvertierungsprofil aus. Unvollständige Prüfungen werden in den Exporten gekennzeichnet."
+    ],
+    [
+      "Wie finde ich Stellen über einer Farbauftragsgrenze?",
+      "Farbauftragsgrenze prüfen öffnen, Zielprozentwert festlegen, Farben wählen und die aktuelle Seite oder Auswahl prüfen. Weiß, Folie, Lack und technische Kanäle lassen sich einzeln ausschließen. Ergebnisse nennen die höchste Summe der einbezogenen Farben und den Flächenanteil über dem Grenzwert. Die Prüfung rendert mit 150 DPI; sehr feine Details können fehlen. Sie verändert keine Druckdaten und zertifiziert keine Druckbedingung."
+    ],
+    [
+      "Was unterscheidet Heatmap und Überlagerung?",
+      "Heatmap zeigt nur die farbige Grenzwertkarte auf leerer Seite. Überlagerung legt dieselbe Karte über das Dokument, um die betroffenen Stellen zu lokalisieren. Der aktive Knopf führt zum Dokument allein zurück. Karte und Werte gelten für die geprüfte Seite oder Auswahl und die einbezogenen Farben."
+    ],
+    [
+      "Kann ich Kanäle wie Weiß, Folie oder Lack isolieren?",
+      "Nach der Analyse Kanäle über die Kontrollkästchen neben den Farbfeldern ein-/ausblenden. Alt-Klick zeigt einen Kanal allein; erneuter Alt-Klick stellt alle wieder her. Alle Kanäle stellt ebenfalls die vollständige Auswahl wieder her. Kanalvorschau in Schwarz unter der Liste macht helle Farben sichtbar. Folie oder Lack müssen dafür als eigener PDF-Kanal vorliegen. Diese Ansichten ändern weder Messungen und Exporte noch die einbezogenen Farben einer Grenzwertprüfung."
+    ],
+    [
+      "Kann ich mehrere Seiten analysieren und exportieren?",
+      "Farbauftrag analysieren bietet aktuelle Seite, alle Seiten und Seitenbereich. Eine Auswahl gilt auf jeder gewählten Seite mit derselben Position und denselben Abmessungen; zu kleine Seiten werden übersprungen. Kopieren, CSV und Bericht enthalten alle abgeschlossenen Seitenmessungen, auch beim Anzeigen einer anderen Seite. Der PDF-Bericht enthält Vorschauen, Abmessungen, Farbmittelwerte, Profile und abgeschlossene Grenzwertprüfungen. Teilweise fertige Stapel sind markiert. Jede analysierte Seite verbraucht Kontingent; Grenzwertprüfungen laufen separat auf der aktuellen Seite."
+    ],
+    [
+      "Wie viele Uploads, Vorschauen und Analysen sind möglich?",
+      "Aktuell gelten pro IP-Adresse in einem gleitenden Stundenfenster 10 Upload-, 120 Vorschau- und 30 Analyseanfragen. Ein gemeinsames Netzwerk oder VPN kann dasselbe Kontingent teilen. Jede Stapelseite zählt als eigene Analyse; eine zulässige PDF mit 100 Seiten kann daher nicht unbedingt vollständig innerhalb einer Stunde analysiert werden. Zugelassene Anfragen können auch bei späterem Fehler oder ausgelastetem Server zählen. Kontingent wird frei, wenn frühere Anfragen das Stundenfenster verlassen. Beim Erreichen des Limits warten."
+    ],
+    [
+      "Warum kann eine große Seite trotz PDF unter 50 MB abgelehnt werden?",
+      "Dateigröße allein bestimmt den Aufwand nicht. Aktuell gelten 20 Millionen Rasterpixel für Vorschauen, 5 Millionen für Analysen und 10.000 Pixel pro Seitenkante. Diese Grenzen hängen von Seitengröße und Rasterauflösung ab; eine Vorschau kann gelingen, während die Analyse abgelehnt wird. Auch kleine Auswahlen erfordern das Rendern der ganzen Seite und umgehen die Grenzen nicht. Die Auflösung wird nicht automatisch reduziert. Komplexe PDFs können ebenfalls Ressourcen überschreiten; kleinere Seiten oder einfachere Inhalte versuchen."
+    ],
+    [
+      "Was passiert bei ausgelastetem Server oder Zeitüberschreitung?",
+      "Der Server verarbeitet für alle Nutzer zusammen jeweils einen PDF-Auftrag, einschließlich Uploadprüfung, Vorschau und Analyse, und nimmt höchstens zwei gleichzeitige Uploads an. Fehlen Verarbeitungs- oder Speicherressourcen, kommt eine Auslastungsmeldung statt einer Warteschlange. Kurz warten und manuell erneut versuchen. Für die Übertragung gelten 120 Sekunden, für einen Verarbeitungsauftrag höchstens 150 Sekunden; einzelne Schritte können früher abbrechen. Bei Zeitüberschreitung eine einfachere PDF oder für Uploads eine schnellere Verbindung versuchen. Wiederholungen können das Stundenkontingent verbrauchen."
+    ],
+    [
+      "Warum ist Farbauftrag im Flexodruck wichtig?",
+      "@help_tip"
+    ],
+    [
+      "Ist InkCoverage ein vollständiges Preflight-Werkzeug?",
+      "Nein. Es bietet mittleren Farbauftrag, Grenzwertkarte, Kanalvorschauen, ausgewählte Abmessungen und Exporte. Es zertifiziert keine Druckreife, korrigiert keine PDF, erkennt nicht jedes Produktionsproblem und berechnet keine Farbmasse oder Kosten. Feine Details, Farbkonvertierung, Transparenz, Überdrucken und Rasterauflösung können die Schätzungen beeinflussen. Kritische Werte mit dem Produktions-RIP und geeigneten Preflight-Prüfungen abgleichen."
+    ],
+    [
+      "Bleibt meine Datei privat?",
+      "@retention Weitere Informationen in der <a href=\"/de/privacy\">Datenschutzerklärung</a>."
+    ]
+  ],
+  "retention": "Neue Vorschauen und Analysen sind ab dem Hochladen 10 Minuten verfügbar; die Nutzung verlängert diese Frist nicht. Die Bereinigung läuft beim Start und alle 60 Sekunden. Temporäre Ausgaben werden nach der Verarbeitung entfernt; Reste werden erneut bereinigt. Abgelaufene Originale werden normalerweise beim nächsten Bereinigungslauf entfernt. Aktive Verarbeitung darf zuerst enden; Löschfehler werden protokolliert und erneut versucht, sodass die physische Löschung länger dauern kann. Schließen leert nur diese Browseransicht. Fertige Ergebnisse bleiben auf ihren Seiten exportierbar, bis Sie das Dokument schließen, ersetzen oder die Auswahl ändern. Für neue Arbeiten die PDF erneut hochladen.",
+  "privacy_title": "Datenschutzerklärung",
+  "privacy_desc": "Dateiverarbeitung, Einstellungen und optionaler Kontakt — InkCoverage.app",
+  "updated": "Zuletzt aktualisiert: 16. Oktober 2026",
+  "privacy": [
+    [
+      "1. PDF-Verarbeitung und Ablauf",
+      "Ihre PDF wird auf unseren Server hochgeladen und mit Ghostscript verarbeitet. Datei, Seitengeometrie und Auswahl dienen der Vorschau und Farbauftragsberechnung. PDFs und temporäre Bilder werden nicht an Analysedienste gesendet. Kein Konto erforderlich."
+    ],
+    [
+      "2. Ablauf des Zugriffs und Bereinigung",
+      "@retention Es gibt keine garantierte Frist für die physische Löschung."
+    ],
+    [
+      "3. Cookies, Browsereinstellungen und Ergebnisse",
+      "Die Anwendung verwendet weder Google Analytics noch Werbetracker, Analyse-Cookies, Besucherkennungen oder Sitzungsaufzeichnungen. Schriften und Anwendungsdateien werden lokal bereitgestellt. localStorage speichert nur Sprache und Maßeinheit (lang und units), keine Dokumente, Auswahlen, Messergebnisse oder Kontakttexte. Vorschauen und fertige Ergebnisse bleiben im Arbeitsspeicher der aktuellen Seite; kopierter Text und heruntergeladene CSV-Dateien bleiben auf Ihrem Gerät, bis Sie sie löschen. Aggregierte Zähler abgeschlossener, abgelehnter, fehlgeschlagener und unterbrochener Upload-, Vorschau- und Analyseanfragen werden im Serverspeicher gehalten und regelmäßig in Betriebsprotokolle geschrieben. Sie enthalten keine Dateinamen, Dokument-IDs, Seitenzahlen oder -anzahlen, Geometrie, Farbnamen, Messwerte, IP-Adressen oder Browserkennungen."
+    ],
+    [
+      "4. Anfragekontingente und Betriebsprotokolle",
+      "Die Anwendung verwendet IP-Adressen im Arbeitsspeicher für gemeinsame Anfragekontingente. Einträge werden nach dem gleitenden Stundenfenster bei weiteren Anfragen oder beim Serverneustart entfernt. Anwendungszugriffsprotokolle sind in den mitgelieferten Startern deaktiviert. Bereinigungs- und Ergebnisprotokolle enthalten betriebliche Zähler und Statusangaben. Hosting-, Reverse-Proxy- und Cloudflare-Sicherheits-/Zugriffsprotokolle können IP-Adressen, Anfragemetadaten, Zeitstempel und Antwortstatus enthalten. Ihre Aufbewahrung ist vom PDF-Zeitfenster unabhängig; wir behaupten keine verifizierte Löschfrist für diese Protokolle. Keine vertraulichen Angaben in URLs eintragen."
+    ],
+    [
+      "5. Netzwerkübertragung und Hosting",
+      "Die Website wird über Cloudflare auf Hetzner-Hosting bereitgestellt. Die Hauptseite inkcoverage.app und die separate beta.inkcoverage.app nutzen HTTPS vom Browser zu Cloudflare und zertifikatsgeprüftes HTTPS von Cloudflare zum Ursprung. Die Konfiguration der Hauptseite wurde am 16. Oktober 2026 geprüft. Eine lokale Entwicklungsvorschau verwendet Loopback-HTTP. Cloudflare verarbeitet den über seinen Dienst laufenden Verkehr und kann je nach Einstellungen Sicherheits-Cookies setzen."
+    ],
+    [
+      "6. Optionaler Kontakt",
+      "Beim Drücken von Nachricht senden übermittelt das Kontaktformular Nachricht und optionale Antwortadresse direkt an Web3Forms. Web3Forms leitet Nachrichten an uns zur Bearbeitung weiter. Auch Netzwerkmetadaten können dort verarbeitet werden. Kontakt und E-Mail-Korrespondenz sind unabhängig von der PDF-Verarbeitung und unterliegen nicht deren 10-Minuten-Frist. Die Aufbewahrung im Web3Forms-Konto und die Löschfristen des Empfängerpostfachs wurden nicht unabhängig geprüft. PDFs oder Messwerte werden nicht automatisch angehängt. Keine vertraulichen Druckdaten oder sensiblen personenbezogenen Angaben senden."
+    ],
+    [
+      "7. Externe Links und Anbieter",
+      "Cloudflare und Hetzner dienen Auslieferung und Hosting. Web3Forms wird nur für freiwillige Kontaktnachrichten verwendet. Ko-fi ist ein freiwilliger externer Unterstützungslink; GitHub und LabelEstimate sind externe Links. Sie sind keine eingebetteten Tracking-Widgets und werden erst bei einem gewählten Besuch kontaktiert. Es gelten deren Datenschutzregeln. Die Anwendung zeigt keine Werbung. Richtlinien der Anbieter: @providers"
+    ],
+    [
+      "8. Fragen und Änderungen",
+      "Für Datenschutzfragen oder Anfragen zu Ihrer Korrespondenz das <a href=\"/de/contact\">Kontaktformular</a> verwenden. Eine E-Mail-Adresse ist freiwillig, für eine Antwort aber erforderlich. Browsereinstellungen lassen sich in den Website-Dateneinstellungen Ihres Browsers entfernen. Diese Seite wird bei Änderungen der Verarbeitung aktualisiert. Der Quellcode ist auf <a href=\"https://github.com/inkcoverage/inkcoverage\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a> verfügbar."
+    ]
+  ],
+  "contact_title": "Kontakt",
+  "contact_desc": "Kontakt zum InkCoverage.app-Team: Rückmeldungen, Fehler und Ideen.",
+  "contact_heading": "Schreiben Sie uns",
+  "contact_lead": "Einen Fehler gefunden? Eine Idee für eine Funktion? Nutzen Sie das Werkzeug für einen unerwarteten Zweck? Wir freuen uns über Rückmeldungen aus der Branche — <em>jede Nachricht wird gelesen</em>. Keine Bots, keine Ticketwarteschlangen. Schreiben Sie uns; mit einer E-Mail-Adresse können wir antworten.",
+  "message": "Ihre Nachricht",
+  "placeholder": "Ihre Meinung, Fehler, fehlende Funktionen, Ideen für Ihren Arbeitsablauf — oder einfach ein Hallo.",
+  "email": "E-Mail",
+  "optional": "— freiwillig, nur wenn Sie eine Antwort möchten",
+  "contact_privacy": "Beim Senden werden Nachricht und optionale E-Mail-Adresse an Web3Forms übermittelt, damit wir sie lesen und beantworten können. Für Kontaktdaten gelten eigene Aufbewahrungsregeln, nicht das 10-Minuten-Fenster der PDF. Keine vertraulichen Druckdaten oder sensiblen personenbezogenen Angaben senden.",
+  "send": "Nachricht senden",
+  "sending": "Wird gesendet…",
+  "sent": "Nachricht gesendet — danke! Mit einer hinterlassenen E-Mail-Adresse können wir antworten.",
+  "send_failed": "Etwas ist schiefgelaufen. Bitte in Kürze erneut versuchen."
+}

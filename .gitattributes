@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.pdf binary
+*.ttf -text
+*.woff -text
+*.woff2 -text
+*.png -text
+*.jpg -text
+*.jpeg -text
+*.ico -text
+static/fonts/*OFL.txt -whitespace
+static/vendor/pdfmake/*OFL.txt -whitespace

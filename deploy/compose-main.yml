@@ -1,0 +1,45 @@
+name: inkcoverage-main
+services:
+  inkcoverage:
+    image: inkcoverage-main:2.0-20261016
+    build:
+      context: .
+      args:
+        GS_BUILD_JOBS: "1"
+    ports:
+      - "127.0.0.1:8004:8000"
+    volumes:
+      - main-files:/tmp/inkcoverage
+    environment:
+      MAX_UPLOAD_MB: "50"
+      ANALYSIS_DPI: "72"
+      PREVIEW_DPI: "150"
+      FILE_TTL_SECONDS: "600"
+      CLEANUP_INTERVAL_SECONDS: "60"
+      RATE_LIMIT_MAX: "30"
+      UPLOAD_RATE_MAX: "10"
+      PREVIEW_RATE_MAX: "120"
+      MAX_DOCUMENT_PAGES: "100"
+      MAX_PREVIEW_PIXELS: "20000000"
+      MAX_ANALYSIS_PIXELS: "5000000"
+      MAX_RASTER_SIDE: "10000"
+      MAX_CONCURRENT_PROCESSING: "1"
+      MAX_CONCURRENT_UPLOADS: "2"
+      MAX_JOB_SECONDS: "150"
+      MAX_UPLOAD_SECONDS: "120"
+      TRUSTED_PROXY_IPS: ${TRUSTED_PROXY_IPS:-}
+    cpus: 1.0
+    mem_limit: 1g
+    pids_limit: 128
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+volumes:
+  main-files:

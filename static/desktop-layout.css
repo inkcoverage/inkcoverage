@@ -1,0 +1,117 @@
+/* Original desktop styling stays in index.html. Only structural compatibility,
+   compact welcome, slightly larger type and text contrast are added here. */
+:root { --text: #f0f1f5; --text-dim: #b5b7c5; --text-muted: #a3a5b3; }
+[hidden] { display: none !important; }
+.brand { display: inline-flex; align-items: center; gap: 16px; color: var(--text); text-decoration: none; }
+.brand img { width: 36px; height: 36px; }
+.brand-title { font-family: 'Syne', sans-serif; font-size: 21px; font-weight: 700; letter-spacing: -.4px; }
+.header-tagline { font-family: 'Syne', sans-serif; color: var(--text-dim); font-weight: 400; margin-left: 8px; font-size: 15px; }
+.header-links a { font-size: 14px; }
+.app { height: 100dvh; min-height: 0; }
+.header { flex-shrink: 0; }
+#main { display: flex; flex: 1; min-height: 0; }
+.workspace { display: flex; width: 100%; min-height: 0; }
+.controls-pane { width: 320px; min-width: 320px; }
+/* Let the actual header/footer heights define the workspace. Each pane can
+   scroll independently when its contents exceed the available space. */
+.controls-pane { overflow-y: auto; }
+.sidebar-scroll { min-height: 0; }
+.controls-pane > :is(.sister-app-section, .kofi-section) { flex-shrink: 0; }
+/* With a document open, promotions follow the controls in the same scroll
+   area instead of reserving space beneath a separate controls scroller. */
+body[data-view="workspace"] .sidebar-scroll { flex: 0 0 auto; overflow: visible; }
+body[data-view="welcome"] .sidebar-scroll { flex: 0 1 auto; }
+body[data-view="welcome"] .document-controls { padding-bottom: 12px; }
+.document-controls > .section-label { font-size: 12px; }
+.document-controls #pageSelectorSection { padding: 20px 0 0; border: 0; }
+.file-name { font-size: 14px; }
+.file-meta, .crop-info { font-size: 13px; }
+.btn-remove { font-size: 19px; }
+.page-input-group { font-size: 15px; }
+.page-input { font-size: 14px; }
+.page-btn { font-size: 17px; }
+.section-label { font-size: 12px; }
+.crop-info { line-height: normal; }
+#cropInfoSection { padding-top: 12px; padding-bottom: 12px; }
+#cropInfoSection .section-label-row { margin-bottom: 8px; }
+.crop-dims { font-size: 13px; }
+.crop-size-label { font-size: 12px; }
+.btn-reset-crop { font-size: 13px; }
+.units-btn { font-size: 12px; }
+.units-btn.active, .btn-analyze, .help-step-num { color: #0b0c10; }
+.btn-analyze { font-size: 16px; }
+.btn-analyze-all { font-size: 14px; }
+#btnReplace { display: inline-block; background: none; border: 0; color: var(--accent); font: 13px 'DM Sans', sans-serif; text-decoration: underline; margin-top: 12px; cursor: pointer; }
+#uploadZone { cursor: default; display: grid; align-items: center; padding: 16px 12px; }
+#uploadZone .upload-choice { display: flex; align-items: center; justify-content: center; gap: 6px; }
+#uploadZone .upload-icon { width: 24px; height: 30px; margin: 0; flex-shrink: 0; }
+#uploadZone .upload-icon svg { width: 100%; height: 100%; }
+#btnChoosePdf { color: var(--accent); background: none; border: 0; font: 600 15px 'DM Sans', sans-serif; cursor: pointer; padding: 6px; }
+#uploadZone .helper { margin-top: 6px; }
+#uploadZone .helper, .upload-hint, #uploadZone .facts { font-size: 12px; line-height: 1.5; color: var(--text-muted); }
+#uploadZone .facts p { margin-top: 6px; }
+#uploadZone .facts a { display: inline-block; color: var(--text-dim); margin-top: 6px; }
+.center-pane { flex: 1; min-width: 0; min-height: 0; padding: 32px; overflow: auto; display: flex; flex-direction: column; }
+.preview { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.preview > :is(.row, .color-warning, .preview-tools, .demo-caption) { flex-shrink: 0; }
+.welcome { max-width: 760px; margin: 0 auto; text-align: center; gap: 24px; }
+.welcome-intro h1 { font-family: 'Syne', sans-serif; font-size: 28px; line-height: 1.2; letter-spacing: -.6px; margin-bottom: 12px; }
+.welcome-intro > p { font-size: 15px; color: var(--text-dim); line-height: 1.6; }
+.welcome-grid { display: grid; gap: 20px; }
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0; padding-left: 20px; text-align: left; }
+.steps li { padding-left: 2px; font-size: 14px; line-height: 1.5; }
+.steps li::marker { color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+.steps p { font-size: 13px; color: var(--text-dim); margin-top: 6px; }
+#welcomeExplanation { margin-top: 24px; text-align: center; }
+#welcomeExplanation p { font-size: 14px; line-height: 1.65; color: var(--text-dim); }
+.welcome-actions { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+#btnWelcomeUpload { background: var(--accent); color: #0b0c10; border: 0; border-radius: var(--radius); padding: 12px 28px; font: 600 16px 'DM Sans', sans-serif; cursor: pointer; }
+.demo-button { background: none; border: 0; color: var(--accent); font: 13px 'DM Sans', sans-serif; cursor: pointer; padding: 8px 12px; text-decoration: underline; }
+.preview > .row { display: none; }
+.canvas-area { flex: 1; min-height: 0; justify-content: flex-start; align-items: center; flex-direction: column; padding: 16px; }
+.preview-container { max-width: 100%; }
+.preview-container img { max-width: 100%; max-height: calc(100vh - 156px); }
+.results-panel { width: 360px; min-width: 360px; }
+.results-panel > * { flex-shrink: 0; }
+.results-header { flex-wrap: wrap; align-items: flex-start; gap: 12px; padding-top: 24px; }
+#resultsContext { font-size: 12px; color: var(--text-dim); padding: 16px 24px 0; }
+#resultsContext:empty { display: none; }
+.btn-result-action { font-size: 12px; }
+.result-group-title { font-size: 12px; }
+.ink-name { font-size: 14px; white-space: normal; overflow-wrap: anywhere; }
+.ink-pct { font-size: 15px; color: var(--text); white-space: nowrap; }
+.ink-bar-bg { width: 64px; }
+.total-label { font-size: 14px; }
+.total-value { font-size: 17px; white-space: nowrap; }
+.results-empty-state { height: auto; padding: 32px 24px; }
+.measurement-help { font-size: 13px; line-height: 1.6; }
+.allowance { margin-top: 16px; font-size: 13px; line-height: 1.6; color: var(--text-dim); }
+.allowance summary { cursor: pointer; }
+.action-error, .batch-status { font-size: 14px; }
+.sister-app-name { font-size: 15px; }
+.sister-app-desc { font-size: 12px; }
+.kofi-tagline { font-size: 13px; }
+.kofi-btn { font-size: 14px; }
+.controls-pane .sister-app-section { padding-top: 8px; padding-bottom: 8px; }
+.controls-pane .kofi-section { padding-top: 8px; padding-bottom: 10px; }
+.secondary-grid { display: none; }
+.footer { font-size: 13px; }
+.modal-header h2 { font-size: 18px; }
+.help-step-content h3 { font-size: 15px; }
+.help-step-content p, .help-tip p { font-size: 14px; }
+.help-step-num { font-size: 14px; }
+.modal-close { font-size: 23px; }
+.loading-overlay span { font-size: 15px; }
+.upload-text { font-size: 15px; }
+.lang-btn { color: var(--text-dim); font-size: 13px; }
+.lang-btn.active { color: var(--accent); }
+.toast { display: none; color: #0b0c10; font-size: 15px; }
+.toast.visible { display: block; }
+:is(button, a, input, summary):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 1100px) {
+  .controls-pane { width: 280px; min-width: 280px; }
+  .results-panel { width: 300px; min-width: 300px; }
+  .center-pane { padding: 24px 20px; }
+  .header-tagline { display: none; }
+  .ink-bar-bg { width: 40px; }
+}

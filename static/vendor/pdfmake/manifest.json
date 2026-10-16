@@ -1,0 +1,14 @@
+{
+  "version": "0.3.11",
+  "npmIntegrity": "sha512-Uc49J9hUMyuqJk+U+PxlpBpPr96A4HOOfesGx609EPr2ue82+5/Smq/KTAkEqh0/jUGSi1fumvqZ5yAWijJTJg==",
+  "files": {
+    "font-coverage.json": "83d9512164a201df6a86a0ed53d7eb8eb322779ef8990e22f405292e32845c95",
+    "LICENSE": "ab919430421c2e244dbb8694d70916eae16235b75c0ea07e9a6c67cd4265c954",
+    "NOTICE.md": "c2520bc3d6d43731039fce2e7dcc2d03b0bb95fbe0fdd3612801b2b5a1c9d46a",
+    "NotoSansSC-OFL.txt": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+    "NotoSansSC-Regular.ttf": "37688a5119ced4939b9c07b1e9a22804c6ac42d768180271ea015b7bcabdef63",
+    "pdfmake.min.js": "faaee53f8dcf48b0934553665809d8180e20e435b654f633df2f18f9dbdeaa88",
+    "Roboto-OFL.txt": "061402327a96aadb0bfb694a960ed289ecd38d383e396243831ab81feb109c41",
+    "vfs_fonts.js": "1483ed267fe00ad90a3834441b019d856dd41ed079b2614404b2fcef425db6fc"
+  }
+}

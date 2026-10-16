@@ -6,3 +6,7 @@ dist/
 build/
 .venv/
 venv/
+.local-runtime/
+tmp/
+.audit-venv/
+output/

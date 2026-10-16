@@ -2,7 +2,7 @@ services:
   inkcoverage:
     build: .
     ports:
-      - "80:8000"
+      - "127.0.0.1:8000:8000"
     volumes:
       - ./static:/app/static:ro
     environment:
@@ -10,7 +10,19 @@ services:
       - ANALYSIS_DPI=72
       - PREVIEW_DPI=150
       - FILE_TTL_SECONDS=600
+      - CLEANUP_INTERVAL_SECONDS=60
       - RATE_LIMIT_MAX=30
+      - UPLOAD_RATE_MAX=10
+      - PREVIEW_RATE_MAX=120
+      - MAX_DOCUMENT_PAGES=100
+      - MAX_PREVIEW_PIXELS=20000000
+      - MAX_ANALYSIS_PIXELS=5000000
+      - MAX_RASTER_SIDE=10000
+      - MAX_CONCURRENT_PROCESSING=1
+      - MAX_CONCURRENT_UPLOADS=2
+      - MAX_JOB_SECONDS=150
+      - MAX_UPLOAD_SECONDS=120
+      - TRUSTED_PROXY_IPS=${TRUSTED_PROXY_IPS:-}
     restart: unless-stopped
     # Limit resources to prevent abuse
     deploy:

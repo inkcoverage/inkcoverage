@@ -4,3 +4,11 @@ __pycache__
 .git
 .gitignore
 *.md
+.venv
+.audit-venv
+.local-runtime
+tmp
+tests
+scripts
+static/session8-*
+static/welcome-review.*

@@ -1,0 +1,26 @@
+#channelPreviewCanvas { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; pointer-events: none; background: #fff; }
+.channel-preview-active #previewImg { visibility: hidden; }
+.channel-visibility { flex: 0 0 auto; width: 18px; height: 18px; margin: 0; accent-color: var(--accent); cursor: pointer; }
+.channel-visibility:focus-visible, .channel-preview-control input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.channel-visibility:disabled { cursor: default; }
+.ink-row[data-channel-hidden="true"] :is(.ink-swatch, .ink-name) { opacity: .5; }
+.channel-preview-control { display: flex; align-items: center; gap: 8px; min-height: 36px; font-size: 13px; line-height: 1.5; cursor: pointer; }
+.channel-preview-control input { width: 18px; height: 18px; flex-shrink: 0; margin: 0; accent-color: var(--accent); }
+.channel-preview-all { margin: 8px 24px 0; }
+.channel-preview-options { margin: 16px 0; padding: 0 24px; }
+.ink-row:has(.channel-visibility) { cursor: pointer; }
+.channel-preview-note { font-size: 12px; color: var(--text-dim); line-height: 1.6; margin-top: 6px; }
+#channelPreviewError { margin-top: 8px; color: var(--error-text, #ff9caa); font-size: 13px; line-height: 1.6; }
+@media (pointer: coarse), (max-width: 900px) {
+  .channel-preview-control, .ink-row:has(.channel-visibility) { min-height: 44px; }
+}
+@media (max-width: 900px) {
+  .ic-ui .ink-row:has(.channel-visibility) { grid-template-columns: 18px 14px minmax(0, 1fr) auto; }
+  .ic-ui .ink-row:has(.channel-visibility) .channel-visibility { grid-column: 1; grid-row: 1; }
+  .ic-ui .ink-row:has(.channel-visibility) .ink-swatch { grid-column: 2; grid-row: 1; }
+  .ic-ui .ink-row:has(.channel-visibility) .ink-name { grid-column: 3; grid-row: 1; }
+  .ic-ui .ink-row:has(.channel-visibility) .ink-pct { grid-column: 4; grid-row: 1; }
+  .ic-ui .ink-row:has(.channel-visibility) .ink-bar-bg { grid-column: 1 / -1; grid-row: 2; }
+  .ic-ui .channel-preview-all { margin: 8px 0; }
+  .ic-ui .channel-preview-options { padding: 0; }
+}

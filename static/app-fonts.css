@@ -1,0 +1,3 @@
+@font-face { font-family: 'DM Sans'; src: url('/static/fonts/dm-sans.ttf') format('truetype'); font-weight: 100 1000; font-style: normal; font-display: swap; }
+@font-face { font-family: 'JetBrains Mono'; src: url('/static/fonts/jetbrains-mono.ttf') format('truetype'); font-weight: 100 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Syne'; src: url('/static/fonts/syne.ttf') format('truetype'); font-weight: 400 800; font-style: normal; font-display: swap; }

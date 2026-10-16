@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>隐私政策 — InkCoverage.app</title>
+<meta name="description" content="文件处理、偏好设置与可选联系 — InkCoverage.app">
+<link rel="canonical" href="https://inkcoverage.app/zh/privacy">
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+<style>
+
+  :root {
+    --bg: #0b0c10;
+    --surface: #13141a;
+    --border: #252630;
+    --text: #e8e9ed;
+    --text-dim: #8b8d9a;
+    --text-muted: #5c5e6e;
+    --accent: #6c8aff;
+    --cyan-color: #00cfff;
+    --magenta-color: #ff2d95;
+    --yellow-color: #ffd600;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html {
+    min-height: 100%;
+    background:
+      radial-gradient(ellipse 90% 55% at 50% 0%, rgba(108, 138, 255, 0.14) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(255, 45, 149, 0.11) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 10% 100%, rgba(108, 138, 255, 0.07) 0%, transparent 50%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.038;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: transparent;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(19, 20, 26, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-logo {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--cyan-color), var(--magenta-color), var(--yellow-color));
+    flex-shrink: 0;
+  }
+
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+  }
+
+  .brand-ink { color: var(--cyan-color); }
+
+  .header h1 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .header h1 .header-tagline {
+    color: var(--text-dim);
+    font-weight: 400;
+    margin-left: 8px;
+    font-size: 14px;
+  }
+
+  .content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .content h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .last-updated {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+  }
+
+  .content h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  .content p, .content li {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+
+  .content ul {
+    padding-left: 24px;
+    margin-bottom: 12px;
+  }
+
+  .content a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .content a:hover {
+    text-decoration: underline;
+  }
+
+  .footer {
+    padding: 12px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .footer a {
+    color: var(--text-dim);
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    color: var(--text);
+  }
+
+.header-right { margin-left:auto; display:flex; gap:12px; align-items:center; }
+.lang-btn { color:var(--text-dim); text-decoration:none; font-size:13px; padding:4px 7px; }
+.lang-btn.active { color:var(--accent); }
+.try-btn { color:var(--text-dim); text-decoration:none; font-size:14px; }
+</style>
+<link rel="stylesheet" href="/static/app-fonts.css?v=20261015-preview-pages">
+<link rel="stylesheet" href="/static/info-pages.css?v=20261015-preview-pages">
+<meta property="og:title" content="隐私政策 — InkCoverage.app">
+<meta property="og:description" content="文件处理、偏好设置与可选联系 — InkCoverage.app">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://inkcoverage.app/zh/privacy">
+<meta property="og:image" content="https://inkcoverage.app/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://inkcoverage.app/static/og-image.png">
+<meta name="twitter:title" content="隐私政策 — InkCoverage.app">
+<meta name="twitter:description" content="文件处理、偏好设置与可选联系 — InkCoverage.app">
+<link rel="stylesheet" href="/static/site-chrome.css?v=20261016-seven-languages">
+<script src="/static/site-navigation.js?v=20261016-seven-languages" defer></script>
+<link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/privacy">
+<link rel="alternate" hreflang="en" href="https://inkcoverage.app/privacy">
+<link rel="alternate" hreflang="es" href="https://inkcoverage.app/es/privacy">
+<link rel="alternate" hreflang="pt" href="https://inkcoverage.app/pt/privacy">
+<link rel="alternate" hreflang="zh-Hans" href="https://inkcoverage.app/zh/privacy">
+<link rel="alternate" hreflang="de" href="https://inkcoverage.app/de/privacy">
+<link rel="alternate" hreflang="fr" href="https://inkcoverage.app/fr/privacy">
+<link rel="alternate" hreflang="uk" href="https://inkcoverage.app/uk/privacy">
+</head>
+<body class="info-page">
+<a class="skip-link" href="#main">跳转到工具</a>
+<header class="header"><a class="brand" href="/zh"><img src="/static/icon.svg" alt=""><span class="brand-title"><span class="brand-ink">Ink</span>Coverage <span class="brand-version">2.0</span><span class="header-tagline">油墨覆盖率分析工具</span></span></a><div class="header-links"><details class="mobile-site-menu"><summary aria-label="网站导航"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary><nav class="mobile-site-links" aria-label="网站导航"><a href="/zh/about">关于</a><a href="/zh/faq">常见问题</a><a href="/zh/contact">联系</a><a href="/zh/privacy">隐私</a></nav></details><nav class="lang-switcher" aria-label="语言"><a href="/privacy" class="lang-btn" lang="en" hreflang="en" aria-label="English" title="English" aria-current="false">EN</a><a href="/es/privacy" class="lang-btn" lang="es" hreflang="es" aria-label="Español" title="Español" aria-current="false">ES</a><a href="/pt/privacy" class="lang-btn" lang="pt" hreflang="pt" aria-label="Português" title="Português" aria-current="false">PT</a><a href="/zh/privacy" class="lang-btn active" lang="zh-Hans" hreflang="zh-Hans" aria-label="简体中文" title="简体中文" aria-current="page">ZH</a><a href="/de/privacy" class="lang-btn" lang="de" hreflang="de" aria-label="Deutsch" title="Deutsch" aria-current="false">DE</a><a href="/fr/privacy" class="lang-btn" lang="fr" hreflang="fr" aria-label="Français" title="Français" aria-current="false">FR</a><a href="/uk/privacy" class="lang-btn" lang="uk" hreflang="uk" aria-label="Українська" title="Українська" aria-current="false">UK</a></nav><a href="/zh">分析工具</a></div></header>
+<main class="content" id="main" tabindex="-1">
+<h2>隐私政策</h2><p class="last-updated">最后更新：2026 年 10 月 16 日</p>
+<section><h3>1. PDF 处理与过期</h3><p>您的 PDF 将上传到我们的服务器并由 Ghostscript 处理。文件、页面尺寸及所选区域用于生成预览和计算覆盖率。PDF 和临时图像不会发送到统计服务。无需注册账户。</p></section>
+<section><h3>2. 访问过期与清理</h3><p>从开始上传起 10 分钟后将无法生成新的预览或分析。使用文件不会延长期限。服务器启动时及之后每 60 秒执行清理。临时输出通常在处理结束后删除，清理任务会重试删除残留文件。过期原始文件通常在过期后的首次清理中删除。正在进行的处理可以先完成。删除失败会被记录并重试，因此实际删除可能更晚；不保证实际删除的具体期限。关闭仅清除此浏览器界面。与当前页面和选区匹配的已完成结果仍可导出，直到关闭或替换文档或更改选区。若需新的操作，请重新上传 PDF。</p></section>
+<section><h3>3. Cookie、偏好设置与运行结果统计</h3><p>应用不使用 Google Analytics、广告跟踪器、统计 Cookie、访客标识符或会话录制。字体与应用资源由本站提供。浏览器 localStorage 仅保存语言和测量单位偏好（lang 和 units）。应用不会在其中保存文档、选区、分析结果或联系内容。预览与结果保存在当前页面的内存中；复制的文字和下载的 CSV 文件保留在您的设备上，直到您自行删除。上传、预览和分析请求的完成、拒绝、失败与中断总数保存在服务器内存中，并定期写入运行日志。这些总数不包含文件名、文档 ID、页码或页数、页面尺寸、油墨名称、覆盖率、IP 地址或浏览器标识符。</p></section>
+<section><h3>4. 请求额度与运行日志</h3><p>应用在内存中使用 IP 地址执行共享请求额度限制。记录在滚动一小时窗口结束后的后续请求中或服务器重启时清除。提供的启动配置关闭了应用访问日志。清理及运行结果统计日志包含运行计数与状态信息。主机、反向代理及 Cloudflare 的安全和访问日志可能包含 IP 地址、请求元数据、时间及响应状态。其保留期限与 PDF 过期窗口分开管理；我们不声称已验证这些日志的删除期限。请勿在 URL 中填写保密信息。</p></section>
+<section><h3>5. 网络传输与托管</h3><p>网站通过 Cloudflare 分发，由 Hetzner 托管。主站 inkcoverage.app 和独立测试站 beta.inkcoverage.app 在浏览器与 Cloudflare 之间使用 HTTPS，在 Cloudflare 与源站之间使用经过证书验证的 HTTPS。主站配置已于 2026 年 10 月 16 日验证。本地开发预览使用回环 HTTP。Cloudflare 处理经过其服务的流量，并可能根据设置使用安全 Cookie。</p></section>
+<section><h3>6. 可选联系</h3><p>点击发送消息后，联系表单会将消息和可选的回复邮箱直接发送给 Web3Forms。Web3Forms 转发提交内容，供我们阅读和回复。该服务也可能处理网络元数据。联系消息和邮件往来与 PDF 处理分开，不适用其 10 分钟过期规则。Web3Forms 账户的实际保留设置及收件邮箱的删除计划尚未独立验证。不会自动附加 PDF 或分析结果。请勿发送保密作品或敏感个人信息。</p></section>
+<section><h3>7. 外部链接与服务商</h3><p>Cloudflare 和 Hetzner 提供分发与托管服务。Web3Forms 仅用于可选的联系表单提交。Ko-fi 是可选的支持链接；GitHub 和 LabelEstimate 为外部链接。它们不是嵌入式跟踪组件，只有在您选择访问时才会连接。其各自的隐私条款适用。应用不展示广告。服务商政策：<a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare</a>、<a href="https://www.hetzner.com/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">Hetzner</a>、<a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer">Web3Forms</a>、<a href="https://more.ko-fi.com/privacy" target="_blank" rel="noopener noreferrer">Ko-fi</a>。</p></section>
+<section><h3>8. 问题与更新</h3><p>如有隐私问题或需查询已发送的消息，请使用<a href="/zh/contact">联系表单</a>。回复邮箱为可选项，但如需回复则必须提供。可在浏览器的网站数据设置中删除偏好设置。处理方式发生变化时，此页面会更新。源码可在 <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener noreferrer">GitHub</a> 查看。</p></section>
+</main>
+<footer class="footer site-footer"><span class="footer-brand">InkCoverage.app</span><nav aria-label="网站导航"><a href="/zh/about">关于</a><a href="/zh/faq">常见问题</a><a href="/zh/contact">联系</a><a href="/zh/privacy">隐私</a></nav><span class="footer-caption">免费开源的油墨覆盖率分析工具。</span></footer>
+</body>
+</html>

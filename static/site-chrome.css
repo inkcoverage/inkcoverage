@@ -1,0 +1,67 @@
+/* One brand, navigation and compact footer on the analyzer and supporting pages. */
+body { height: 100dvh; min-height: 0; overflow: hidden; }
+.app { height: 100dvh; min-height: 0; display: flex; flex-direction: column; }
+/* Override the mobile visual system's 100vh minimum (the large viewport on
+   phones with browser controls), which can otherwise push the footer out. */
+body.ic-ui, body.ic-ui .app { height: 100vh; height: 100dvh; min-height: 0; }
+.mobile-site-menu { display: none; }
+.skip-link:not(:focus) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip-link:focus { position: fixed; top: 8px; left: 16px; z-index: 1100; padding: 10px 16px; background: #13141a; color: #f0f1f5; outline: 2px solid #6c8aff; }
+body .header.header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px 16px; padding: 16px 24px; flex: 0 0 auto; border-bottom: 1px solid #252630; background: rgba(19,20,26,.95); color: #f0f1f5; z-index: 100; }
+body .header.header .brand { display: inline-flex; align-items: center; gap: 16px; color: #f0f1f5; text-decoration: none; }
+body .header.header .brand img { width: 36px; height: 36px; flex-shrink: 0; }
+body .header.header .brand-title { font: 700 21px/1.4 'Syne', sans-serif; letter-spacing: -.4px; }
+body .header.header .brand-ink { color: #00cfff; }
+body .header.header .brand-version { color: #6c8aff; font-size: .8em; }
+body .header.header .header-tagline { font: 400 15px/1.4 'Syne', sans-serif; color: #b5b7c5; margin-left: 8px; }
+body .header.header .header-links { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-left: auto; }
+body .header.header .header-links a { display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 4px 0; font: 400 14px/1.4 'DM Sans',sans-serif; color: #a3a5b3; text-decoration: none; }
+body .header.header .lang-switcher { display: flex; align-items: center; gap: 1px; }
+body .header.header .lang-switcher .lang-btn { min-width: 32px; padding: 4px 7px; border: 0; border-radius: 4px; color: #b5b7c5; background: none; font-size: 13px; letter-spacing: .3px; }
+body .header.header .lang-switcher .lang-btn.active { color: #6c8aff; background: rgba(108,138,255,.12); }
+body .header.header a:hover, body .site-footer.site-footer a:hover { color: #f0f1f5; }
+body .site-footer.site-footer { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 4px 16px; flex: 0 0 auto; padding: 8px 24px calc(8px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid #252630; background: #13141a; font: 400 12px/1.5 'DM Sans',sans-serif; color: #a3a5b3; text-align: center; }
+body .site-footer.site-footer nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; }
+body .site-footer.site-footer a { color: #b5b7c5; text-decoration: none; margin: 0; padding: 4px 0; }
+body .site-footer.site-footer .footer-caption { color: #a3a5b3; }
+body .site-footer.site-footer a:focus-visible, body .header.header a:focus-visible { outline: 2px solid #6c8aff; outline-offset: 3px; }
+.info-page { display: flex; flex-direction: column; }
+.info-page .content { flex: 1 1 auto; min-height: 0; width: 100%; max-width: none; margin: 0; overflow: auto; overscroll-behavior-y: contain; padding: 40px max(24px, calc((100vw - 672px)/2)) 48px; scroll-padding-block: 24px; }
+.info-page .content h3 { margin-top: 28px; }
+@media (max-width: 1100px) { body .header.header .header-tagline { display: none; } }
+@media (min-width: 901px) { #secondary { display: none; } }
+@media (max-width: 900px) {
+  /* On phones the document scrolls naturally, including its footer. Keep the
+     menu in a sticky header instead of reserving a footer strip on screen. */
+  body.ic-ui, body.info-page { height: auto; min-height: 100dvh; overflow: visible; }
+  body.ic-ui .app { height: auto; min-height: 100dvh; }
+  body .header.header { position: sticky; top: 0; }
+  .info-page .content { flex: 1 0 auto; overflow: visible; }
+  .mobile-site-menu { display: block; position: relative; flex: 0 0 auto; align-self: flex-start; }
+  .mobile-site-menu > summary { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin: 0; padding: 0; border: 1px solid #31323e; border-radius: 6px; background: transparent; color: #b5b7c5; cursor: pointer; list-style: none; }
+  .mobile-site-menu > summary::-webkit-details-marker { display: none; }
+  .mobile-site-menu > summary svg { display: block; width: 20px; height: 20px; }
+  .mobile-site-menu[open] > summary { color: #f0f1f5; background: #1b1c24; border-color: #6c8aff; }
+  .mobile-site-menu > summary:focus-visible { outline: 2px solid #6c8aff; outline-offset: 3px; }
+  .mobile-site-links { position: absolute; top: calc(100% + 8px); left: 0; z-index: 101; display: flex; flex-direction: column; width: 224px; max-width: calc(100vw - 32px); max-height: calc(100dvh - 140px); overflow-y: auto; padding: 6px; border: 1px solid #31323e; border-radius: 8px; background: #13141a; box-shadow: 0 12px 32px #0008; }
+  body .header.header .mobile-site-links a { justify-content: flex-start; padding: 10px 14px; min-height: 44px; border-radius: 4px; color: #b5b7c5; }
+  body .header.header .mobile-site-links a:hover, body .header.header .mobile-site-links a[aria-current="page"] { background: #1b1c24; color: #f0f1f5; }
+  .app #main { display: block; flex: 1 0 auto; min-height: 0; overflow: visible; }
+  body .header.header { padding: 12px 16px; gap: 4px 12px; }
+  body .header.header .header-links { gap: 8px; flex-wrap: nowrap; }
+  body .header.header .lang-switcher { flex-wrap: wrap; justify-content: center; min-width: 0; }
+  body .header.header .header-links > a { flex-shrink: 0; align-self: flex-start; }
+  body .header.header .header-links a { min-height: 44px; }
+  body .header.header .lang-switcher .lang-btn { min-width: 40px; min-height: 44px; }
+  body .site-footer.site-footer { padding: 0 12px env(safe-area-inset-bottom, 0px); gap: 0 12px; }
+  body .site-footer.site-footer nav { gap: 0 16px; }
+  body .site-footer.site-footer a { display: inline-flex; align-items: center; min-height: 44px; }
+  body .site-footer.site-footer :is(.footer-brand,.footer-caption) { display: none; }
+  .info-page .content { padding: 28px max(16px, calc((100vw - 672px)/2)) 32px; }
+}
+@media (max-width: 420px) {
+  body .header.header .header-links { margin-left: 0; width: 100%; justify-content: space-between; gap: 8px; }
+  body .header.header .lang-switcher { flex: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  body .header.header .lang-switcher .lang-btn { min-width: 36px; }
+}
+@media (pointer: coarse) and (min-width: 901px) { body .header.header a, body .site-footer.site-footer a { min-height: 44px; } }

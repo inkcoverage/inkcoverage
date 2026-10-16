@@ -1,0 +1,18 @@
+/* Shared local fonts and readability, retaining the original information pages. */
+:root { --text: #f0f1f5; --text-dim: #b5b7c5; --text-muted: #a3a5b3; }
+.content p, .content li, .faq-answer { font-size: 16px; }
+.header { flex-wrap: wrap; }
+.header-right { flex-wrap: wrap; }
+.lang-btn { display: inline-flex; align-items: center; min-width: 28px; min-height: 28px; }
+.contact-privacy { font-size: 14px; line-height: 1.6; color: var(--text-dim); margin: 0 0 16px; }
+.contact-privacy a { color: var(--accent); }
+.btn-submit { color: #0b0c10; }
+:is(a,button,input,textarea):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 600px) {
+  .header { padding: 14px 16px; }
+  .header-right { width: 100%; justify-content: space-between; margin-left: 0; }
+  .lang-btn, .try-btn, .footer a { min-height: 44px; display: inline-flex; align-items: center; }
+}
+
+/* Public release version, keeping the existing wordmark and typography. */
+.brand-version { display: inline-block; color: var(--accent); font-size: .8em; font-weight: 700; letter-spacing: 0; white-space: nowrap; }

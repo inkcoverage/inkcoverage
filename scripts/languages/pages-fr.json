@@ -1,0 +1,167 @@
+{
+  "analyzer": "Analyseur",
+  "about_title": "À propos d’InkCoverage.app",
+  "about_desc": "Analyseur PDF de couverture d’encre gratuit et open source pour les deviseurs, le prépresse et les graphistes.",
+  "about": [
+    [
+      "Qu’est-ce que c’est ?",
+      "InkCoverage est un assistant gratuit dans le navigateur pour les deviseurs, opérateurs prépresse et graphistes. Il mesure la couverture moyenne des canaux CMJN et des couleurs directes nommées dans les PDF et aide à examiner les encres et les dimensions sélectionnées."
+    ],
+    [
+      "Que permet-il de faire ?",
+      "Analyser la couverture mesure la page actuelle, toutes les pages ou une plage, avec une zone facultative. Vérifier la limite d’encrage repère les zones du rendu dépassant un total cible sur la page actuelle ou sa sélection. Choisissez les encres comptées et excluez au besoin le blanc, la dorure, le vernis et les canaux techniques. Consultez le total maximal et la proportion de surface au-dessus de la limite, puis repérez ces zones avec Carte thermique ou Superposition."
+    ],
+    [
+      "À qui s’adresse-t-il ?",
+      "Aux deviseurs qui souhaitent vérifier rapidement les fichiers et obtenir des données de couverture, ainsi qu’aux techniciens qui doivent examiner les séparations ou les zones très chargées. InkCoverage est un assistant pratique plutôt qu’une suite complète de contrôle prépresse."
+    ],
+    [
+      "",
+      "@help_tip"
+    ],
+    [
+      "Que puis-je vérifier d’autre ?",
+      "Les cases des canaux montrent où chaque encre est utilisée, y compris dorure et vernis si le PDF les définit comme canaux directs nommés. Alt-clic isole un canal ; l’aperçu noir rend les encres claires visibles. Une sélection donne des dimensions approximatives d’étiquette ou de découpe. Copier, CSV et Rapport PDF regroupent toutes les mesures terminées ; les rapports incluent aussi les contrôles d’encrage terminés et les profils."
+    ],
+    [
+      "Pourquoi cet outil existe-t-il ?",
+      "Il répond à un besoin concret rencontré dans l’imprimerie : vérifier rapidement la couverture des PDF reçus sans ouvrir une application prépresse complète pour obtenir un simple chiffre. Aucun outil gratuit satisfaisant n’existait. Il a donc été créé, puis mis à la disposition de toutes les personnes ayant le même besoin."
+    ],
+    [
+      "Comment fonctionne-t-il ?",
+      "Les fichiers sont traités sur le serveur par <strong>Ghostscript</strong>, interpréteur PostScript et PDF open source reconnu dans l’industrie. Un serveur Python pilote l’analyse. Chaque canal est séparé et mesuré indépendamment."
+    ],
+    [
+      "",
+      "@retention"
+    ],
+    [
+      "",
+      "InkCoverage.app est un logiciel open source sous licence AGPL-3.0. Le code source complet est disponible sur <a href=\"https://github.com/inkcoverage/inkcoverage\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a>."
+    ]
+  ],
+  "faq_title": "Questions fréquentes",
+  "faq_desc": "Réponses sur la couverture d’encre, le TAC, la quadrichromie, les tons directs et l’analyse prépresse des PDF avec InkCoverage.app.",
+  "faq_intro": "Questions courantes sur la couverture d’encre, les exigences d’impression et le fonctionnement d’InkCoverage.app.",
+  "faq": [
+    [
+      "Qu’est-ce que la couverture d’encre ?",
+      "Il s’agit de la couverture moyenne de chaque canal CMJN et ton direct sur une page PDF ou une zone sélectionnée, espaces blancs et teintes compris. Les sommes additionnent ces moyennes : 100 % cyan et 100 % magenta donnent 200 %. Les totaux CMJN et tons directs sont distincts ; le total général inclut les deux. Aucun n’est le maximum local. @help_tip"
+    ],
+    [
+      "Qu’est-ce que le TAC (taux d’encrage total) ?",
+      "Le TAC local additionne les pourcentages d’encre à un point. Analyser la couverture donne des moyennes sur la surface ; une moyenne faible peut masquer une petite zone très chargée. Vérifier la limite d’encrage examine les pixels du rendu de la page ou sélection actuelle et donne le total maximal et la proportion de surface dépassant votre limite, pour les encres incluses uniquement. Confirmez la limite avec votre imprimeur pour le procédé et le support prévus."
+    ],
+    [
+      "Comment les tons directs sont-ils affichés ?",
+      "Les séparations directes nommées rendues par Ghostscript sont distinctes du CMJN. Les échantillons et aperçus utilisent la couleur définie dans le PDF, sans la deviner à partir du nom. Un canal nommé P485 peut donc être vert. Blanc, dorure, vernis et repères de découpe peuvent aussi être des canaux directs. Les cases permettent de repérer leur emplacement ; leur nom seul ne confirme pas leur fonction en production."
+    ],
+    [
+      "Quelle est la précision de la mesure ?",
+      "Les résultats sont des estimations pratiques de couverture moyenne sur la page ou sélection. Détails fins, petites sélections, conversion colorimétrique, surimpression et transparence peuvent les influencer. Deux décimales ne garantissent pas la précision ; vérifiez les travaux sensibles avec les séparations de l’imprimeur."
+    ],
+    [
+      "Puis-je mesurer une zone ou la taille approximative d’une étiquette ?",
+      "Oui. Faites glisser sur l’aperçu puis ajustez les poignées d’angle. Largeur, hauteur et surface apparaissent dans le panneau du document. Cela aide à estimer une étiquette ou une découpe, mais la sélection est manuelle, sans reconnaissance automatique du tracé. Analysez cette zone ou choisissez-la pour le contrôle de l’encrage. Sans sélection, utilisez la page entière."
+    ],
+    [
+      "Quels PDF sont acceptés ?",
+      "Les limites actuelles sont 50 Mo (52 428 800 octets) par PDF et 100 pages par document. Le traitement dépend de Ghostscript et du contenu ; le fonctionnement de chaque PDF n’est pas garanti. Les fichiers chiffrés, incorrects ou complexes peuvent échouer ou nécessiter des vérifications. Les contenus RVB, Lab et ICC peuvent être convertis ; comparez les résultats critiques à votre chaîne de production."
+    ],
+    [
+      "Que signifie Contenu RVB détecté et où sont les profils ?",
+      "La page actuelle contient du RVB à convertir pour estimer le CMJN. Les résultats peuvent différer des séparations de l’imprimeur. Utilisez un PDF converti avec son profil CMJN recommandé. Les profils et avis d’inspection sont conservés dans Copier, CSV et Rapport PDF, mais masqués du panneau des résultats pour le garder compact. Les noms de profils sont informatifs et ne choisissent pas le profil de conversion. Les inspections incomplètes sont signalées dans les exports."
+    ],
+    [
+      "Comment trouver les zones dépassant une limite d’encrage ?",
+      "Ouvrez Vérifier la limite d’encrage, fixez le pourcentage cible, choisissez les canaux et contrôlez la page ou sélection actuelle. Blanc, dorure, vernis et canaux techniques peuvent être exclus individuellement. Les résultats donnent le total maximal des encres incluses et la proportion de surface au-dessus de la limite. Le rendu est à 150 DPI ; des détails très fins peuvent être omis. Le contrôle ne modifie pas le visuel et ne certifie aucune condition d’impression."
+    ],
+    [
+      "Quelle différence entre Carte thermique et Superposition ?",
+      "Carte thermique affiche uniquement la carte colorée sur une page blanche. Superposition place la même carte sur le document pour repérer le visuel concerné. Cliquez sur le bouton actif pour revenir au document seul. La carte et les valeurs concernent la page ou zone contrôlée et les encres incluses dans ce contrôle."
+    ],
+    [
+      "Puis-je isoler un canal, y compris blanc, dorure ou vernis ?",
+      "Après l’analyse, affichez ou masquez les canaux avec les cases près des échantillons. Alt-clic isole un canal ; un nouvel Alt-clic rétablit tous les canaux. Tous les canaux rétablit aussi la sélection complète. Activez Aperçu du canal en noir sous la liste pour voir les encres claires. Le PDF doit définir la dorure ou le vernis comme canal distinct pour pouvoir les localiser ainsi. Ces choix ne changent que l’affichage, pas les mesures, exports ou encres incluses dans le contrôle."
+    ],
+    [
+      "Puis-je analyser et exporter plusieurs pages ?",
+      "Analyser la couverture propose la page actuelle, toutes les pages ou une plage. Une sélection garde les mêmes position et dimensions sur chaque page choisie ; les pages trop petites sont ignorées. Copier, CSV et Rapport incluent toutes les mesures terminées, même si une autre page est affichée. Le rapport PDF comprend aperçus, dimensions, moyennes d’encre, profils et contrôles terminés. Les lots partiels sont signalés. Chaque page analysée consomme le quota ; le contrôle de l’encrage se fait séparément sur la page actuelle."
+    ],
+    [
+      "Combien d’imports, d’aperçus et d’analyses puis-je effectuer ?",
+      "Les quotas actuels par adresse IP, sur une heure glissante, sont 10 imports, 120 aperçus et 30 analyses. Les utilisateurs d’un même réseau ou VPN peuvent partager ces quotas. Chaque page du lot compte comme une analyse ; accepter un PDF de 100 pages ne garantit pas leur analyse en une heure. Une requête admise peut compter même si le traitement échoue ensuite ou si le serveur est occupé. Le quota se libère lorsque les anciennes requêtes sortent de la fenêtre d’une heure. Patientez si vous atteignez une limite."
+    ],
+    [
+      "Pourquoi une grande page peut-elle être refusée avec un PDF de moins de 50 Mo ?",
+      "La taille du fichier ne détermine pas seule le travail. Les limites actuelles sont 20 millions de pixels pour un aperçu, 5 millions pour une analyse et 10 000 pixels sur chaque côté du rendu. Elles dépendent du format et de la résolution ; l’aperçu peut réussir alors que l’analyse est refusée. Une petite sélection exige encore le rendu de toute la page et ne contourne pas ces limites. La résolution n’est pas réduite automatiquement. Les PDF complexes peuvent aussi dépasser les ressources ; essayez des pages plus petites ou un contenu plus simple."
+    ],
+    [
+      "Que se passe-t-il si le serveur est occupé ou trop lent ?",
+      "Le serveur traite actuellement une tâche PDF à la fois pour tous les utilisateurs, y compris inspection à l’import, aperçu et analyse, et accepte au plus deux imports simultanés. Faute de capacité de traitement ou de stockage, la requête renvoie un avis d’occupation sans mise en file d’attente. Attendez et réessayez manuellement. Le transfert est limité à 120 secondes, une tâche de traitement à 150 secondes ; certaines étapes peuvent expirer plus tôt. Essayez un PDF plus simple ou une connexion plus rapide pour l’import. Les nouvelles tentatives peuvent consommer le quota horaire."
+    ],
+    [
+      "Pourquoi la couverture compte-t-elle en flexographie ?",
+      "@help_tip"
+    ],
+    [
+      "InkCoverage est-il un outil complet de contrôle prépresse ?",
+      "Non. Il fournit couverture moyenne, carte d’encrage, aperçus des canaux, dimensions sélectionnées et exports. Il ne certifie pas l’aptitude à l’impression, ne corrige pas le PDF, ne repère pas tous les problèmes et ne calcule ni masse d’encre ni coût. Détails fins, conversion colorimétrique, transparence, surimpression et résolution influencent les estimations. Comparez les résultats critiques à votre RIP de production et effectuez un contrôle prépresse adapté."
+    ],
+    [
+      "Mon fichier reste-t-il confidentiel ?",
+      "@retention Consultez la <a href=\"/fr/privacy\">politique de confidentialité</a> pour plus de détails."
+    ]
+  ],
+  "retention": "Les nouveaux aperçus et analyses expirent 10 minutes après l’import ; l’utilisation ne prolonge pas ce délai. Le nettoyage s’exécute au démarrage et toutes les 60 secondes. Les sorties temporaires sont supprimées à la fin du traitement ; le nettoyage réessaie les suppressions restantes. Les originaux expirés sont normalement supprimés au premier nettoyage suivant. Un traitement actif peut finir d’abord ; les échecs de suppression sont journalisés et réessayés, donc la suppression physique peut prendre plus de temps. Fermer le document efface uniquement cette vue du navigateur. Les résultats terminés restent exportables sur leurs pages jusqu’à la fermeture, au remplacement du document ou au changement de sélection. Importez à nouveau le PDF pour de nouveaux travaux.",
+  "privacy_title": "Politique de confidentialité",
+  "privacy_desc": "Traitement des fichiers, préférences et contact facultatif — InkCoverage.app",
+  "updated": "Dernière mise à jour : 16 octobre 2026",
+  "privacy": [
+    [
+      "1. Traitement des PDF et expiration",
+      "Votre PDF est envoyé à notre serveur et traité avec Ghostscript. Le fichier, la géométrie des pages et la sélection demandée servent aux aperçus et au calcul de couverture. Les PDF et images temporaires ne sont pas envoyés à un service d’analyse statistique. Aucun compte n’est requis."
+    ],
+    [
+      "2. Expiration de l’accès et nettoyage",
+      "@retention Aucun délai de suppression physique n’est garanti."
+    ],
+    [
+      "3. Cookies, préférences du navigateur et compteurs",
+      "L’application n’utilise ni Google Analytics, ni traceurs publicitaires, ni cookies statistiques, ni identifiants de visiteurs, ni enregistrement de sessions. Les polices et ressources sont servies localement. localStorage ne conserve que la langue et l’unité de mesure (lang et units), sans documents, sélections, résultats ni texte de contact. Les aperçus et résultats restent en mémoire dans la page actuelle ; les textes copiés et CSV téléchargés restent sur votre appareil jusqu’à leur suppression. Les nombres agrégés de requêtes d’import, d’aperçu et d’analyse terminées, refusées, échouées ou interrompues sont gardés en mémoire serveur et inscrits périodiquement dans les journaux d’exploitation. Ils ne contiennent aucun nom de fichier, identifiant de document, numéro ou nombre de pages, géométrie, nom d’encre, valeur de couverture, adresse IP ni identifiant de navigateur."
+    ],
+    [
+      "4. Quotas et journaux d’exploitation",
+      "L’application utilise les adresses IP en mémoire pour les quotas partagés. Les entrées sont récupérées après la fenêtre glissante d’une heure lors des requêtes suivantes, ou au redémarrage du serveur. Les lanceurs fournis désactivent les journaux d’accès de l’application. Les journaux de nettoyage et de compteurs contiennent des nombres et états opérationnels. Les journaux d’hébergement, de proxy et de sécurité ou d’accès Cloudflare peuvent inclure adresses IP, métadonnées, horodatages et états des réponses. Leur conservation est distincte de l’expiration des PDF ; nous ne revendiquons aucun délai de suppression vérifié pour ces journaux. Ne placez pas d’informations confidentielles dans les URL."
+    ],
+    [
+      "5. Transport réseau et hébergement",
+      "Le site est distribué par Cloudflare et hébergé chez Hetzner. Le site principal inkcoverage.app et le site distinct beta.inkcoverage.app utilisent HTTPS du navigateur à Cloudflare, puis HTTPS avec validation du certificat jusqu’à l’origine. La configuration du site principal a été vérifiée le 16 octobre 2026. L’aperçu de développement local utilise HTTP en boucle locale. Cloudflare traite le trafic passant par son service et peut appliquer des cookies de sécurité selon ses réglages."
+    ],
+    [
+      "6. Contact facultatif",
+      "Le formulaire envoie le message et l’adresse de réponse facultative directement à Web3Forms lorsque vous cliquez sur Envoyer le message. Web3Forms nous transmet les messages pour lecture et réponse. Des métadonnées réseau peuvent aussi y être traitées. Les messages et échanges de courriels sont distincts du traitement PDF et ne sont pas soumis à son expiration de 10 minutes. La conservation du compte Web3Forms et le calendrier de suppression de la boîte destinataire n’ont pas été vérifiés indépendamment. Aucun PDF ni résultat n’est joint automatiquement. N’envoyez pas de fichiers confidentiels ni de données personnelles sensibles."
+    ],
+    [
+      "7. Liens externes et prestataires",
+      "Cloudflare et Hetzner assurent diffusion et hébergement. Web3Forms sert uniquement au contact facultatif. Ko-fi est un lien de soutien externe facultatif ; GitHub et LabelEstimate sont des liens externes. Ce ne sont pas des widgets de suivi intégrés ; ils sont contactés lorsque vous choisissez de les visiter. Leurs propres conditions s’appliquent. L’application n’affiche aucune publicité. Politiques des prestataires : @providers"
+    ],
+    [
+      "8. Questions et modifications",
+      "Utilisez le <a href=\"/fr/contact\">formulaire de contact</a> pour une question de confidentialité ou une demande concernant vos échanges. Une adresse de réponse est facultative, mais nécessaire pour recevoir une réponse. Supprimez vos préférences dans les réglages des données de site du navigateur. Cette page est mise à jour si le traitement change. Le code source est disponible sur <a href=\"https://github.com/inkcoverage/inkcoverage\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a>."
+    ]
+  ],
+  "contact_title": "Contact",
+  "contact_desc": "Contactez l’équipe InkCoverage.app pour partager un avis, signaler un problème ou proposer une idée.",
+  "contact_heading": "Contactez-nous",
+  "contact_lead": "Un problème ? Une idée de fonctionnalité ? Un usage auquel nous n’avions pas pensé ? Nous aimons recevoir les avis des professionnels — <em>chaque message est lu</em>. Aucun robot ni file de tickets. Écrivez-nous ; nous pourrons répondre si vous laissez une adresse électronique.",
+  "message": "Votre message",
+  "placeholder": "Votre avis, un problème, une fonction manquante, une idée pour simplifier votre travail — ou simplement un bonjour.",
+  "email": "Adresse électronique",
+  "optional": "— facultative, seulement pour recevoir une réponse",
+  "contact_privacy": "L’envoi transmet votre message et votre adresse facultative à Web3Forms pour nous permettre de lire et répondre. Les données de contact ont leur propre politique de conservation, distincte des 10 minutes du PDF. N’incluez ni fichiers confidentiels ni données personnelles sensibles.",
+  "send": "Envoyer le message",
+  "sending": "Envoi…",
+  "sent": "Message envoyé — merci ! Nous pourrons vous répondre si vous avez laissé une adresse électronique.",
+  "send_failed": "Une erreur est survenue. Réessayez dans un instant."
+}

@@ -1,0 +1,86 @@
+/* Keyboard/supporting semantics shared by the approved desktop and mobile looks. */
+.skip-link { color: var(--text); }
+.sr-only, .skip-link:not(:focus) { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.skip-link:focus { position: fixed; top: 8px; left: 16px; z-index: 1100; display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px; background: var(--surface); color: var(--text); border: 2px solid var(--accent); border-radius: var(--radius); font-size: 14px; }
+.demo-caption { margin-top: 12px; max-width: 100%; font-size: 13px; line-height: 1.6; color: var(--text-dim); overflow-wrap: anywhere; }
+.color-warning { position: relative; margin-bottom: 12px; padding: 12px 16px; border: 1px solid #a88632; border-radius: var(--radius); background: #302912; color: #ffe39a; font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+.color-warning p { margin-top: 4px; }
+.color-warning.compact { padding: 8px 12px; font-size: 13px; }
+.color-warning-heading { padding-right: 32px; }
+#btnDismissColorWarning { position: absolute; top: 4px; right: 4px; width: 32px; height: 32px; margin: 0; padding: 0; border: 0; background: transparent; color: inherit; font: 24px/1 'DM Sans', sans-serif; cursor: pointer; }
+.color-warning.compact #btnDismissColorWarning { top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; }
+#btnDismissColorWarning:hover { background: rgba(255, 227, 154, .1); border-radius: 4px; }
+#batchDialog { width: 460px; max-width: calc(100vw - 32px); max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); font-family: 'DM Sans', sans-serif; box-shadow: 0 16px 64px rgba(0,0,0,.5); overflow: auto; }
+#batchDialog::backdrop { background: rgba(0,0,0,.7); }
+.batch-dialog-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+#batchDialogTitle { font: 600 18px 'Syne', sans-serif; }
+#btnCloseBatchDialog { min-width: 32px; min-height: 32px; padding: 0; border: 0; color: var(--text-dim); background: transparent; font: 24px/1 'DM Sans', sans-serif; cursor: pointer; }
+.batch-dialog-body { padding: 20px; font-size: 14px; line-height: 1.5; }
+#batchDialog fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+#batchDialog legend { font-weight: 600; margin-bottom: 8px; }
+.batch-choice { display: flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; }
+#batchDialog input[type="radio"] { width: 18px; height: 18px; accent-color: var(--accent); }
+.batch-range-fields { display: flex; gap: 16px; margin: 8px 0 12px; }
+.batch-range-fields label { display: flex; align-items: center; gap: 8px; }
+#batchDialog input[type="number"] { width: 80px; min-height: 44px; border: 1px solid var(--border); border-radius: 4px; padding: 8px; background: var(--surface2); color: var(--text); font: 14px 'JetBrains Mono', monospace; }
+#batchDialogCount, #batchDialogScope, .batch-dialog-note { margin-top: 12px; color: var(--text-dim); overflow-wrap: anywhere; }
+.batch-dialog-note { font-size: 13px; }
+#batchDialogError { color: var(--error-text, #ff9caa); margin-top: 12px; }
+.batch-dialog-actions { display: flex; justify-content: flex-end; gap: 12px; padding: 16px 20px; border-top: 1px solid var(--border); }
+.batch-dialog-actions button { min-height: 44px; padding: 8px 20px; border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); background: var(--surface2); font: 500 14px 'DM Sans', sans-serif; cursor: pointer; }
+#btnStartBatch { color: #0b0c10; background: var(--accent); border-color: var(--accent); font-weight: 600; }
+#batchDialog :is(button, input):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 600px) {
+  .batch-dialog-header, .batch-dialog-actions { padding: 12px 16px; }
+  .batch-dialog-body { padding: 16px; }
+  .batch-range-fields { flex-wrap: wrap; gap: 12px; }
+  #btnCloseBatchDialog { min-width: 44px; min-height: 44px; }
+}
+.color-profiles { padding: 12px 24px; border-bottom: 1px solid var(--border); color: var(--text-dim); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.color-profiles p + p { margin-top: 4px; }
+.preview-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 8px; }
+.preview-tools button { min-height: 32px; min-width: 44px; padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); color: var(--text-dim); font: 13px 'DM Sans', sans-serif; cursor: pointer; }
+.preview-tools button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: var(--surface2); }
+.preview-tools button:disabled { opacity: .5; cursor: default; }
+#btnPanPreview { display: inline-flex; align-items: center; justify-content: center; }
+#btnPanPreview svg { width: 19px; height: 19px; }
+.preview-map-tools { display: flex; gap: 6px; margin-left: auto; }
+#canvasArea { display: block; padding: 0; overflow: auto; scrollbar-gutter: stable; overscroll-behavior: contain; min-width: 0; }
+#canvasArea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.preview-stage { position: relative; min-width: 100%; padding: 16px; display: flex; justify-content: center; align-items: flex-start; }
+#previewContainer { flex-shrink: 0; max-width: none; }
+#previewImg { width: 100%; height: 100%; max-width: none; max-height: none; }
+#cropOverlay { touch-action: none; }
+#canvasArea[data-moving="true"], #canvasArea[data-moving="true"] #cropOverlay, #canvasArea[data-moving="true"] .crop-handle { cursor: grab; touch-action: none; }
+#canvasArea[data-panning="true"], #canvasArea[data-panning="true"] #cropOverlay, #canvasArea[data-panning="true"] .crop-handle { cursor: grabbing; }
+@media (max-width: 900px), (pointer: coarse) {
+  .color-warning-heading { padding-right: 40px; }
+  #btnDismissColorWarning { top: 0; right: 0; width: 44px; height: 44px; }
+  .preview-tools button { min-height: 44px; min-width: 44px; font-size: 14px; }
+  #previewMoveHint { font-size: 13px; }
+}
+@media (min-width: 901px) {
+  .lang-btn { min-height: 24px; min-width: 24px; }
+  .units-btn { min-height: 24px; min-width: 32px; }
+  .demo-button, .btn-reset-crop { min-height: 24px; }
+  #btnReplace, summary { min-height: 24px; }
+  #btnHelp { display: inline-flex; align-items: center; min-height: 24px; }
+  .modal-close { min-width: 32px; min-height: 32px; }
+  .footer a { display: inline-flex; align-items: center; min-height: 24px; }
+}
+@media (max-width: 900px) {
+  .ic-ui .color-warning { margin: 0; }
+  .ic-ui .color-profiles { padding: 12px 0; font-size: 14px; }
+  .ic-ui .demo-caption { font-size: 14px; }
+  .ic-ui .header-links a, .ic-ui .footer a { display: inline-flex; align-items: center; min-height: 44px; }
+  .ic-ui input:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+}
+@media (pointer: coarse) and (min-width: 901px) {
+  button, input, summary, #btnHelp, #btnReplace, .footer a { min-height: 44px; }
+  .lang-btn, .units-btn, .btn-remove, .modal-close { min-width: 44px; min-height: 44px; }
+  .demo-button, .btn-reset-crop { min-height: 44px; }
+  .page-btn { width: 44px; height: 44px; }
+}
+
+/* Public release version, keeping the existing wordmark and typography. */
+.brand-version { display: inline-block; color: var(--accent); font-size: .8em; font-weight: 700; letter-spacing: 0; white-space: nowrap; }

@@ -4,19 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy Policy — InkCoverage.app</title>
-<meta name="description" content="Privacy policy for InkCoverage.app, a free online ink coverage analyzer.">
+<meta name="description" content="File handling, preferences and optional contact — InkCoverage.app">
 <link rel="canonical" href="https://inkcoverage.app/privacy">
 <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
-<!-- Google Analytics (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2FNRM9GVXD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-2FNRM9GVXD');
-</script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@600;700;800&display=swap');
 
   :root {
     --bg: #0b0c10;
@@ -165,87 +156,52 @@
   .footer a:hover {
     color: var(--text);
   }
+
+.header-right { margin-left:auto; display:flex; gap:12px; align-items:center; }
+.lang-btn { color:var(--text-dim); text-decoration:none; font-size:13px; padding:4px 7px; }
+.lang-btn.active { color:var(--accent); }
+.try-btn { color:var(--text-dim); text-decoration:none; font-size:14px; }
 </style>
+<link rel="stylesheet" href="/static/app-fonts.css?v=20261015-preview-pages">
+<link rel="stylesheet" href="/static/info-pages.css?v=20261015-preview-pages">
+<meta property="og:title" content="Privacy Policy — InkCoverage.app">
+<meta property="og:description" content="File handling, preferences and optional contact — InkCoverage.app">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://inkcoverage.app/privacy">
+<meta property="og:image" content="https://inkcoverage.app/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://inkcoverage.app/static/og-image.png">
+<meta name="twitter:title" content="Privacy Policy — InkCoverage.app">
+<meta name="twitter:description" content="File handling, preferences and optional contact — InkCoverage.app">
+<link rel="stylesheet" href="/static/site-chrome.css?v=20261016-seven-languages">
+<script src="/static/site-navigation.js?v=20261016-seven-languages" defer></script>
+<link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/privacy">
+<link rel="alternate" hreflang="en" href="https://inkcoverage.app/privacy">
+<link rel="alternate" hreflang="es" href="https://inkcoverage.app/es/privacy">
+<link rel="alternate" hreflang="pt" href="https://inkcoverage.app/pt/privacy">
+<link rel="alternate" hreflang="zh-Hans" href="https://inkcoverage.app/zh/privacy">
+<link rel="alternate" hreflang="de" href="https://inkcoverage.app/de/privacy">
+<link rel="alternate" hreflang="fr" href="https://inkcoverage.app/fr/privacy">
+<link rel="alternate" hreflang="uk" href="https://inkcoverage.app/uk/privacy">
 </head>
-<body>
-
-<div class="header">
-  <div class="header-logo"></div>
-  <h1><a href="/"><span class="brand-ink">Ink</span>Coverage</a><span class="header-tagline">Privacy Policy</span></h1>
-</div>
-
-<div class="content">
-  <h2>Privacy Policy</h2>
-  <p class="last-updated">Last updated: April 20, 2026</p>
-
-  <p>InkCoverage.app ("we", "our", "the Service") is a free, open-source online tool for analyzing ink coverage in PDF files. We are committed to protecting your privacy.</p>
-
-  <h3>1. What We Collect</h3>
-  <p>We collect as little data as possible to operate the Service:</p>
-  <ul>
-    <li><strong>Uploaded PDF files</strong> — temporarily stored on our server solely to perform ink coverage analysis. Files are automatically and permanently deleted within 10 minutes of upload.</li>
-    <li><strong>IP addresses</strong> — used only for rate limiting (to prevent abuse). IP addresses are held in memory only and are not written to disk or stored permanently.</li>
-    <li><strong>Basic server logs</strong> — standard web server access logs (timestamps, request paths, HTTP status codes). These do not contain file contents.</li>
-  </ul>
-
-  <h3>2. What We Do NOT Collect</h3>
-  <ul>
-    <li>We do not require user accounts or registration.</li>
-    <li>We do not collect names, email addresses, or any personal information.</li>
-    <li>We do not store or retain your PDF files beyond the 10-minute processing window.</li>
-    <li>We do not share any data with third parties (except as described in the Advertising section below).</li>
-  </ul>
-
-  <h3>3. Uploaded Files</h3>
-  <p>Your uploaded PDF files are:</p>
-  <ul>
-    <li>Transmitted over HTTPS (encrypted in transit).</li>
-    <li>Stored temporarily in an isolated directory on our server.</li>
-    <li>Processed only for ink coverage analysis using Ghostscript.</li>
-    <li>Automatically deleted within 10 minutes, regardless of whether analysis was performed.</li>
-    <li>Never shared with, sold to, or accessed by any third party.</li>
-  </ul>
-
-  <h3>4. Cookies and Analytics</h3>
-  <p>We use <strong>Google Analytics (GA4)</strong> to understand how visitors use the Service. This helps us improve the tool over time. Specifically:</p>
-  <ul>
-    <li>Google Analytics collects anonymized usage data such as page views, session duration, and approximate geographic location (country/city level).</li>
-    <li>No personally identifiable information is collected through analytics.</li>
-    <li>You may opt out of Google Analytics tracking by using the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Browser Add-on</a>.</li>
-  </ul>
-  <p>InkCoverage.app does not display advertisements and does not use advertising cookies. We do not set any first-party cookies.</p>
-
-  <h3>5. Third-Party Services</h3>
-  <ul>
-    <li><strong>Google Analytics</strong> — for anonymous usage analytics. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</li>
-    <li><strong>Cloudflare</strong> — for CDN, DDoS protection, and SSL. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare Privacy Policy</a>.</li>
-    <li><strong>Ko-fi</strong> — optional voluntary support (no account required to use the Service). <a href="https://more.ko-fi.com/privacy" target="_blank" rel="noopener">Ko-fi Privacy Policy</a>.</li>
-  </ul>
-
-  <h3>6. Data Security</h3>
-  <p>We take reasonable measures to protect your data, including HTTPS encryption, server-level access controls, automatic file cleanup, and running the application in a containerized environment.</p>
-
-  <h3>7. Children's Privacy</h3>
-  <p>The Service is not directed at children under 13. We do not knowingly collect data from children.</p>
-
-  <h3>8. Open Source</h3>
-  <p>InkCoverage.app is open-source software. You can review the complete source code to verify our data handling practices on <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener">GitHub</a>.</p>
-
-  <h3>9. Changes to This Policy</h3>
-  <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated "Last updated" date.</p>
-
-  <h3>10. Contact</h3>
-  <p>If you have questions about this Privacy Policy, please open an issue on our <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener">GitHub repository</a>.</p>
-</div>
-
-<div class="footer">
-  <a href="/">InkCoverage.app</a> &mdash;
-  <a href="/about">About</a> &mdash;
-  <a href="/faq">FAQ</a> &mdash;
-  <a href="/contact">Contact</a> &mdash;
-  <a href="/privacy">Privacy Policy</a> &mdash;
-  Free, open-source ink coverage analyzer.
-</div>
-
+<body class="info-page">
+<a class="skip-link" href="#main">Skip to the tool</a>
+<header class="header"><a class="brand" href="/"><img src="/static/icon.svg" alt=""><span class="brand-title"><span class="brand-ink">Ink</span>Coverage <span class="brand-version">2.0</span><span class="header-tagline">Ink Coverage Analyzer</span></span></a><div class="header-links"><details class="mobile-site-menu"><summary aria-label="Site navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary><nav class="mobile-site-links" aria-label="Site navigation"><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a></nav></details><nav class="lang-switcher" aria-label="Language"><a href="/privacy" class="lang-btn active" lang="en" hreflang="en" aria-label="English" title="English" aria-current="page">EN</a><a href="/es/privacy" class="lang-btn" lang="es" hreflang="es" aria-label="Español" title="Español" aria-current="false">ES</a><a href="/pt/privacy" class="lang-btn" lang="pt" hreflang="pt" aria-label="Português" title="Português" aria-current="false">PT</a><a href="/zh/privacy" class="lang-btn" lang="zh-Hans" hreflang="zh-Hans" aria-label="简体中文" title="简体中文" aria-current="false">ZH</a><a href="/de/privacy" class="lang-btn" lang="de" hreflang="de" aria-label="Deutsch" title="Deutsch" aria-current="false">DE</a><a href="/fr/privacy" class="lang-btn" lang="fr" hreflang="fr" aria-label="Français" title="Français" aria-current="false">FR</a><a href="/uk/privacy" class="lang-btn" lang="uk" hreflang="uk" aria-label="Українська" title="Українська" aria-current="false">UK</a></nav><a href="/">Analyzer</a></div></header>
+<main class="content" id="main" tabindex="-1">
+<h2>Privacy Policy</h2><p class="last-updated">Last updated: October 16, 2026</p>
+<section><h3>1. PDF processing and expiry</h3><p>Your PDF is uploaded to our server and processed with Ghostscript. The file, page geometry and requested selection are used to create previews and calculate coverage. PDFs and temporary images are not sent to an analytics service. No account is needed.</p></section>
+<section><h3>2. Access expiry and cleanup</h3><p>New previews and analyses expire 10 minutes from the start of upload. Activity does not extend this window. Cleanup runs on startup and every 60 seconds. Temporary outputs are normally removed when processing finishes; leftovers are retried by cleanup. Expired originals are normally removed on the first cleanup after expiry. Active work can finish first. Deletion failures are logged and retried, so physical deletion may take longer; there is no guaranteed physical deletion deadline. Closing only clears the browser view. Completed matching results remain exportable on their pages until you close or replace the document or change the selection. Upload the PDF again for new work.</p></section>
+<section><h3>3. Cookies, browser preferences and outcomes</h3><p>The application uses no Google Analytics, advertising tracker, analytics cookies, visitor identifiers or session replay. Fonts and application assets are served locally. Browser localStorage saves only language and measurement-unit preferences (lang and units). Documents, selections, coverage results and contact text are not saved there by the application. Preview images and completed results are held in the current page’s memory; copied text and downloaded CSV files remain on your device until you remove them. Aggregate counts of completed, rejected, failed and interrupted upload, preview and analysis requests are held in server memory and periodically written to operational logs. These counts contain no filename, document ID, page number/count, geometry, ink name, coverage value, IP address or browser identifier.</p></section>
+<section><h3>4. Rate limiting and operational logs</h3><p>The application uses IP addresses in memory to enforce shared request allowances. Records are reclaimed after the rolling one-hour window, on subsequent requests, or when the server restarts. Application access logging is disabled in the supplied launchers. Cleanup and aggregate outcome logs contain operational counts and status information. Hosting, reverse-proxy and Cloudflare security/access logs may include IP addresses, request metadata, timestamps and response status. Their retention is managed separately from the PDF expiry window; we do not claim a verified deletion period for those logs. Do not put confidential details in URLs.</p></section>
+<section><h3>5. Network transport and hosting</h3><p>The site is delivered through Cloudflare on hosting provided by Hetzner. The main site inkcoverage.app and the separate beta.inkcoverage.app use HTTPS from your browser to Cloudflare and certificate-validated HTTPS from Cloudflare to the origin. The main-site configuration was verified on 16 October 2026. A local development preview uses loopback HTTP. Cloudflare handles traffic passing through its service and may apply security cookies according to its settings.</p></section>
+<section><h3>6. Optional contact</h3><p>The contact form sends the message and optional reply email directly to Web3Forms when you press Send message. Web3Forms forwards submissions for us to read and reply to. Network metadata may also be processed by that service. Contact messages and email correspondence are separate from PDF processing and are not subject to its 10-minute expiry. The configured Web3Forms account retention and recipient-mailbox deletion schedule have not been independently verified. No PDF or measured result is attached automatically. Do not send confidential artwork or sensitive personal information in your message.</p></section>
+<section><h3>7. External links and providers</h3><p>Cloudflare and Hetzner provide delivery/hosting. Web3Forms is used only for optional contact submission. Ko-fi is an optional external support link; GitHub and LabelEstimate are external links. They are not embedded tracking widgets and are contacted when you choose to visit them. Their own privacy terms apply. The application does not display advertisements. Provider policies: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare</a>, <a href="https://www.hetzner.com/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">Hetzner</a>, <a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer">Web3Forms</a>, <a href="https://more.ko-fi.com/privacy" target="_blank" rel="noopener noreferrer">Ko-fi</a>.</p></section>
+<section><h3>8. Questions and changes</h3><p>Use the <a href="/contact">contact form</a> for a privacy question or a request about correspondence you sent. A reply email is optional but needed if you want a response. You can remove browser preferences through your browser’s site-data settings. This page is updated when handling changes. The source is available on <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener noreferrer">GitHub</a>.</p></section>
+</main>
+<footer class="footer site-footer"><span class="footer-brand">InkCoverage.app</span><nav aria-label="Site navigation"><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a></nav><span class="footer-caption">Free, open-source ink coverage analyzer.</span></footer>
 </body>
 </html>

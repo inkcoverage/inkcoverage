@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>À propos d’InkCoverage.app — InkCoverage.app</title>
+<meta name="description" content="Analyseur PDF de couverture d’encre gratuit et open source pour les deviseurs, le prépresse et les graphistes.">
+<link rel="canonical" href="https://inkcoverage.app/fr/about">
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+<style>
+:root {
+  --bg:#0b0c10; --surface:#13141a; --surface2:#1b1c24;
+  --border:#252630; --border-light:#31323e;
+  --text:#ecedf1; --text-dim:#a4a6b5; --text-muted:#7a7c8e;
+  --accent:#6c8aff; --accent-teal:#00cfff; --radius:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{
+  min-height:100%;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 0%,rgba(108,138,255,.14) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 100%,rgba(255,45,149,.11) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 100%,rgba(108,138,255,.07) 0%,transparent 50%),
+    #0b0c10;
+  background-attachment:fixed;
+}
+body{font-family:'DM Sans',sans-serif;background:transparent;color:var(--text);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:1000;opacity:.038;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;}
+.header{display:flex;align-items:center;gap:12px;padding:14px 24px;border-bottom:1px solid var(--border);background:rgba(19,20,26,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}
+.header-logo{width:36px;height:36px;flex-shrink:0;}
+.header-brand{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;letter-spacing:-.3px;text-decoration:none;color:var(--text);}
+.brand-ink{color:var(--accent-teal);}
+.header-sep{color:var(--border-light);margin:0 2px;font-size:16px;}
+.header-page{font-size:13px;color:var(--text-muted);}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.try-btn{font-size:12px;font-weight:600;color:var(--text-muted);text-decoration:none;padding:5px 12px;border:1px solid var(--border-light);border-radius:6px;transition:all .15s;white-space:nowrap;}
+.try-btn:hover{color:var(--text);border-color:var(--text-muted);}
+.lang-switcher{display:flex;align-items:center;gap:1px;}
+.lang-btn{background:none;border:none;color:var(--text-muted);font-size:11px;font-weight:500;cursor:pointer;padding:4px 7px;border-radius:4px;text-decoration:none;transition:all .15s;letter-spacing:.3px;}
+.lang-btn:hover{color:var(--text);background:var(--surface2);}
+.lang-btn.active{color:var(--accent);background:rgba(108,138,255,.12);}
+.content{max-width:720px;margin:0 auto;padding:48px 24px 80px;flex:1;}
+.content h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;margin-bottom:28px;letter-spacing:-.5px;}
+.content h3{font-size:16px;font-weight:600;margin-top:36px;margin-bottom:12px;}
+.content p{font-size:15px;line-height:1.75;color:var(--text-dim);margin-bottom:14px;}
+.content ul{padding-left:24px;margin-bottom:14px;}
+.content li{font-size:15px;line-height:1.75;color:var(--text-dim);margin-bottom:6px;}
+.content li strong{color:var(--text);font-weight:600;}
+.content a{color:var(--accent);text-decoration:none;}
+.content a:hover{text-decoration:underline;}
+.footer{padding:14px 24px;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--text-muted);}
+.footer a{color:var(--text-dim);text-decoration:none;margin:0 4px;}
+.footer a:hover{color:var(--text);}
+@media(max-width:600px){.content{padding:32px 16px 60px;}.header-page{display:none;}}
+</style>
+<link rel="stylesheet" href="/static/app-fonts.css?v=20261015-preview-pages">
+<link rel="stylesheet" href="/static/info-pages.css?v=20261015-preview-pages">
+<meta property="og:title" content="À propos d’InkCoverage.app — InkCoverage.app">
+<meta property="og:description" content="Analyseur PDF de couverture d’encre gratuit et open source pour les deviseurs, le prépresse et les graphistes.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://inkcoverage.app/fr/about">
+<meta property="og:image" content="https://inkcoverage.app/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://inkcoverage.app/static/og-image.png">
+<meta name="twitter:title" content="À propos d’InkCoverage.app — InkCoverage.app">
+<meta name="twitter:description" content="Analyseur PDF de couverture d’encre gratuit et open source pour les deviseurs, le prépresse et les graphistes.">
+<link rel="stylesheet" href="/static/site-chrome.css?v=20261016-seven-languages">
+<script src="/static/site-navigation.js?v=20261016-seven-languages" defer></script>
+<link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/about">
+<link rel="alternate" hreflang="en" href="https://inkcoverage.app/about">
+<link rel="alternate" hreflang="es" href="https://inkcoverage.app/es/about">
+<link rel="alternate" hreflang="pt" href="https://inkcoverage.app/pt/about">
+<link rel="alternate" hreflang="zh-Hans" href="https://inkcoverage.app/zh/about">
+<link rel="alternate" hreflang="de" href="https://inkcoverage.app/de/about">
+<link rel="alternate" hreflang="fr" href="https://inkcoverage.app/fr/about">
+<link rel="alternate" hreflang="uk" href="https://inkcoverage.app/uk/about">
+</head>
+<body class="info-page">
+<a class="skip-link" href="#main">Aller à l’outil</a>
+
+<header class="header"><a class="brand" href="/fr"><img src="/static/icon.svg" alt=""><span class="brand-title"><span class="brand-ink">Ink</span>Coverage <span class="brand-version">2.0</span><span class="header-tagline">Analyse de couverture d’encre</span></span></a><div class="header-links"><details class="mobile-site-menu"><summary aria-label="Navigation du site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary><nav class="mobile-site-links" aria-label="Navigation du site"><a href="/fr/about">À propos</a><a href="/fr/faq">FAQ</a><a href="/fr/contact">Contact</a><a href="/fr/privacy">Confidentialité</a></nav></details><nav class="lang-switcher" aria-label="Langue"><a href="/about" class="lang-btn" lang="en" hreflang="en" aria-label="English" title="English" aria-current="false">EN</a><a href="/es/about" class="lang-btn" lang="es" hreflang="es" aria-label="Español" title="Español" aria-current="false">ES</a><a href="/pt/about" class="lang-btn" lang="pt" hreflang="pt" aria-label="Português" title="Português" aria-current="false">PT</a><a href="/zh/about" class="lang-btn" lang="zh-Hans" hreflang="zh-Hans" aria-label="简体中文" title="简体中文" aria-current="false">ZH</a><a href="/de/about" class="lang-btn" lang="de" hreflang="de" aria-label="Deutsch" title="Deutsch" aria-current="false">DE</a><a href="/fr/about" class="lang-btn active" lang="fr" hreflang="fr" aria-label="Français" title="Français" aria-current="page">FR</a><a href="/uk/about" class="lang-btn" lang="uk" hreflang="uk" aria-label="Українська" title="Українська" aria-current="false">UK</a></nav><a href="/fr">Analyseur</a></div></header>
+
+<main class="content" id="main" tabindex="-1">
+<h2>À propos d’InkCoverage.app</h2><h3>Qu’est-ce que c’est ?</h3><p>InkCoverage est un assistant gratuit dans le navigateur pour les deviseurs, opérateurs prépresse et graphistes. Il mesure la couverture moyenne des canaux CMJN et des couleurs directes nommées dans les PDF et aide à examiner les encres et les dimensions sélectionnées.</p>
+<h3>Que permet-il de faire ?</h3><p>Analyser la couverture mesure la page actuelle, toutes les pages ou une plage, avec une zone facultative. Vérifier la limite d’encrage repère les zones du rendu dépassant un total cible sur la page actuelle ou sa sélection. Choisissez les encres comptées et excluez au besoin le blanc, la dorure, le vernis et les canaux techniques. Consultez le total maximal et la proportion de surface au-dessus de la limite, puis repérez ces zones avec Carte thermique ou Superposition.</p>
+<h3>À qui s’adresse-t-il ?</h3><p>Aux deviseurs qui souhaitent vérifier rapidement les fichiers et obtenir des données de couverture, ainsi qu’aux techniciens qui doivent examiner les séparations ou les zones très chargées. InkCoverage est un assistant pratique plutôt qu’une suite complète de contrôle prépresse.</p>
+<p>La couverture peut aider à estimer la consommation d’encre, mais ne calcule ni la masse d’encre ni le coût et ne certifie pas l’aptitude à l’impression. Ces éléments dépendent aussi de l’encre, du support et du procédé. Confirmez les limites avec votre imprimeur et effectuez un contrôle prépresse adapté.</p>
+<h3>Que puis-je vérifier d’autre ?</h3><p>Les cases des canaux montrent où chaque encre est utilisée, y compris dorure et vernis si le PDF les définit comme canaux directs nommés. Alt-clic isole un canal ; l’aperçu noir rend les encres claires visibles. Une sélection donne des dimensions approximatives d’étiquette ou de découpe. Copier, CSV et Rapport PDF regroupent toutes les mesures terminées ; les rapports incluent aussi les contrôles d’encrage terminés et les profils.</p>
+<h3>Pourquoi cet outil existe-t-il ?</h3><p>Il répond à un besoin concret rencontré dans l’imprimerie : vérifier rapidement la couverture des PDF reçus sans ouvrir une application prépresse complète pour obtenir un simple chiffre. Aucun outil gratuit satisfaisant n’existait. Il a donc été créé, puis mis à la disposition de toutes les personnes ayant le même besoin.</p>
+<h3>Comment fonctionne-t-il ?</h3><p>Les fichiers sont traités sur le serveur par <strong>Ghostscript</strong>, interpréteur PostScript et PDF open source reconnu dans l’industrie. Un serveur Python pilote l’analyse. Chaque canal est séparé et mesuré indépendamment.</p>
+<p>Les nouveaux aperçus et analyses expirent 10 minutes après l’import ; l’utilisation ne prolonge pas ce délai. Le nettoyage s’exécute au démarrage et toutes les 60 secondes. Les sorties temporaires sont supprimées à la fin du traitement ; le nettoyage réessaie les suppressions restantes. Les originaux expirés sont normalement supprimés au premier nettoyage suivant. Un traitement actif peut finir d’abord ; les échecs de suppression sont journalisés et réessayés, donc la suppression physique peut prendre plus de temps. Fermer le document efface uniquement cette vue du navigateur. Les résultats terminés restent exportables sur leurs pages jusqu’à la fermeture, au remplacement du document ou au changement de sélection. Importez à nouveau le PDF pour de nouveaux travaux.</p>
+<p>InkCoverage.app est un logiciel open source sous licence AGPL-3.0. Le code source complet est disponible sur <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+
+</main>
+
+<footer class="footer site-footer"><span class="footer-brand">InkCoverage.app</span><nav aria-label="Navigation du site"><a href="/fr/about">À propos</a><a href="/fr/faq">FAQ</a><a href="/fr/contact">Contact</a><a href="/fr/privacy">Confidentialité</a></nav><span class="footer-caption">Analyseur de couverture d’encre gratuit et open source.</span></footer>
+
+</body>
+</html>

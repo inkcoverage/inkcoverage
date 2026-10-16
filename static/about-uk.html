@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Про InkCoverage.app — InkCoverage.app</title>
+<meta name="description" content="Безкоштовний аналізатор покриття фарбою у PDF з відкритим кодом для кошторисників друку, додрукарської підготовки й дизайнерів.">
+<link rel="canonical" href="https://inkcoverage.app/uk/about">
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+<style>
+:root {
+  --bg:#0b0c10; --surface:#13141a; --surface2:#1b1c24;
+  --border:#252630; --border-light:#31323e;
+  --text:#ecedf1; --text-dim:#a4a6b5; --text-muted:#7a7c8e;
+  --accent:#6c8aff; --accent-teal:#00cfff; --radius:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{
+  min-height:100%;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 0%,rgba(108,138,255,.14) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 100%,rgba(255,45,149,.11) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 100%,rgba(108,138,255,.07) 0%,transparent 50%),
+    #0b0c10;
+  background-attachment:fixed;
+}
+body{font-family:'DM Sans',sans-serif;background:transparent;color:var(--text);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:1000;opacity:.038;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;}
+.header{display:flex;align-items:center;gap:12px;padding:14px 24px;border-bottom:1px solid var(--border);background:rgba(19,20,26,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}
+.header-logo{width:36px;height:36px;flex-shrink:0;}
+.header-brand{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;letter-spacing:-.3px;text-decoration:none;color:var(--text);}
+.brand-ink{color:var(--accent-teal);}
+.header-sep{color:var(--border-light);margin:0 2px;font-size:16px;}
+.header-page{font-size:13px;color:var(--text-muted);}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.try-btn{font-size:12px;font-weight:600;color:var(--text-muted);text-decoration:none;padding:5px 12px;border:1px solid var(--border-light);border-radius:6px;transition:all .15s;white-space:nowrap;}
+.try-btn:hover{color:var(--text);border-color:var(--text-muted);}
+.lang-switcher{display:flex;align-items:center;gap:1px;}
+.lang-btn{background:none;border:none;color:var(--text-muted);font-size:11px;font-weight:500;cursor:pointer;padding:4px 7px;border-radius:4px;text-decoration:none;transition:all .15s;letter-spacing:.3px;}
+.lang-btn:hover{color:var(--text);background:var(--surface2);}
+.lang-btn.active{color:var(--accent);background:rgba(108,138,255,.12);}
+.content{max-width:720px;margin:0 auto;padding:48px 24px 80px;flex:1;}
+.content h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;margin-bottom:28px;letter-spacing:-.5px;}
+.content h3{font-size:16px;font-weight:600;margin-top:36px;margin-bottom:12px;}
+.content p{font-size:15px;line-height:1.75;color:var(--text-dim);margin-bottom:14px;}
+.content ul{padding-left:24px;margin-bottom:14px;}
+.content li{font-size:15px;line-height:1.75;color:var(--text-dim);margin-bottom:6px;}
+.content li strong{color:var(--text);font-weight:600;}
+.content a{color:var(--accent);text-decoration:none;}
+.content a:hover{text-decoration:underline;}
+.footer{padding:14px 24px;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--text-muted);}
+.footer a{color:var(--text-dim);text-decoration:none;margin:0 4px;}
+.footer a:hover{color:var(--text);}
+@media(max-width:600px){.content{padding:32px 16px 60px;}.header-page{display:none;}}
+</style>
+<link rel="stylesheet" href="/static/app-fonts.css?v=20261015-preview-pages">
+<link rel="stylesheet" href="/static/info-pages.css?v=20261015-preview-pages">
+<meta property="og:title" content="Про InkCoverage.app — InkCoverage.app">
+<meta property="og:description" content="Безкоштовний аналізатор покриття фарбою у PDF з відкритим кодом для кошторисників друку, додрукарської підготовки й дизайнерів.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://inkcoverage.app/uk/about">
+<meta property="og:image" content="https://inkcoverage.app/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:locale" content="uk_UA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://inkcoverage.app/static/og-image.png">
+<meta name="twitter:title" content="Про InkCoverage.app — InkCoverage.app">
+<meta name="twitter:description" content="Безкоштовний аналізатор покриття фарбою у PDF з відкритим кодом для кошторисників друку, додрукарської підготовки й дизайнерів.">
+<link rel="stylesheet" href="/static/site-chrome.css?v=20261016-seven-languages">
+<script src="/static/site-navigation.js?v=20261016-seven-languages" defer></script>
+<link rel="alternate" hreflang="x-default" href="https://inkcoverage.app/about">
+<link rel="alternate" hreflang="en" href="https://inkcoverage.app/about">
+<link rel="alternate" hreflang="es" href="https://inkcoverage.app/es/about">
+<link rel="alternate" hreflang="pt" href="https://inkcoverage.app/pt/about">
+<link rel="alternate" hreflang="zh-Hans" href="https://inkcoverage.app/zh/about">
+<link rel="alternate" hreflang="de" href="https://inkcoverage.app/de/about">
+<link rel="alternate" hreflang="fr" href="https://inkcoverage.app/fr/about">
+<link rel="alternate" hreflang="uk" href="https://inkcoverage.app/uk/about">
+</head>
+<body class="info-page">
+<a class="skip-link" href="#main">Перейти до інструмента</a>
+
+<header class="header"><a class="brand" href="/uk"><img src="/static/icon.svg" alt=""><span class="brand-title"><span class="brand-ink">Ink</span>Coverage <span class="brand-version">2.0</span><span class="header-tagline">Аналіз покриття фарбою</span></span></a><div class="header-links"><details class="mobile-site-menu"><summary aria-label="Навігація сайтом"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary><nav class="mobile-site-links" aria-label="Навігація сайтом"><a href="/uk/about">Про проєкт</a><a href="/uk/faq">Запитання</a><a href="/uk/contact">Контакти</a><a href="/uk/privacy">Конфіденційність</a></nav></details><nav class="lang-switcher" aria-label="Мова"><a href="/about" class="lang-btn" lang="en" hreflang="en" aria-label="English" title="English" aria-current="false">EN</a><a href="/es/about" class="lang-btn" lang="es" hreflang="es" aria-label="Español" title="Español" aria-current="false">ES</a><a href="/pt/about" class="lang-btn" lang="pt" hreflang="pt" aria-label="Português" title="Português" aria-current="false">PT</a><a href="/zh/about" class="lang-btn" lang="zh-Hans" hreflang="zh-Hans" aria-label="简体中文" title="简体中文" aria-current="false">ZH</a><a href="/de/about" class="lang-btn" lang="de" hreflang="de" aria-label="Deutsch" title="Deutsch" aria-current="false">DE</a><a href="/fr/about" class="lang-btn" lang="fr" hreflang="fr" aria-label="Français" title="Français" aria-current="false">FR</a><a href="/uk/about" class="lang-btn active" lang="uk" hreflang="uk" aria-label="Українська" title="Українська" aria-current="page">UK</a></nav><a href="/uk">Аналізатор</a></div></header>
+
+<main class="content" id="main" tabindex="-1">
+<h2>Про InkCoverage.app</h2><h3>Що це?</h3><p>InkCoverage — безкоштовний браузерний помічник для кошторисників друку, фахівців додрукарської підготовки й дизайнерів. Він вимірює середнє покриття каналів CMYK і названих сумішевих фарб у PDF-макетах та допомагає перевіряти фарби й вибрані розміри.</p>
+<h3>Що він робить?</h3><p>Аналізувати покриття вимірює поточну сторінку, всі сторінки або діапазон, за потреби — вибрану ділянку. Перевірити ліміт фарби знаходить ділянки растру понад заданий сумарний ліміт на поточній сторінці чи ділянці. Виберіть враховані фарби; білу фарбу, фольгу, лак і технічні канали можна виключити. Перегляньте найбільшу суму й відсоток площі понад ліміт, потім знайдіть ці місця за допомогою теплової карти чи накладання.</p>
+<h3>Для кого це?</h3><p>Для кошторисників, яким потрібні швидкі перевірки макетів і дані покриття, та фахівців, що перевіряють кольороподіл чи локально високий шар фарби. InkCoverage — практичний помічник, а не повний комплекс додрукарської перевірки.</p>
+<p>Покриття допомагає оцінювати витрати фарби, але не обчислює її масу чи вартість і не засвідчує готовність до друку. Це також залежить від фарби, матеріалу та способу друку. Узгодьте виробничі ліміти з друкарнею та використовуйте належну додрукарську перевірку.</p>
+<h3>Що ще можна перевірити?</h3><p>Позначки каналів допомагають побачити використання кожної фарби, зокрема фольги чи лаку, якщо PDF визначає їх як названі сумішеві канали. Alt-клацання ізолює канал; чорний перегляд робить світлі фарби видимими. Вибрана ділянка дає приблизні розміри етикетки чи контуру висікання. Копіювання, CSV і PDF-звіт збирають усі завершені вимірювання; звіти також містять завершені перевірки ліміту й інформацію про профілі.</p>
+<h3>Чому цей інструмент існує?</h3><p>Він виник із реальної потреби в поліграфії: швидко перевіряти покриття фарбою в отриманих PDF без запуску повної системи додрукарської підготовки заради одного числа. Зручного безкоштовного рішення не було. Тому інструмент створили й відкрили всім, хто має таку саму потребу.</p>
+<h3>Як це працює?</h3><p>Файли обробляються на сервері за допомогою <strong>Ghostscript</strong> — поширеного інтерпретатора PostScript і PDF з відкритим кодом. Серверна частина Python керує аналізом. Кожний канал виділяється та вимірюється окремо.</p>
+<p>Нові перегляди й аналізи доступні 10 хвилин після початку завантаження; використання PDF не продовжує цей термін. Очищення запускається під час старту й кожні 60 секунд. Тимчасові результати видаляються після обробки; очищення повторює видалення залишків. Оригінали з вичерпаним терміном зазвичай видаляються під час першого наступного очищення. Активна обробка може завершитися першою; помилки видалення журналюються та повторюються, тому фізичне видалення може тривати довше. Закриття документа очищує лише цей вигляд браузера. Готові результати можна експортувати з їхніх сторінок, доки ви не закриєте чи не заміните документ або не зміните ділянку. Для нової роботи завантажте PDF знову.</p>
+<p>InkCoverage.app — програмне забезпечення з відкритим кодом за ліцензією AGPL-3.0. Повний код доступний на <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+
+</main>
+
+<footer class="footer site-footer"><span class="footer-brand">InkCoverage.app</span><nav aria-label="Навігація сайтом"><a href="/uk/about">Про проєкт</a><a href="/uk/faq">Запитання</a><a href="/uk/contact">Контакти</a><a href="/uk/privacy">Конфіденційність</a></nav><span class="footer-caption">Безкоштовний аналізатор покриття фарбою з відкритим кодом.</span></footer>
+
+</body>
+</html>
