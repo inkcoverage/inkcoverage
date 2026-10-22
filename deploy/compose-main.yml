@@ -1,7 +1,7 @@
 name: inkcoverage-main
 services:
   inkcoverage:
-    image: inkcoverage-main:2.0-20261016
+    image: inkcoverage-main:analytics-20261021
     build:
       context: .
       args:
