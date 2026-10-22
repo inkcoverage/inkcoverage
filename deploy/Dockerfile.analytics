@@ -1,0 +1,3 @@
+# Static-only release: preserve the exact tested Python/Ghostscript/backend image.
+FROM inkcoverage-main:2.0-20261016
+COPY static/ /app/static/

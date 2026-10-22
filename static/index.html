@@ -1331,7 +1331,7 @@
 <link rel="stylesheet" href="/static/welcome-tour.css?v=20261015-preview-pages">
 <link rel="stylesheet" href="/static/site-chrome.css?v=20261016-seven-languages">
 <script src="/static/site-navigation.js?v=20261016-seven-languages" defer></script>
-</head>
+<link rel="stylesheet" href="/static/analytics.css?v=20261021"><script defer src="/static/analytics.js?v=20261021" data-site="inkcoverage"></script></head>
 <body class="ic-ui" data-theme="dark">
 
 <div class="app">
@@ -4302,6 +4302,7 @@ function setLang(lang, updateHistory = true) {
   savePreference('lang', lang);
   if (updateHistory && location.pathname !== _langPaths[lang]) history.pushState(null, '', _langPaths[lang] + location.search + location.hash);
   applyTranslations();
+  window.siteAnalytics?.page();
   const measured = validResult(state.currentPage);
   if (measured) renderResults(measured);
   else showResultsEmptyState();
@@ -4693,6 +4694,7 @@ async function handleFile(file, { demo = false } = {}) {
     fileNameEl.tabIndex = -1;
     fileNameEl.focus();
 
+    trackInk('file_upload');
     await loadPreview();
   } catch (err) {
     if (uploadRequest !== request || request.documentVersion !== state.documentVersion) return;
@@ -5060,6 +5062,15 @@ btnResetCrop.addEventListener('click', () => {
   updateCropUI();
 });
 
+// Strict workflow metadata only; the test PDF stays out of usage funnels.
+function trackInk(name, params = {}) {
+  if (!state.isDemo) window.siteAnalytics?.track(name, params);
+}
+function analyticsFailure(error) {
+  return error.status === 429 ? 'quota' : error.status === 503 ? 'busy'
+    : [404, 410].includes(error.status) ? 'expired' : !error.status ? 'network' : 'processing';
+}
+
 // ---- Analyze ----
 function beginAnalysis(mode, pages = null) {
   if (!state.pdfId || !state.previewReady || state.isLoading || state.isAnalyzing || isDragging || isResizing || state.sourceUnavailable) return null;
@@ -5111,6 +5122,7 @@ function finishAnalysis(request) {
 async function analyzeCurrentPage() {
   const request = beginAnalysis('single');
   if (!request) return;
+  trackInk('analysis_requested', { analysis_mode: 'single', request_kind: 'new' });
   const dims = { widthPt: state.pdfWidthPt, heightPt: state.pdfHeightPt };
   try {
     const data = await apiAnalyze(request.id, request.page,
@@ -5121,9 +5133,11 @@ async function analyzeCurrentPage() {
     state.resultsMode = 'single';
     if (state.batch && sameMeasurement(state.batch.scope) && Object.hasOwn(state.batch.pages, request.page)) state.batch.pages[request.page] = { status: 'completed', error: null };
     updateBatchResultsForPage();
+    trackInk('analysis_completed', { analysis_mode: 'single', result_status: 'complete' });
 
   } catch (err) {
     if (!analysisIsCurrent(request)) return;
+    trackInk('analysis_failed', { analysis_mode: 'single', failure_reason: analyticsFailure(err) });
     const message = err.message || t('toast_analyze_fail');
     if ([404, 410].includes(err.status)) state.sourceUnavailable = true;
     if (state.batch && sameMeasurement(state.batch.scope) && Object.hasOwn(state.batch.pages, request.page)) state.batch.pages[request.page] = { status: 'failed', error: message };
@@ -5237,6 +5251,7 @@ async function runBatch(mode = 'all', selectedPages = null) {
   if (!Array.isArray(pages) || !pages.length || pages.some(page => !Number.isInteger(page) || page < 1 || page > state.pageCount)) return;
   const request = beginAnalysis('batch', fresh ? null : pages);
   if (!request) return;
+  trackInk('analysis_requested', { analysis_mode: 'batch', request_kind: fresh ? 'new' : mode === 'failed' ? 'retry' : 'resume' });
   const batch = fresh ? { pages: Object.fromEntries(pages.map(page => [page, { status: 'queued', error: null }])) } : previous;
   request.batchPageCount = pages.length;
   batch.scope = request;
@@ -5314,6 +5329,13 @@ async function runBatch(mode = 'all', selectedPages = null) {
     }
   } finally {
     if (analysisRequest === request) {
+      const outcomes = pages.map(page => batch.pages[page].status);
+      const complete = outcomes.every(status => status === 'completed');
+      const anyResult = outcomes.includes('completed');
+      trackInk(anyResult ? 'analysis_completed' : 'analysis_failed', {
+        analysis_mode: 'batch', result_status: complete ? 'complete' : anyResult ? 'partial' : batch.cancelRequested ? 'cancelled' : 'failed',
+        ...(!anyResult ? { failure_reason: batch.cancelRequested ? 'cancelled' : 'processing' } : {})
+      });
       batch.active = false;
       state.resultsMode = 'batch';
       updateBatchResultsForPage();
@@ -5805,7 +5827,7 @@ window.addEventListener('focus', () => refreshAllowance());
 showResultsEmptyState();
 </script>
 <script src="/static/preview-zoom.js?v=20261015-preview-pages"></script>
-<script src="/static/ink-limit.js?v=20261015-preview-pages"></script>
+<script src="/static/ink-limit.js?v=20261021-analytics"></script>
 <script src="/static/channel-preview.js?v=20261015-preview-pages"></script>
 <script src="/static/coverage-report.js?v=20261016-seven-languages"></script>
 <script src="/static/batch-picker.js?v=20261015-preview-pages"></script>

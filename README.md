@@ -22,7 +22,7 @@ Compose, when available, binds loopback port 8000 with one non-root worker, stat
 - Defaults: uploads 50 MiB/100 pages; by-IP rolling hourly quotas 10 uploads, 120 previews, 30 analyses. Busy/failed admitted work may count. Quotas are shared by IP in one worker's memory.
 - Preview/analysis access expires 600 seconds after upload. Close clears only the browser view. Cleanup runs on startup/every 60 seconds, protects active workers and retries failures; physical deletion may follow expiry. Rendering, time, disk and concurrency bounds also apply; workload.py defines them.
 - RGB/unknown warnings and declared profiles are informational, not output-profile selection. Analysis stays at 72 dpi and preview at 150 dpi. No new precision/resolution controls.
-- Local fonts/assets; no analytics/ad scripts. Only language/units are browser preferences; PDFs/results are not saved in localStorage. See the translated privacy pages for provider/contact/operational limitations.
+- Local fonts/assets; optional Google Analytics loads only after consent, with advertising features disabled. Language/units and the analytics choice are browser preferences; PDFs/results are not saved in localStorage. See the translated privacy pages for provider/contact/operational limitations.
 
 ## Source and verification
 

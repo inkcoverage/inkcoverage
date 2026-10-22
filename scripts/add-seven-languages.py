@@ -141,4 +141,10 @@ for page in ('','about','faq','contact','privacy'):
             ET.SubElement(node, f'{{{xn}}}link', rel='alternate', hreflang=tag, href=SITE + route(code,page))
 ET.indent(root)
 ET.ElementTree(root).write(STATIC / 'sitemap.xml', encoding='utf-8', xml_declaration=True)
+for path in STATIC.glob('*.html'):
+    if path.name.startswith(('index', 'about', 'faq', 'contact', 'privacy')):
+        source = path.read_text(encoding='utf-8')
+        if 'data-site="inkcoverage"' not in source:
+            source = source.replace('</head>', '<link rel="stylesheet" href="/static/analytics.css?v=20261021"><script defer src="/static/analytics.js?v=20261021" data-site="inkcoverage"></script></head>')
+            path.write_text(source, encoding='utf-8')
 print('Integrated seven full analyzer catalogs and 35 public routes.')

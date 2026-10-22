@@ -116,7 +116,7 @@
   "retention": "Les nouveaux aperçus et analyses expirent 10 minutes après l’import ; l’utilisation ne prolonge pas ce délai. Le nettoyage s’exécute au démarrage et toutes les 60 secondes. Les sorties temporaires sont supprimées à la fin du traitement ; le nettoyage réessaie les suppressions restantes. Les originaux expirés sont normalement supprimés au premier nettoyage suivant. Un traitement actif peut finir d’abord ; les échecs de suppression sont journalisés et réessayés, donc la suppression physique peut prendre plus de temps. Fermer le document efface uniquement cette vue du navigateur. Les résultats terminés restent exportables sur leurs pages jusqu’à la fermeture, au remplacement du document ou au changement de sélection. Importez à nouveau le PDF pour de nouveaux travaux.",
   "privacy_title": "Politique de confidentialité",
   "privacy_desc": "Traitement des fichiers, préférences et contact facultatif — InkCoverage.app",
-  "updated": "Dernière mise à jour : 16 octobre 2026",
+  "updated": "Dernière mise à jour : 21 octobre 2026",
   "privacy": [
     [
       "1. Traitement des PDF et expiration",
@@ -128,7 +128,7 @@
     ],
     [
       "3. Cookies, préférences du navigateur et compteurs",
-      "L’application n’utilise ni Google Analytics, ni traceurs publicitaires, ni cookies statistiques, ni identifiants de visiteurs, ni enregistrement de sessions. Les polices et ressources sont servies localement. localStorage ne conserve que la langue et l’unité de mesure (lang et units), sans documents, sélections, résultats ni texte de contact. Les aperçus et résultats restent en mémoire dans la page actuelle ; les textes copiés et CSV téléchargés restent sur votre appareil jusqu’à leur suppression. Les nombres agrégés de requêtes d’import, d’aperçu et d’analyse terminées, refusées, échouées ou interrompues sont gardés en mémoire serveur et inscrits périodiquement dans les journaux d’exploitation. Ils ne contiennent aucun nom de fichier, identifiant de document, numéro ou nombre de pages, géométrie, nom d’encre, valeur de couverture, adresse IP ni identifiant de navigateur."
+      "localStorage conserve la langue, les unités de mesure et votre choix de statistiques. Les PDF et les résultats d’analyse n’y sont pas enregistrés. Google Analytics est facultatif et ne se charge qu’après votre accord. Google reçoit les visites de pages, les actions dans les outils et les informations habituelles de connexion/navigateur ; des cookies statistiques distinguent les visites. Nous n’envoyons aucun visuel, nom de fichier, renseignement client, texte saisi ou résultat calculé. Les fonctions publicitaires sont désactivées. Votre choix et les cookies statistiques sont conservés jusqu’à 180 jours. Utilisez Choix des statistiques en bas de page pour modifier votre choix ; les outils restent disponibles en cas de refus. Les actions avant l’accord et les exemples intégrés sont exclus du suivi d’utilisation des outils. Les aperçus et résultats restent en mémoire dans la page actuelle ; les textes copiés et CSV téléchargés restent sur votre appareil jusqu’à leur suppression. Les nombres agrégés de requêtes d’import, d’aperçu et d’analyse terminées, refusées, échouées ou interrompues sont gardés en mémoire serveur et inscrits périodiquement dans les journaux d’exploitation. Ils ne contiennent aucun nom de fichier, identifiant de document, numéro ou nombre de pages, géométrie, nom d’encre, valeur de couverture, adresse IP ni identifiant de navigateur."
     ],
     [
       "4. Quotas et journaux d’exploitation",

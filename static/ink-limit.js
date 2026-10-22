@@ -104,6 +104,7 @@
     const checkCrop = form.elements.inkLimitArea.value === 'selection' ? {...state.crop} : null;
     close();
     const request = beginAnalysis('ink-limit'); if (!request) return;
+    trackInk('ink_limit_requested');
     request.checkCrop = checkCrop; active = request; error = null; results.delete(request.page);
     const dims = {widthPt: state.pdfWidthPt, heightPt: state.pdfHeightPt};
     const geometryScope = {...request, crop: checkCrop};
@@ -123,9 +124,11 @@
         image.onerror = () => reject(new Error(t('heatmap_failed'))); image.src = data.image; });
       if (!analysisIsCurrent(request)) return;
       results.set(request.page, {scope: request, data}); view = 'overlay';
+      trackInk('ink_limit_completed', { result_status: 'complete' });
       announceStatus(data.pixelsOverLimit ? t('limit_complete') : formatText('no_areas_over_limit', {limit}));
     } catch (err) {
       if (!analysisIsCurrent(request)) return;
+      trackInk('ink_limit_failed', { failure_reason: analyticsFailure(err) });
       if ([404, 410].includes(err.status)) state.sourceUnavailable = true;
       error = {scope: request, message: err.message};
     } finally {

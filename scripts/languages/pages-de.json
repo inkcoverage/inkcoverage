@@ -116,7 +116,7 @@
   "retention": "Neue Vorschauen und Analysen sind ab dem Hochladen 10 Minuten verfügbar; die Nutzung verlängert diese Frist nicht. Die Bereinigung läuft beim Start und alle 60 Sekunden. Temporäre Ausgaben werden nach der Verarbeitung entfernt; Reste werden erneut bereinigt. Abgelaufene Originale werden normalerweise beim nächsten Bereinigungslauf entfernt. Aktive Verarbeitung darf zuerst enden; Löschfehler werden protokolliert und erneut versucht, sodass die physische Löschung länger dauern kann. Schließen leert nur diese Browseransicht. Fertige Ergebnisse bleiben auf ihren Seiten exportierbar, bis Sie das Dokument schließen, ersetzen oder die Auswahl ändern. Für neue Arbeiten die PDF erneut hochladen.",
   "privacy_title": "Datenschutzerklärung",
   "privacy_desc": "Dateiverarbeitung, Einstellungen und optionaler Kontakt — InkCoverage.app",
-  "updated": "Zuletzt aktualisiert: 16. Oktober 2026",
+  "updated": "Zuletzt aktualisiert: 21. Oktober 2026",
   "privacy": [
     [
       "1. PDF-Verarbeitung und Ablauf",
@@ -128,7 +128,7 @@
     ],
     [
       "3. Cookies, Browsereinstellungen und Ergebnisse",
-      "Die Anwendung verwendet weder Google Analytics noch Werbetracker, Analyse-Cookies, Besucherkennungen oder Sitzungsaufzeichnungen. Schriften und Anwendungsdateien werden lokal bereitgestellt. localStorage speichert nur Sprache und Maßeinheit (lang und units), keine Dokumente, Auswahlen, Messergebnisse oder Kontakttexte. Vorschauen und fertige Ergebnisse bleiben im Arbeitsspeicher der aktuellen Seite; kopierter Text und heruntergeladene CSV-Dateien bleiben auf Ihrem Gerät, bis Sie sie löschen. Aggregierte Zähler abgeschlossener, abgelehnter, fehlgeschlagener und unterbrochener Upload-, Vorschau- und Analyseanfragen werden im Serverspeicher gehalten und regelmäßig in Betriebsprotokolle geschrieben. Sie enthalten keine Dateinamen, Dokument-IDs, Seitenzahlen oder -anzahlen, Geometrie, Farbnamen, Messwerte, IP-Adressen oder Browserkennungen."
+      "localStorage speichert Sprache, Maßeinheit und Ihre Statistik-Auswahl. PDFs und Analyseergebnisse werden dort nicht gespeichert. Google Analytics ist optional und wird erst nach Ihrer Zustimmung geladen. Google erhält Seitenaufrufe, Werkzeugaktionen und übliche Verbindungs-/Browserinformationen; Statistik-Cookies unterscheiden Besuche. Druckdaten, Dateinamen, Kundendaten, eingegebene Texte und berechnete Werte werden nicht gesendet. Werbefunktionen sind deaktiviert. Ihre Auswahl und Statistik-Cookies bleiben bis zu 180 Tage gespeichert. Über Statistik-Einstellungen am unteren Seitenrand können Sie Ihre Auswahl ändern; die Werkzeuge bleiben auch ohne Zustimmung verfügbar. Aktionen vor der Zustimmung und integrierte Beispiele zählen nicht zur Werkzeugnutzung. Vorschauen und fertige Ergebnisse bleiben im Arbeitsspeicher der aktuellen Seite; kopierter Text und heruntergeladene CSV-Dateien bleiben auf Ihrem Gerät, bis Sie sie löschen. Aggregierte Zähler abgeschlossener, abgelehnter, fehlgeschlagener und unterbrochener Upload-, Vorschau- und Analyseanfragen werden im Serverspeicher gehalten und regelmäßig in Betriebsprotokolle geschrieben. Sie enthalten keine Dateinamen, Dokument-IDs, Seitenzahlen oder -anzahlen, Geometrie, Farbnamen, Messwerte, IP-Adressen oder Browserkennungen."
     ],
     [
       "4. Anfragekontingente und Betriebsprotokolle",
