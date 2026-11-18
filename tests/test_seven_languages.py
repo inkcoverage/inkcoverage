@@ -34,7 +34,7 @@ class SevenLanguages(unittest.TestCase):
                 if page == 'faq':
                     data = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', source, re.S)[1])
                     pairs = re.findall(r'<h3 class="faq-question">(.*?)</h3><div class="faq-answer">(.*?)</div>', source, re.S)
-                    self.assertEqual(len(pairs), 17)
+                    self.assertEqual(len(pairs), 19)
                     self.assertEqual(data['inLanguage'], lang)
                     for item, (question, answer) in zip(data['mainEntity'], pairs):
                         self.assertEqual(item['name'], unescape(question))

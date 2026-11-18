@@ -34,7 +34,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy only the application bundle, excluding deployment archives and logs.
-COPY app.py workload.py lifetime.py outcomes.py pdf_colors.py localization.py heatmap.py channel_preview.py ./
+COPY app.py workload.py lifetime.py outcomes.py pdf_colors.py pdf_inspect.py localization.py heatmap.py channel_preview.py ./
 COPY static/ ./static/
 
 # Create temp directory with correct permissions

@@ -1,8 +1,8 @@
-# InkCoverage.app — MK2
+# InkCoverage.app
 
 Free, open-source PDF ink coverage analyzer for flexo, offset and digital prepress. Measures average coverage for each CMYK and spot-color channel over a page or selected area, with Copy, CSV and PDF reports. A separate ink-limit check reports the highest rendered total and area above a chosen limit, with heatmap/overlay and selectable inks. Channel previews support isolation and black display. Results are estimates; the tool does not certify print readiness or calculate ink mass/cost.
 
-Version 2.0 is live at https://inkcoverage.app in seven languages as of 16 October 2026. The separate https://beta.inkcoverage.app remains available for testing. Both use certificate-validated origin HTTPS.
+Version 2.0 is available at https://inkcoverage.app in seven languages. Inspect PDF adds a read-only estimator's viewer for object dimensions, original fill/outline inks and actual PDF layer visibility. The separate https://beta.inkcoverage.app is an independently managed staging service.
 
 ## Local preview
 
@@ -18,6 +18,7 @@ Compose, when available, binds loopback port 8000 with one non-root worker, stat
 - Original dark desktop three-pane design and stacked mobile workflow. Desktop panes fit between the header and footer and scroll internally when needed. Fit/150%/200%/500%, scrolling, hand mode and Spacebar panning only change the view. Test-file captions remain below the preview. Known spot swatches use the document's colour definition; unavailable colours retain the neutral marker.
 - Results belong to their document/page/selection. Selection changes clear readings; unmeasured pages show no result. Matching completed results survive source expiry for export.
 - Analyze opens a Current page / All pages / Page range dialog, with explicit batch outcomes, stop, selective retry and resume. Page size is shown before cropping; mm/in applies to both page and selection sizes.
+- Inspect PDF, beside the zoom controls, opens the current page with Layers on the left and object properties on the right. Hover/click vector shapes or images for page-aligned dimensions (excluding stroke thickness), readable source ink definitions and outline thickness. Eye controls render real layer visibility; hidden objects cannot be selected. Text remains visible but is not selectable. Transparency, gradients, images and unsupported colours show warnings. The inspector preserves the main crop/results and is an estimating helper rather than preflight. New inspections/layer renders use the preview allowance and source-expiry rules; a small in-memory cache avoids repeat requests.
 - Exports include measured pages, dimensions/position in mm or inches, available declared profiles, warnings and incomplete-batch notes. Filenames identify actual measured groups. CSV has comma separators, decimal-point numbers, UTF-8 BOM and quoted text; select those settings in regional spreadsheet import dialogs.
 - Defaults: uploads 50 MiB/100 pages; by-IP rolling hourly quotas 10 uploads, 120 previews, 30 analyses. Busy/failed admitted work may count. Quotas are shared by IP in one worker's memory.
 - Preview/analysis access expires 600 seconds after upload. Close clears only the browser view. Cleanup runs on startup/every 60 seconds, protects active workers and retries failures; physical deletion may follow expiry. Rendering, time, disk and concurrency bounds also apply; workload.py defines them.
@@ -28,7 +29,7 @@ Compose, when available, binds loopback port 8000 with one non-root worker, stat
 
 app.py serves API/public routes. workload.py, lifetime.py, outcomes.py, pdf_colors.py and localization.py provide workload limits, source leases, private aggregate outcomes, bounded colour inspection and initial translation rendering. heatmap.py and channel_preview.py provide ink-limit and separation-mask images. static/index.html contains the UI and shared JSON translation catalog: keep it valid JSON. Both server/browser use that catalog; `data-i18n-html` strings are trusted application markup, never PDF data. Supporting pages are translated static HTML. Current integration scripts are add-seven-languages.py and prepare-main-release.py. Earlier session generators describe historical transformations.
 
-Run `python -m unittest discover -s tests` with Ghostscript available. The release passes 117 tests, including real renderer cases. Tests use owned synthetic PDF fixtures. Older session generators record previous transformations; review their assumptions before replaying them over the current catalog.
+Run `python -m unittest discover -s tests` with Ghostscript available and `node --test tests/analytics*.mjs` for consent/workflow checks. Inspector-specific browser checks are in `scripts/pdf-inspector-browser-check.cjs`; generate their owned sample with `scripts/build-inspector-fixture.py`. Tests use synthetic PDF fixtures. Locale/support integration scripts are `scripts/localize-pdf-inspector.py` and `scripts/update-inspector-support.py`. Older generators record historical transformations; review their assumptions before replaying them over the current catalog.
 
 ## Release
 

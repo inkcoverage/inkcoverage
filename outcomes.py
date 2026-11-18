@@ -5,6 +5,8 @@ from starlette.datastructures import MutableHeaders
 
 log = logging.getLogger('uvicorn.error.outcomes')
 OPERATIONS = {'/api/upload': 'upload', '/api/preview': 'preview', '/api/analyze': 'analysis',
+              '/api/inspect': 'preview',
+              '/api/inspect/layers': 'preview',
               '/api/ink-limit/channels': 'preview', '/api/ink-limit': 'analysis', '/api/channel-preview': 'preview'}
 
 

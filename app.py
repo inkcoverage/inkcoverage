@@ -159,6 +159,10 @@ class AnalyzeRequest(PreviewRequest):
     pdfHeightPt: float = Field(gt=0, allow_inf_nan=False, strict=True)
 
 
+class InspectorLayerRequest(PreviewRequest):
+    hiddenLayers: list[Annotated[str, Field(pattern=r'^[0-9]{1,16}$', strict=True)]] = Field(max_length=128)
+
+
 class InkLimitRequest(AnalyzeRequest):
     limit: float = Field(ge=0, le=6400, allow_inf_nan=False, strict=True)
     channels: list[Annotated[str, Field(min_length=1, max_length=1024, strict=True)]] = Field(min_length=1, max_length=64)
@@ -825,6 +829,81 @@ def _preview_job(req, session_dir, pdf_path):
     limits.check_deadline()
     return {"image": f"data:image/png;base64,{b64}", "widthPt": width_pt, "heightPt": height_pt,
             "colorInfo": color_info}
+
+
+def _object_inspection_job(req, pdf_path):
+    # Inspect in a disposable, memory/time-bounded process, like colour metadata.
+    # The original PDF remains leased until this worker actually finishes.
+    _inspect_page(_find_gs(), pdf_path, req.page)
+    try:
+        result = limits.execute_processor([sys.executable, str(BASE_DIR / "pdf_inspect.py"),
+                                           str(pdf_path), str(req.page)], limits.remaining_timeout(15))
+        if result.returncode == 0:
+            data = json.loads(result.stdout)
+            if (isinstance(data, dict) and data.get('page') == req.page
+                    and isinstance(data.get('objects'), list) and len(data['objects']) <= 1500
+                    and all(isinstance(data.get(k), (int, float)) and math.isfinite(data[k]) and data[k] > 0
+                            for k in ('widthPt', 'heightPt'))):
+                return data
+    except (OSError, ValueError, TypeError, subprocess.TimeoutExpired):
+        pass
+    raise HTTPException(422, "Could not inspect this PDF page. Try a simpler PDF.")
+
+
+@app.post("/api/inspect")
+async def inspect_objects(req: PreviewRequest, request: Request):
+    session_dir, pdf_path = _session_paths(req.id)
+    files.acquire(session_dir)
+    try:
+        limits.rates.take(limits.client_identity(request.scope), "preview", limits.PREVIEW_RATE_MAX)
+    except BaseException:
+        files.release(session_dir)
+        raise
+    return await limits.jobs.run(_object_inspection_job, req, pdf_path,
+                                 on_finished=lambda: files.release(session_dir))
+
+
+def _inspector_layer_job(req, session_dir, pdf_path):
+    limits.check_disk_space(TEMP_DIR)
+    gs = _find_gs()
+    width, height = _inspect_page(gs, pdf_path, req.page)
+    unit = _get_page_user_unit(gs, str(pdf_path), req.page)
+    limits.check_raster(width, height, PREVIEW_DPI, 'preview', unit)
+    job_dir = Path(tempfile.mkdtemp(prefix='preview_', dir=session_dir))
+    token = limits.WORK_DIR.set(job_dir)
+    try:
+        view_path, image_path = job_dir/'layers.pdf', job_dir/'layers.png'
+        result = limits.execute_processor([sys.executable, str(BASE_DIR/'pdf_inspect.py'), str(pdf_path),
+            str(req.page), '--layer-view', json.dumps(sorted(set(req.hiddenLayers))), str(view_path)], limits.remaining_timeout(15))
+        if result.returncode != 0 or not view_path.is_file():
+            raise HTTPException(422, 'Could not change layer visibility for this PDF page.')
+        command = _raster_command(gs, str(view_path), 1, 'png16m', PREVIEW_DPI, str(image_path))
+        command.insert(1, '-dPrinted=false')
+        _run_gs(command, limits.remaining_timeout(60), 'preview_failed')
+        _image_size(image_path, 'PNG', 'RGB', 'preview_failed')
+        import base64
+        encoded = base64.b64encode(image_path.read_bytes()).decode('ascii')
+        limits.check_deadline()
+        return {'page': req.page, 'widthPt': width*unit, 'heightPt': height*unit,
+                'hiddenLayers': sorted(set(req.hiddenLayers)), 'image': f'data:image/png;base64,{encoded}'}
+    except subprocess.TimeoutExpired:
+        raise HTTPException(422, 'Layer preview took too long. Try a simpler PDF.') from None
+    finally:
+        limits.WORK_DIR.reset(token)
+        files.remove_derivative(job_dir, session_dir)
+
+
+@app.post('/api/inspect/layers')
+async def inspector_layers(req: InspectorLayerRequest, request: Request):
+    session_dir, pdf_path = _session_paths(req.id)
+    files.acquire(session_dir)
+    try:
+        limits.rates.take(limits.client_identity(request.scope), 'preview', limits.PREVIEW_RATE_MAX)
+    except BaseException:
+        files.release(session_dir)
+        raise
+    return await limits.jobs.run(_inspector_layer_job, req, session_dir, pdf_path,
+                                 on_finished=lambda: files.release(session_dir))
 
 
 @app.post("/api/preview")

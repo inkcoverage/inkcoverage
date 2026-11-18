@@ -278,7 +278,7 @@ class RequestBounds:
 
     async def __call__(self, scope, receive, send):
         if scope['type'] != 'http' or scope.get('method') != 'POST' or scope['path'] not in (
-                '/api/upload', '/api/preview', '/api/analyze', '/api/ink-limit/channels', '/api/ink-limit', '/api/channel-preview'):
+                '/api/upload', '/api/preview', '/api/inspect', '/api/inspect/layers', '/api/analyze', '/api/ink-limit/channels', '/api/ink-limit', '/api/channel-preview'):
             return await self.app(scope, receive, send)
         upload = scope['path'] == '/api/upload'
         admitted = False
