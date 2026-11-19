@@ -94,6 +94,7 @@
     if (item.colorWarning) properties.append(text('p', tr('color_warning'), 'inspect-warning'));
     if (item.geometryWarning) properties.append(text('p', tr('geometry_warning'), 'inspect-warning'));
     if (item.type === 'Path') properties.append(text('p', tr('source_note'), 'inspect-selection-note'));
+    if (item.type === 'Text') properties.append(text('p', tr('text_bounds'), 'inspect-selection-note'));
     if (selected && overlap.length > 1) {
       const row = document.createElement('div'); row.className = 'inspect-overlap';
       row.append(text('span', tr('overlap',{index:overlapIndex+1,count:overlap.length})));
@@ -128,7 +129,7 @@
       context.beginPath(); context.rect(item.clip[0], item.clip[1], item.clip[2]-item.clip[0], item.clip[3]-item.clip[1]); context.clip();
       context.strokeStyle = pinned ? '#255bff' : '#ff8a18'; context.fillStyle = pinned ? '#3565ff18' : '#ff8a1818';
       context.lineWidth = 2/scale; context.setLineDash([]);
-      if (item.fill.kind !== 'None') context.fill(entry.path, item.evenOdd ? 'evenodd' : 'nonzero');
+      if (item.type === 'Text' || item.fill.kind !== 'None') context.fill(entry.path, item.evenOdd ? 'evenodd' : 'nonzero');
       context.stroke(entry.path);
       context.restore();
       context.save(); context.strokeStyle = pinned ? '#255bff' : '#ff8a18'; context.lineWidth = 1/scale; context.setLineDash([4/scale, 4/scale]);
@@ -162,7 +163,8 @@
       const b = item.bounds, clip = item.clip;
       if (x < clip[0] || y < clip[1] || x > clip[2] || y > clip[3]
           || x < b[0]-tolerance || y < b[1]-tolerance || x > b[2]+tolerance || y > b[3]+tolerance) return false;
-      if (item.fill.kind !== 'None' && hitContext.isPointInPath(path, x, y, item.evenOdd ? 'evenodd' : 'nonzero')) return true;
+      if (item.type === 'Text') return x >= b[0] && y >= b[1] && x <= b[2] && y <= b[3];
+      if ((item.type === 'Text' || item.fill.kind !== 'None') && hitContext.isPointInPath(path, x, y, item.evenOdd ? 'evenodd' : 'nonzero')) return true;
       hitContext.lineWidth = Math.max(tolerance*2, item.lineWidthPt || 0);
       return item.stroke.kind !== 'None' && hitContext.isPointInStroke(path, x, y);
     }).reverse().map(entry => entry.item);
@@ -191,20 +193,22 @@
         && value.inks.every(ink => typeof ink.name === 'string' && ink.name.length <= 128 && finite(ink.tint) && ink.tint >= 0 && ink.tint <= 1));
     return data && data.page === opening.page && finite(data.widthPt) && data.widthPt > 0 && finite(data.heightPt) && data.heightPt > 0
       && Array.isArray(data.layers) && data.layers.length <= 128 && data.layers.every(l => typeof l.id === 'string' && /^[0-9]{1,16}$/.test(l.id) && typeof l.name === 'string' && l.name.length <= 128 && typeof l.visible === 'boolean')
-      && Array.isArray(data.objects) && data.objects.length <= 1500 && data.objects.every(o =>
-        Number.isInteger(o.id) && ['Path', 'Image', 'Gradient'].includes(o.type)
+      && Array.isArray(data.objects) && data.objects.length <= 5000 && data.objects.every(o =>
+        Number.isInteger(o.id) && ['Path', 'Image', 'Gradient', 'Text'].includes(o.type)
         && Array.isArray(o.bounds) && o.bounds.length === 4 && o.bounds.every(finite)
         && Array.isArray(o.clip) && o.clip.length === 4 && o.clip.every(finite)
         && (o.lineWidthPt === null || finite(o.lineWidthPt) && o.lineWidthPt >= 0)
         && (o.layer === null || data.layers.some(l => l.id === o.layer))
         && Array.isArray(o.layers) && o.layers.length <= 64 && o.layers.every(id => data.layers.some(l => l.id === id))
-        && color(o.fill) && color(o.stroke) && Array.isArray(o.path) && o.path.length <= 18000
+        && color(o.fill) && color(o.stroke) && Array.isArray(o.path) && o.path.length <= 100000
         && o.path.every(c => Array.isArray(c) && c.length === ({M:3, L:3, C:7, Z:1}[c[0]]) && c.slice(1).every(finite)));
   }
   function present(data) {
     packet = data; paths = data.objects.map(item => ({item, path: makePath(item.path)}));
     visibleLayers = new Set(layerChoices.get(scope.page) || data.layers.filter(l => l.visible).map(l => l.id));
-    layerReady = !data.layers.length;
+    // The original preview already represents the document's default visibility.
+    // Keep it selectable if a replacement layer bitmap cannot be rendered.
+    layerReady = data.layers.every(l => visibleLayers.has(l.id) === l.visible);
     renderLayers();
     sheet.hidden = false; clear(); controls();
     const messages = [];
@@ -256,7 +260,10 @@
         const data = await apiResult(await fetch(`${API}/api/inspect/layers`, {method:'POST', headers:{'Content-Type':'application/json'},
           body:JSON.stringify({id:opening.id, page:opening.page, hiddenLayers:hidden})}), tr('layer_failed'));
         if (!samePage(opening) || ticket !== generation || !dialog.open) return;
-        if (data.page !== opening.page || data.widthPt !== packet.widthPt || data.heightPt !== packet.heightPt
+        // Ghostscript's metadata prints fewer decimals than the PDF parser.
+        // Compare in physical points with a sub-pixel tolerance, not exact floats.
+        const sameSize = (a, b) => Number.isFinite(a) && Math.abs(a-b) <= Math.max(0.01, b*1e-6);
+        if (data.page !== opening.page || !sameSize(data.widthPt, packet.widthPt) || !sameSize(data.heightPt, packet.heightPt)
             || !Array.isArray(data.hiddenLayers) || JSON.stringify(data.hiddenLayers) !== JSON.stringify(hidden)
             || typeof data.image !== 'string' || !data.image.startsWith('data:image/png;base64,')) throw new Error(tr('layer_invalid'));
         url = data.image;
@@ -275,6 +282,12 @@
     } catch (error) {
       if (!samePage(opening) || ticket !== generation || !dialog.open) return;
       if ([404, 410].includes(error.status)) state.sourceUnavailable = true;
+      if (!layerReady) {
+        // Restoring remembered layer choices can fail on reopen. The original
+        // bitmap is still shown, so restore its default picking visibility too.
+        visibleLayers = new Set(packet.layers.filter(l => l.visible).map(l => l.id));
+        layerReady = true; renderLayers();
+      }
       setStatus(error.status === 422 ? tr('layer_failed') : error.message, true);
     } finally {
       if (ticket === generation) {

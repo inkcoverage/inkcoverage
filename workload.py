@@ -151,7 +151,7 @@ def remaining_timeout(default):
     return min(default, max(0.001, deadline - time.monotonic())) if deadline else default
 
 
-def execute_processor(command, timeout):
+def execute_processor(command, timeout, *, stdout_limit=None):
     """Bound diagnostic capture as well as execution time; never spool logs."""
     directory = WORK_DIR.get()
     environment = None
@@ -164,16 +164,17 @@ def execute_processor(command, timeout):
                                creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
     buffers = [bytearray(), bytearray()]
     overflow = threading.Event()
-    def collect(stream, buffer):
+    def collect(stream, buffer, budget):
         while chunk := stream.read(8192):
-            remaining = MAX_DIAGNOSTIC_BYTES - len(buffer)
+            remaining = budget - len(buffer)
             buffer.extend(chunk[:remaining])
             if len(chunk) > remaining:
                 overflow.set()
                 try: process.kill()
                 except ProcessLookupError: pass
-    threads = [threading.Thread(target=collect, args=(stream, buffer), daemon=True)
-               for stream, buffer in zip((process.stdout, process.stderr), buffers)]
+    budgets = (MAX_DIAGNOSTIC_BYTES if stdout_limit is None else stdout_limit, MAX_DIAGNOSTIC_BYTES)
+    threads = [threading.Thread(target=collect, args=(stream, buffer, budget), daemon=True)
+               for stream, buffer, budget in zip((process.stdout, process.stderr), buffers, budgets)]
     for thread in threads: thread.start()
     try:
         try:

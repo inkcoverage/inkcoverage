@@ -835,13 +835,15 @@ def _object_inspection_job(req, pdf_path):
     # Inspect in a disposable, memory/time-bounded process, like colour metadata.
     # The original PDF remains leased until this worker actually finishes.
     _inspect_page(_find_gs(), pdf_path, req.page)
+    from pdf_inspect import MAX_OBJECTS, MAX_PACKET_BYTES
     try:
         result = limits.execute_processor([sys.executable, str(BASE_DIR / "pdf_inspect.py"),
-                                           str(pdf_path), str(req.page)], limits.remaining_timeout(15))
+                                           str(pdf_path), str(req.page)], limits.remaining_timeout(15),
+                                          stdout_limit=MAX_PACKET_BYTES + 1)
         if result.returncode == 0:
             data = json.loads(result.stdout)
             if (isinstance(data, dict) and data.get('page') == req.page
-                    and isinstance(data.get('objects'), list) and len(data['objects']) <= 1500
+                    and isinstance(data.get('objects'), list) and len(data['objects']) <= MAX_OBJECTS
                     and all(isinstance(data.get(k), (int, float)) and math.isfinite(data[k]) and data[k] > 0
                             for k in ('widthPt', 'heightPt'))):
                 return data

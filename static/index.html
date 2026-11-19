@@ -1718,7 +1718,7 @@
 <div class="help-step"><div class="help-step-num">6</div><div class="help-step-content"><h3 data-i18n="help_6_title">Check an ink limit</h3><p data-i18n="help_6_body">Check ink limit works on the current page or its selected area. Set your target percentage and choose which inks count. Exclude white, foil, varnish or technical channels when appropriate. The results show the percentage of the checked area above the limit and the highest total found among the included inks.</p></div></div>
 <div class="help-step"><div class="help-step-num">7</div><div class="help-step-content"><h3 data-i18n="help_7_title">Inspect the map and individual channels</h3><p data-i18n="help_7_body">Heatmap shows only the ink-limit map on a blank page; Overlay shows it over the artwork. Click the active mode to return to the document. In the ink list, use checkboxes to hide or show channels. Alt-click one channel to isolate it; Alt-click it again to restore all. Channel preview in black makes light inks easier to see. Viewing choices do not change measurements or ink-limit exclusions.</p></div></div>
 <div class="help-step"><div class="help-step-num">8</div><div class="help-step-content"><h3 data-i18n="help_8_title">Copy or download completed results</h3><p data-i18n="help_8_body">Copy, CSV and Report include all completed page measurements, even while you are viewing a different page. Report downloads a PDF with page previews, measured dimensions, ink averages and completed ink-limit checks. Incomplete batches are identified. Profile information stays in exports and reports. Channel visibility does not remove inks from these results.</p></div></div>
-<div class="help-step"><div class="help-step-num">9</div><div class="help-step-content"><h3 data-i18n="inspect_help_title">Inspect object sizes and inks</h3><p data-i18n="inspect_help_body">Open Inspect PDF beside the zoom controls. Hover over a vector shape or image, then click to keep its dimensions and fill/outline ink details visible. Width and height follow the page edges and exclude outline thickness. Use the eye controls in Layers to hide/show artwork; only shown objects can be selected. Text is visible but not selectable. Transparency, gradients, images and unsupported colours show a warning. The inspector is an estimating helper and does not change your crop, coverage results or source PDF.</p></div></div>
+<div class="help-step"><div class="help-step-num">9</div><div class="help-step-content"><h3 data-i18n="inspect_help_title">Inspect object sizes and inks</h3><p data-i18n="inspect_help_body">Open Inspect PDF beside the zoom controls. Hover over a vector shape or image, then click to keep its dimensions and fill/outline ink details visible. Width and height follow the page edges and exclude outline thickness. Use the eye controls in Layers to hide/show artwork; only shown objects can be selected. Text objects are selectable; their dimensions use font metrics. Transparency, gradients, images and unsupported colours show a warning. The inspector is an estimating helper and does not change your crop, coverage results or source PDF.</p></div></div>
       <div class="help-tip">
         <p data-i18n-html="help_tip">Coverage can support ink-consumption estimates, but does not directly calculate ink mass or cost and does not certify print readiness. These also depend on the ink, substrate and printing process. Confirm production limits with your printer and use suitable preflight checks.</p>
       </div>
@@ -2107,7 +2107,7 @@ const translations = {
     "inspect_hovered": "Object under pointer",
     "inspect_find": "Find a size or ink",
     "inspect_empty": "Hover over an outline or shape to see its properties. Click to keep it selected.",
-    "inspect_selectable": "Vector shapes and images are selectable. Text remains visible.",
+    "inspect_selectable": "Vector shapes, text objects and images are selectable.",
     "inspect_keyboard": "You can also focus the page and use the left and right arrow keys to browse objects, then Enter to select.",
     "inspect_type_Path": "Vector shape",
     "inspect_type_Image": "Image",
@@ -2126,7 +2126,7 @@ const translations = {
     "inspect_overlap": "{index} of {count} overlapping",
     "inspect_next": "Next object",
     "inspect_partial": "Some objects could not be inspected. The available objects are shown.",
-    "inspect_no_objects": "No selectable vector shapes or images were found on this page.",
+    "inspect_no_objects": "No selectable objects were found on this page.",
     "inspect_reading_layers": "Reading layers…",
     "inspect_no_layers": "This PDF has no layers.",
     "inspect_visibility": "{name} layer visibility",
@@ -2143,7 +2143,9 @@ const translations = {
     "inspect_read_failed": "Could not inspect this PDF page.",
     "inspect_data_invalid": "Could not read the object information for this page.",
     "inspect_help_title": "Inspect object sizes and inks",
-    "inspect_help_body": "Open Inspect PDF beside the zoom controls. Hover over a vector shape or image, then click to keep its dimensions and fill/outline ink details visible. Width and height follow the page edges and exclude outline thickness. Use the eye controls in Layers to hide/show artwork; only shown objects can be selected. Text is visible but not selectable. Transparency, gradients, images and unsupported colours show a warning. The inspector is an estimating helper and does not change your crop, coverage results or source PDF."
+    "inspect_help_body": "Open Inspect PDF beside the zoom controls. Hover over a vector shape or image, then click to keep its dimensions and fill/outline ink details visible. Width and height follow the page edges and exclude outline thickness. Use the eye controls in Layers to hide/show artwork; only shown objects can be selected. Text objects are selectable; their dimensions use font metrics. Transparency, gradients, images and unsupported colours show a warning. The inspector is an estimating helper and does not change your crop, coverage results or source PDF.",
+    "inspect_type_Text": "Text box",
+    "inspect_text_bounds": "Text dimensions use font metrics and exclude outline thickness. The PDF may not preserve the original editor’s text frame."
   },
   "es": {
     "page_count_one": "{count} página",
@@ -2518,7 +2520,7 @@ const translations = {
     "inspect_hovered": "Objeto bajo el puntero",
     "inspect_find": "Comprueba tamaño o tinta",
     "inspect_empty": "Pasa el puntero sobre un contorno o una forma para ver sus propiedades. Haz clic para mantener la selección.",
-    "inspect_selectable": "Se pueden seleccionar formas vectoriales e imágenes. El texto sigue visible.",
+    "inspect_selectable": "Se pueden seleccionar formas vectoriales, objetos de texto e imágenes.",
     "inspect_keyboard": "También puedes enfocar la página y recorrer los objetos con las flechas izquierda y derecha; pulsa Intro para seleccionar.",
     "inspect_type_Path": "Forma vectorial",
     "inspect_type_Image": "Imagen",
@@ -2537,7 +2539,7 @@ const translations = {
     "inspect_overlap": "{index} de {count} superpuestos",
     "inspect_next": "Siguiente objeto",
     "inspect_partial": "No se pudieron inspeccionar algunos objetos. Se muestran los disponibles.",
-    "inspect_no_objects": "No se encontraron formas vectoriales ni imágenes seleccionables en esta página.",
+    "inspect_no_objects": "No se encontraron objetos seleccionables en esta página.",
     "inspect_reading_layers": "Leyendo capas…",
     "inspect_no_layers": "Este PDF no tiene capas.",
     "inspect_visibility": "Visibilidad de la capa {name}",
@@ -2554,7 +2556,9 @@ const translations = {
     "inspect_read_failed": "No se pudo inspeccionar esta página del PDF.",
     "inspect_data_invalid": "No se pudo leer la información de los objetos de esta página.",
     "inspect_help_title": "Inspecciona tamaños y tintas de objetos",
-    "inspect_help_body": "Abre Inspeccionar PDF junto al zoom. Pasa el puntero sobre una forma vectorial o imagen y haz clic para mantener visibles sus dimensiones y las tintas de relleno y contorno. El ancho y el alto siguen los ejes de la página y no incluyen el grosor del contorno. Usa los ojos de Capas para ocultar o mostrar contenido; solo se seleccionan objetos visibles. El texto se ve, pero no se puede seleccionar. La transparencia, los degradados, las imágenes y los colores no compatibles muestran un aviso. Es una ayuda para presupuestar y no cambia el recorte, la cobertura ni el PDF original."
+    "inspect_help_body": "Abre Inspeccionar PDF junto al zoom. Pasa el puntero sobre una forma vectorial o imagen y haz clic para mantener visibles sus dimensiones y las tintas de relleno y contorno. El ancho y el alto siguen los ejes de la página y no incluyen el grosor del contorno. Usa los ojos de Capas para ocultar o mostrar contenido; solo se seleccionan objetos visibles. Los objetos de texto se pueden seleccionar; sus dimensiones usan las métricas de la fuente. La transparencia, los degradados, las imágenes y los colores no compatibles muestran un aviso. Es una ayuda para presupuestar y no cambia el recorte, la cobertura ni el PDF original.",
+    "inspect_type_Text": "Cuadro de texto",
+    "inspect_text_bounds": "Las dimensiones del texto se calculan con las métricas de la fuente y no incluyen el grosor del contorno. El PDF puede no conservar el marco de texto original del editor."
   },
   "pt": {
     "page_count_one": "{count} página",
@@ -2929,7 +2933,7 @@ const translations = {
     "inspect_hovered": "Objeto sob o ponteiro",
     "inspect_find": "Verifique dimensões ou tinta",
     "inspect_empty": "Passe o ponteiro sobre um contorno ou uma forma para ver as propriedades. Clique para manter a seleção.",
-    "inspect_selectable": "É possível selecionar formas vetoriais e imagens. O texto continua visível.",
+    "inspect_selectable": "É possível selecionar formas vetoriais, objetos de texto e imagens.",
     "inspect_keyboard": "Também pode focar a página e percorrer os objetos com as setas esquerda e direita; prima Enter para selecionar.",
     "inspect_type_Path": "Forma vetorial",
     "inspect_type_Image": "Imagem",
@@ -2948,7 +2952,7 @@ const translations = {
     "inspect_overlap": "{index} de {count} sobrepostos",
     "inspect_next": "Objeto seguinte",
     "inspect_partial": "Não foi possível inspecionar alguns objetos. São apresentados os disponíveis.",
-    "inspect_no_objects": "Não foram encontradas formas vetoriais ou imagens selecionáveis nesta página.",
+    "inspect_no_objects": "Não foram encontrados objetos selecionáveis nesta página.",
     "inspect_reading_layers": "A ler camadas…",
     "inspect_no_layers": "Este PDF não tem camadas.",
     "inspect_visibility": "Visibilidade da camada {name}",
@@ -2965,7 +2969,9 @@ const translations = {
     "inspect_read_failed": "Não foi possível inspecionar esta página do PDF.",
     "inspect_data_invalid": "Não foi possível ler a informação dos objetos desta página.",
     "inspect_help_title": "Inspecione dimensões e tintas dos objetos",
-    "inspect_help_body": "Abra Inspecionar PDF junto ao zoom. Passe o ponteiro sobre uma forma vetorial ou imagem e clique para manter visíveis as dimensões e as tintas de preenchimento e contorno. A largura e a altura seguem os eixos da página e não incluem a espessura do contorno. Use os olhos em Camadas para ocultar ou mostrar conteúdo; só os objetos visíveis podem ser selecionados. O texto é visível, mas não selecionável. Transparência, gradientes, imagens e cores não suportadas apresentam um aviso. É uma ajuda à orçamentação e não altera a seleção, a cobertura ou o PDF original."
+    "inspect_help_body": "Abra Inspecionar PDF junto ao zoom. Passe o ponteiro sobre uma forma vetorial ou imagem e clique para manter visíveis as dimensões e as tintas de preenchimento e contorno. A largura e a altura seguem os eixos da página e não incluem a espessura do contorno. Use os olhos em Camadas para ocultar ou mostrar conteúdo; só os objetos visíveis podem ser selecionados. Os objetos de texto são selecionáveis; as suas dimensões usam as métricas da fonte. Transparência, gradientes, imagens e cores não suportadas apresentam um aviso. É uma ajuda à orçamentação e não altera a seleção, a cobertura ou o PDF original.",
+    "inspect_type_Text": "Caixa de texto",
+    "inspect_text_bounds": "As dimensões do texto usam as métricas da fonte e não incluem a espessura do contorno. O PDF pode não preservar a caixa de texto original do editor."
   },
   "zh": {
     "page_count_one": "{count} 页",
@@ -3340,7 +3346,7 @@ const translations = {
     "inspect_hovered": "指针下的对象",
     "inspect_find": "查看尺寸或油墨",
     "inspect_empty": "将指针移至轮廓或形状上可查看属性，单击可保持选择。",
-    "inspect_selectable": "可选择矢量形状和图像。文字仍然可见。",
+    "inspect_selectable": "可选择矢量形状、文本对象和图像。",
     "inspect_keyboard": "也可将焦点移至页面，使用左右方向键浏览对象，再按 Enter 选择。",
     "inspect_type_Path": "矢量形状",
     "inspect_type_Image": "图像",
@@ -3359,7 +3365,7 @@ const translations = {
     "inspect_overlap": "重叠对象 {index}/{count}",
     "inspect_next": "下一个对象",
     "inspect_partial": "部分对象无法检查。现显示可读取的对象。",
-    "inspect_no_objects": "此页面未找到可选择的矢量形状或图像。",
+    "inspect_no_objects": "此页面未找到可选择的对象。",
     "inspect_reading_layers": "正在读取图层…",
     "inspect_no_layers": "此 PDF 没有图层。",
     "inspect_visibility": "图层 {name} 的可见性",
@@ -3376,7 +3382,9 @@ const translations = {
     "inspect_read_failed": "无法检查此 PDF 页面。",
     "inspect_data_invalid": "无法读取此页面的对象信息。",
     "inspect_help_title": "检查对象尺寸和油墨",
-    "inspect_help_body": "点击缩放控件旁的“检查 PDF”。将指针移至矢量形状或图像上，再单击以保持显示其尺寸及填充、轮廓油墨信息。宽高沿页面边缘方向测量，不包含轮廓粗细。使用“图层”中的眼睛按钮隐藏或显示内容；只能选择可见对象。文字可见但不可选。透明度、渐变、图像和不受支持的颜色会显示警告。此工具用于辅助估价，不会更改选区、覆盖率结果或原始 PDF。"
+    "inspect_help_body": "点击缩放控件旁的“检查 PDF”。将指针移至矢量形状或图像上，再单击以保持显示其尺寸及填充、轮廓油墨信息。宽高沿页面边缘方向测量，不包含轮廓粗细。使用“图层”中的眼睛按钮隐藏或显示内容；只能选择可见对象。文本对象可选择，其尺寸根据字体度量计算。透明度、渐变、图像和不受支持的颜色会显示警告。此工具用于辅助估价，不会更改选区、覆盖率结果或原始 PDF。",
+    "inspect_type_Text": "文本框",
+    "inspect_text_bounds": "文本尺寸根据字体度量计算，不包含轮廓粗细。PDF 可能未保留设计软件中的原始文本框。"
   },
   "de": {
     "page_count_one": "{count} Seite",
@@ -3751,7 +3759,7 @@ const translations = {
     "inspect_hovered": "Objekt unter dem Zeiger",
     "inspect_find": "Größe oder Farbe prüfen",
     "inspect_empty": "Zeigen Sie auf eine Kontur oder Form, um ihre Eigenschaften zu sehen. Klicken hält die Auswahl fest.",
-    "inspect_selectable": "Vektorformen und Bilder sind auswählbar. Text bleibt sichtbar.",
+    "inspect_selectable": "Vektorformen, Textobjekte und Bilder sind auswählbar.",
     "inspect_keyboard": "Sie können auch die Seite fokussieren, mit Pfeil links/rechts durch Objekte gehen und mit Eingabe auswählen.",
     "inspect_type_Path": "Vektorform",
     "inspect_type_Image": "Bild",
@@ -3770,7 +3778,7 @@ const translations = {
     "inspect_overlap": "{index} von {count} überlappenden",
     "inspect_next": "Nächstes Objekt",
     "inspect_partial": "Einige Objekte konnten nicht untersucht werden. Die verfügbaren Objekte werden angezeigt.",
-    "inspect_no_objects": "Auf dieser Seite wurden keine auswählbaren Vektorformen oder Bilder gefunden.",
+    "inspect_no_objects": "Auf dieser Seite wurden keine auswählbaren Objekte gefunden.",
     "inspect_reading_layers": "Ebenen werden gelesen…",
     "inspect_no_layers": "Dieses PDF hat keine Ebenen.",
     "inspect_visibility": "Sichtbarkeit der Ebene {name}",
@@ -3787,7 +3795,9 @@ const translations = {
     "inspect_read_failed": "Diese PDF-Seite konnte nicht untersucht werden.",
     "inspect_data_invalid": "Die Objektinformationen dieser Seite konnten nicht gelesen werden.",
     "inspect_help_title": "Objektgrößen und Farben untersuchen",
-    "inspect_help_body": "Öffnen Sie PDF untersuchen neben dem Zoom. Zeigen Sie auf eine Vektorform oder ein Bild und klicken Sie, um Maße sowie Füll- und Konturfarben festzuhalten. Breite und Höhe folgen den Seitenachsen und schließen die Konturstärke aus. Mit den Augensymbolen unter Ebenen blenden Sie Inhalte aus/ein; nur sichtbare Objekte sind auswählbar. Text bleibt sichtbar, ist aber nicht auswählbar. Transparenz, Verläufe, Bilder und nicht unterstützte Farben werden mit einem Hinweis gekennzeichnet. Die Kalkulationshilfe verändert weder Auswahl noch Farbauftragswerte oder Original-PDF."
+    "inspect_help_body": "Öffnen Sie PDF untersuchen neben dem Zoom. Zeigen Sie auf eine Vektorform oder ein Bild und klicken Sie, um Maße sowie Füll- und Konturfarben festzuhalten. Breite und Höhe folgen den Seitenachsen und schließen die Konturstärke aus. Mit den Augensymbolen unter Ebenen blenden Sie Inhalte aus/ein; nur sichtbare Objekte sind auswählbar. Textobjekte sind auswählbar; ihre Maße beruhen auf Schriftmetriken. Transparenz, Verläufe, Bilder und nicht unterstützte Farben werden mit einem Hinweis gekennzeichnet. Die Kalkulationshilfe verändert weder Auswahl noch Farbauftragswerte oder Original-PDF.",
+    "inspect_type_Text": "Textfeld",
+    "inspect_text_bounds": "Textmaße beruhen auf Schriftmetriken und schließen die Konturstärke aus. Der ursprüngliche Textrahmen des Layoutprogramms ist im PDF möglicherweise nicht erhalten."
   },
   "fr": {
     "page_count_one": "{count} page",
@@ -4162,7 +4172,7 @@ const translations = {
     "inspect_hovered": "Objet sous le pointeur",
     "inspect_find": "Vérifier une dimension ou une encre",
     "inspect_empty": "Survolez un contour ou une forme pour voir ses propriétés. Cliquez pour conserver la sélection.",
-    "inspect_selectable": "Les formes vectorielles et les images sont sélectionnables. Le texte reste visible.",
+    "inspect_selectable": "Les formes vectorielles, les objets texte et les images sont sélectionnables.",
     "inspect_keyboard": "Vous pouvez aussi placer le focus sur la page, parcourir les objets avec les flèches gauche et droite et sélectionner avec Entrée.",
     "inspect_type_Path": "Forme vectorielle",
     "inspect_type_Image": "Image",
@@ -4181,7 +4191,7 @@ const translations = {
     "inspect_overlap": "{index} sur {count} superposés",
     "inspect_next": "Objet suivant",
     "inspect_partial": "Certains objets n’ont pas pu être inspectés. Les objets disponibles sont affichés.",
-    "inspect_no_objects": "Aucune forme vectorielle ni image sélectionnable n’a été trouvée sur cette page.",
+    "inspect_no_objects": "Aucun objet sélectionnable n’a été trouvé sur cette page.",
     "inspect_reading_layers": "Lecture des calques…",
     "inspect_no_layers": "Ce PDF ne contient aucun calque.",
     "inspect_visibility": "Visibilité du calque {name}",
@@ -4198,7 +4208,9 @@ const translations = {
     "inspect_read_failed": "Impossible d’inspecter cette page PDF.",
     "inspect_data_invalid": "Impossible de lire les informations des objets de cette page.",
     "inspect_help_title": "Inspecter les dimensions et les encres des objets",
-    "inspect_help_body": "Ouvrez Inspecter le PDF à côté du zoom. Survolez une forme vectorielle ou une image, puis cliquez pour conserver ses dimensions et les encres du fond et du contour. La largeur et la hauteur suivent les axes de la page et excluent l’épaisseur du contour. Les icônes en forme d’œil du panneau Calques masquent ou affichent le contenu ; seuls les objets visibles sont sélectionnables. Le texte est visible mais non sélectionnable. Transparences, dégradés, images et couleurs non prises en charge affichent un avertissement. Cet outil d’aide au chiffrage ne modifie ni la sélection, ni les résultats de couverture, ni le PDF original."
+    "inspect_help_body": "Ouvrez Inspecter le PDF à côté du zoom. Survolez une forme vectorielle ou une image, puis cliquez pour conserver ses dimensions et les encres du fond et du contour. La largeur et la hauteur suivent les axes de la page et excluent l’épaisseur du contour. Les icônes en forme d’œil du panneau Calques masquent ou affichent le contenu ; seuls les objets visibles sont sélectionnables. Les objets texte sont sélectionnables ; leurs dimensions utilisent les métriques de la police. Transparences, dégradés, images et couleurs non prises en charge affichent un avertissement. Cet outil d’aide au chiffrage ne modifie ni la sélection, ni les résultats de couverture, ni le PDF original.",
+    "inspect_type_Text": "Bloc de texte",
+    "inspect_text_bounds": "Les dimensions du texte utilisent les métriques de la police et excluent l’épaisseur du contour. Le PDF ne conserve pas toujours le bloc de texte du logiciel de création."
   },
   "uk": {
     "page_count_one": "{count} сторінка",
@@ -4573,7 +4585,7 @@ const translations = {
     "inspect_hovered": "Об’єкт під вказівником",
     "inspect_find": "Перевірте розмір або фарбу",
     "inspect_empty": "Наведіть вказівник на контур або фігуру, щоб побачити властивості. Клацніть, щоб зберегти вибір.",
-    "inspect_selectable": "Можна вибирати векторні фігури та зображення. Текст залишається видимим.",
+    "inspect_selectable": "Можна вибирати векторні фігури, текстові об’єкти та зображення.",
     "inspect_keyboard": "Також можна перейти до сторінки, переглядати об’єкти стрілками ліворуч і праворуч та вибрати об’єкт клавішею Enter.",
     "inspect_type_Path": "Векторна фігура",
     "inspect_type_Image": "Зображення",
@@ -4592,7 +4604,7 @@ const translations = {
     "inspect_overlap": "{index} із {count} накладених",
     "inspect_next": "Наступний об’єкт",
     "inspect_partial": "Деякі об’єкти не вдалося прочитати. Показано доступні об’єкти.",
-    "inspect_no_objects": "На цій сторінці не знайдено векторних фігур або зображень, які можна вибрати.",
+    "inspect_no_objects": "На цій сторінці не знайдено об’єктів, які можна вибрати.",
     "inspect_reading_layers": "Читання шарів…",
     "inspect_no_layers": "Цей PDF не має шарів.",
     "inspect_visibility": "Видимість шару {name}",
@@ -4609,7 +4621,9 @@ const translations = {
     "inspect_read_failed": "Не вдалося прочитати об’єкти цієї сторінки PDF.",
     "inspect_data_invalid": "Не вдалося прочитати відомості про об’єкти цієї сторінки.",
     "inspect_help_title": "Перевірте розміри та фарби об’єктів",
-    "inspect_help_body": "Відкрийте Переглянути об’єкти PDF поруч із масштабом. Наведіть вказівник на векторну фігуру або зображення та клацніть, щоб зберегти на екрані розміри й відомості про фарби заливки та контуру. Ширина й висота вимірюються вздовж осей сторінки без товщини контуру. Кнопки з оком у панелі Шари приховують або показують вміст; вибирати можна лише видимі об’єкти. Текст видимий, але не вибирається. Для прозорості, градієнтів, зображень і непідтримуваних кольорів з’являється попередження. Цей помічник для кошторисів не змінює виділення, результати покриття чи вихідний PDF."
+    "inspect_help_body": "Відкрийте Переглянути об’єкти PDF поруч із масштабом. Наведіть вказівник на векторну фігуру або зображення та клацніть, щоб зберегти на екрані розміри й відомості про фарби заливки та контуру. Ширина й висота вимірюються вздовж осей сторінки без товщини контуру. Кнопки з оком у панелі Шари приховують або показують вміст; вибирати можна лише видимі об’єкти. Текстові об’єкти можна вибирати; їхні розміри визначаються за метриками шрифту. Для прозорості, градієнтів, зображень і непідтримуваних кольорів з’являється попередження. Цей помічник для кошторисів не змінює виділення, результати покриття чи вихідний PDF.",
+    "inspect_type_Text": "Текстовий блок",
+    "inspect_text_bounds": "Розміри тексту визначаються за метриками шрифту без товщини контуру. PDF може не зберігати початкову текстову рамку редактора."
   }
 };
 
@@ -6242,7 +6256,7 @@ showResultsEmptyState();
 <script src="/static/coverage-report.js?v=20261016-seven-languages"></script>
 <script src="/static/batch-picker.js?v=20261015-preview-pages"></script>
 <script src="/static/welcome-tour.js?v=20261015-preview-pages"></script>
-<script src="/static/pdf-inspector.js?v=20261118-release"></script>
+<script src="/static/pdf-inspector.js?v=20261119-text"></script>
 
 <!-- Structured data for SEO -->
 <script type="application/ld+json">

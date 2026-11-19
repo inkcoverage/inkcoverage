@@ -1,8 +1,8 @@
 """Bounded, read-only vector inspection for the estimator's PDF helper.
 
 Interpret a deliberately small subset of PDF graphics. Keep source colours:
-never infer CMYK/spot recipes from rendered RGB. Text is left to the preview.
-Coordinates and bounds describe full paths, excluding stroke thickness.
+never infer CMYK/spot recipes from rendered RGB. Text uses source font metrics.
+Coordinates and bounds exclude stroke thickness.
 """
 import json
 import logging
@@ -10,13 +10,18 @@ import math
 import sys
 
 from pypdf import PdfReader, PdfWriter, apply_configuration
+from pypdf.errors import PdfReadError
 from pypdf.generic import ArrayObject, ContentStream, DecodedStreamObject, DictionaryObject, NameObject
+from pypdf.generic._font import Font
 from pdf_colors import MAX_BYTES, bound_memory, clean_name, resolved, resource
 
 IDENTITY = (1, 0, 0, 1, 0, 0)
-MAX_OBJECTS = 1500
-MAX_COMMANDS = 18000
-MAX_PACKET_BYTES = 190000
+# Outlined packaging text commonly contains thousands of small painted paths.
+# Keep these limits independent of the much smaller renderer diagnostic budget.
+MAX_OBJECTS = 5000
+MAX_COMMANDS = 100000
+MAX_PACKET_BYTES = 6 * 1024 * 1024
+MAX_TEXT_GLYPHS = 100000
 
 
 def numbers(values, count=None):
@@ -87,6 +92,8 @@ class Inspector:
         self.byte_count = self.operations = self.nodes = self.command_count = 0
         self.limited = False
         self.text_present = False
+        self.fonts = {}
+        self.text_glyphs = 0
         self.hidden_layers = set()
         config = resolved(resolved(reader.root_object.get('/OCProperties', {})).get('/D', {}))
         self.base_off = config.get('/BaseState') == '/OFF'
@@ -177,6 +184,85 @@ class Inspector:
         return [['M', *point(matrix, x0, y0)], ['L', *point(matrix, x1, y0)],
                 ['L', *point(matrix, x1, y1)], ['L', *point(matrix, x0, y1)], ['Z']]
 
+    def text_font(self, definition):
+        """Read metrics once per source font, without exposing font properties.
+
+        Character codes, rather than extracted Unicode, select the PDF's widths.
+        Identity-H CID fonts use two-byte CIDs. Other CMaps/vertical fonts need
+        their own displacement mapping; do not guess their dimensions.
+        """
+        if definition is None: return None
+        key = self.key(definition)
+        if key not in self.fonts:
+            if len(self.fonts) >= 128: raise ValueError('font budget')
+            self.fonts[key] = None
+            try:
+                definition = resolved(definition)
+                subtype = definition.get('/Subtype')
+                if subtype == '/Type0':
+                    if definition.get('/Encoding') != '/Identity-H': return None
+                    code_size = 2
+                elif subtype in ('/Type1', '/MMType1', '/TrueType'):
+                    code_size = 1
+                else:
+                    # Type3 glyphs may paint their own colours and arbitrary
+                    # graphics; ordinary text fill/stroke rules do not apply.
+                    return None
+                font = Font.from_font_resource(definition)
+                if code_size == 2:
+                    descendant = resolved(resolved(definition['/DescendantFonts'])[0])
+                    font.character_widths['default'] = numbers((descendant.get('/DW', 1000),), 1)[0]
+                elif '/Widths' in definition:
+                    descriptor = resolved(definition.get('/FontDescriptor', {}))
+                    font.character_widths['default'] = numbers((descriptor.get('/MissingWidth', 0),), 1)[0]
+                descent, ascent = numbers((font.font_descriptor.descent, font.font_descriptor.ascent), 2)
+                if ascent <= descent: return None
+                self.fonts[key] = (font, code_size, descent, ascent)
+            except (ValueError, TypeError, KeyError, AttributeError, NotImplementedError, PdfReadError):
+                pass
+        return self.fonts[key]
+
+    def text_string(self, value, state, text_matrix):
+        """Return a positioned run rectangle and the advanced text matrix.
+
+        This is a metric text box, not a glyph-outline measurement or a recovered
+        editor text frame. Spaces advance the cursor but do not create objects.
+        """
+        font_info = self.text_font(state['font'])
+        if font_info is None or text_matrix is None:
+            self.limited = True
+            return [], None
+        font, code_size, descent, ascent = font_info
+        raw = value.original_bytes
+        if len(raw) % code_size:
+            self.limited = True
+            return [], None
+        count = len(raw)//code_size
+        self.text_glyphs += count
+        if self.text_glyphs > MAX_TEXT_GLYPHS: raise ValueError('text budget')
+        cursor, left, right = 0, None, None
+        size, horizontal = state['fontSize'], state['horizontal']
+        for index in range(0, len(raw), code_size):
+            code = int.from_bytes(raw[index:index+code_size], 'big')
+            width = numbers((font.character_widths.get(chr(code), font.character_widths['default']),), 1)[0]/1000*size
+            space = chr(code) == font.space_char if code_size == 1 else font.character_map.get(chr(code)) == ' '
+            if not space:
+                a, b = sorted((cursor, cursor+width*horizontal))
+                left = a if left is None else min(left, a)
+                right = b if right is None else max(right, b)
+            # PDF word spacing applies only to the single-byte code 32.
+            cursor += (width+state['charSpace']+(state['wordSpace'] if code_size == 1 and code == 32 else 0))*horizontal
+        commands = []
+        if left is not None and size != 0 and horizontal != 0:
+            bottom, top = sorted((descent/1000*size+state['rise'], ascent/1000*size+state['rise']))
+            matrix = compose(self.page_matrix, compose(state['matrix'], text_matrix))
+            commands = self.rect(matrix, (left, bottom, right, top))
+            self.command_count += len(commands)
+            if self.command_count > MAX_COMMANDS: raise ValueError('path budget')
+        advanced = compose(text_matrix, (1, 0, 0, 1, cursor, 0))
+        numbers(advanced, 6)
+        return commands, advanced
+
     def scan(self, stream, resources, inherited, depth=0, active=None):
         if stream is None: return
         self.nodes += 1
@@ -191,7 +277,27 @@ class Inspector:
         stack, marked, path = [], [], []
         current = start = None
         clipping = None
+        text_matrix = line_matrix = IDENTITY
+        text_active = False
+        text_commands, text_clip = [], []
+        text_state = None
         resources = resolved(resources)
+        def flush_text():
+            nonlocal text_commands, text_state
+            if text_commands:
+                mode = text_state['textMode']
+                self.add(text_commands, text_state, resources, fill=mode in (0, 2, 4, 6),
+                         stroke=mode in (1, 2, 5, 6), kind='Text')
+            text_commands, text_state = [], None
+        def move_text(x, y):
+            nonlocal text_matrix, line_matrix
+            # A BT/ET pair can contain captions scattered across an entire
+            # page. Do not turn large placement jumps into a box over artwork
+            # between those captions. Nearby paragraph lines stay together.
+            if max(abs(x), abs(y)) > 3*abs(state['fontSize']): flush_text()
+            line_matrix = compose(line_matrix, (1, 0, 0, 1, x, y))
+            text_matrix = line_matrix
+        text_ops = {b'BT', b'ET', b'Tf', b'Tm', b'Td', b'TD', b'T*', b'Tc', b'Tw', b'Tz', b'TL', b'Ts', b'Tj', b'TJ', b"'", b'"'}
         def close_path():
             nonlocal current
             if start is not None:
@@ -211,7 +317,60 @@ class Inspector:
         for args, op in content.operations:
             self.operations += 1
             if self.operations > 200000: raise ValueError('operation budget')
-            if op == b'q':
+            # Split text objects when inks, compositing, clipping, membership or
+            # graphics transforms change, so a selected box has one real recipe.
+            if op not in text_ops: flush_text()
+            if op == b'BT':
+                flush_text()
+                if text_active: self.limited = True
+                text_matrix = line_matrix = IDENTITY
+                text_active = True; text_clip = []
+            elif op == b'ET':
+                flush_text()
+                if text_clip:
+                    state['clip'] = intersect(state['clip'], bounds(text_clip))
+                    state['complexClip'] = True
+                text_active = False; text_clip = []
+            elif op == b'Tf':
+                state['font'] = resource(resources, '/Font', args[0])
+                state['fontSize'] = numbers(args[1:], 1)[0]
+            elif op == b'Tm':
+                flush_text()
+                text_matrix = line_matrix = tuple(numbers(args, 6))
+            elif op in (b'Td', b'TD'):
+                x, y = numbers(args, 2)
+                if op == b'TD': state['leading'] = -y
+                move_text(x, y)
+            elif op == b'T*': move_text(0, -state['leading'])
+            elif op in (b'Tc', b'Tw', b'Tz', b'TL', b'Ts'):
+                name = {b'Tc':'charSpace', b'Tw':'wordSpace', b'Tz':'horizontal', b'TL':'leading', b'Ts':'rise'}[op]
+                state[name] = numbers(args, 1)[0]/(100 if op == b'Tz' else 1)
+            elif op == b'Tr':
+                mode = numbers(args, 1)[0]
+                if mode not in range(8): raise ValueError('text rendering mode')
+                state['textMode'] = int(mode)
+            elif op in (b'Tj', b'TJ', b"'", b'"'):
+                self.text_present = True
+                if not text_active:
+                    self.limited = True
+                    continue
+                if op == b'"':
+                    state['wordSpace'], state['charSpace'] = numbers(args[:2], 2)
+                if op in (b"'", b'"'): move_text(0, -state['leading'])
+                values = args[0] if op == b'TJ' else [args[-1]]
+                for value in values:
+                    if isinstance(value, (int, float)):
+                        adjust = -numbers((value,), 1)[0]/1000*state['fontSize']*state['horizontal']
+                        if text_matrix is not None: text_matrix = compose(text_matrix, (1, 0, 0, 1, adjust, 0))
+                        continue
+                    commands, text_matrix = self.text_string(value, state, text_matrix)
+                    mode = state['textMode']
+                    if mode >= 4: text_clip.extend(commands)
+                    if mode in (3, 7): continue  # Invisible/search and clip-only text.
+                    if commands:
+                        if text_state is None: text_state = state.copy()
+                        text_commands.extend(commands)
+            elif op == b'q':
                 if len(stack) >= 128: raise ValueError('graphics stack budget')
                 stack.append(state.copy())
             elif op == b'Q':
@@ -237,6 +396,9 @@ class Inspector:
                 if '/CA' in ext: state['strokeAlpha'] = float(ext['/CA'])
                 if '/SMask' in ext: state['mask'] = resolved(ext['/SMask']) != '/None'
                 if '/BM' in ext: state['blend'] = resolved(ext['/BM']) not in ('/Normal', '/Compatible')
+                if '/Font' in ext:
+                    font = resolved(ext['/Font'])
+                    state['font'], state['fontSize'] = font[0], numbers(font[1:], 1)[0]
                 state['transparent'] = state['groupTransparency'] or state['fillAlpha'] != 1 or state['strokeAlpha'] != 1 or state['mask'] or state['blend']
             elif op in (b'm', b'l', b'c', b'v', b'y', b're'):
                 self.command_count += 5 if op == b're' else 1
@@ -321,10 +483,8 @@ class Inspector:
                     ['M', *state['clip'][:2]], ['L', state['clip'][2], state['clip'][1]],
                     ['L', *state['clip'][2:]], ['L', state['clip'][0], state['clip'][3]], ['Z']]
                 self.add(commands, state, resources, fill=True, kind='Gradient')
-            elif op in (b'Tj', b'TJ', b"'", b'"'):
-                self.text_present = True
-            elif op == b'Tr' and int(args[0]) >= 4:
-                state['complexClip'] = True
+        flush_text()
+        if text_active: self.limited = True
         if stack or marked: self.limited = True
 
     def inspect(self):
@@ -344,6 +504,8 @@ class Inspector:
         state = {'matrix': IDENTITY, 'fillSpace': '/DeviceGray', 'strokeSpace': '/DeviceGray',
                  'fill': [0], 'stroke': [0], 'width': 1, 'fillAlpha': 1, 'strokeAlpha': 1,
                  'mask': False, 'blend': False, 'transparent': transparent, 'groupTransparency': transparent,
+                 'font': None, 'fontSize': 0, 'charSpace': 0, 'wordSpace': 0, 'horizontal': 1,
+                 'leading': 0, 'rise': 0, 'textMode': 0,
                  'clip': [0, 0, width, height], 'complexClip': False, 'layer': None, 'layers': (), 'visible': True}
         try:
             self.scan(page.get('/Contents'), page.get('/Resources', {}), state)

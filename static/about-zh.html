@@ -106,7 +106,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:1000;o
   <p>文件在服务器端使用 <strong>Ghostscript</strong> 处理——这是业界标准的开源 PostScript 和 PDF 解释器——Python 后端管理分析流程。每个通道独立分离和测量。上传 10 分钟后将无法生成新的预览或分析；使用 PDF 不会延长此期限。服务器在启动时及之后每 60 秒执行清理。临时输出会在处理结束后删除，清理任务会重试删除残留文件。过期的原始文件通常会在过期后的首次清理中删除；正在进行的处理可以先完成，删除失败会被记录并重试，因此实际删除可能需要更长时间。关闭文档仅清除此浏览器界面。已完成的结果仍可在对应页面导出，直到关闭或替换文档或更改选区。若要进行新的操作，请重新上传 PDF。</p>
   <p>InkCoverage.app 是开源软件，采用 AGPL-3.0 许可证。完整源代码可在 <a href="https://github.com/inkcoverage/inkcoverage" target="_blank" rel="noopener noreferrer">GitHub</a> 上获取。</p>
 
-<section id="pdf-inspector"><h3>检查尺寸、油墨和图层</h3><p>“检查 PDF”打开独立查看窗口，左侧为图层，右侧为对象属性。悬停或单击矢量形状或图像即可查看宽高，以及可读取的填充、轮廓油墨定义和轮廓粗细。专色名称可帮助理解徽标的制作方式，但不会自动判断生产用途。眼睛按钮可真实隐藏或显示图层，并将选择限制为可见对象。尺寸沿页面坐标轴测量，不包含轮廓粗细；受裁切影响时会有提示，分开的线段不会自动拼接。文字仍然可见但不可选，无法可靠读取的颜色会显示警告。此功能用于辅助估价，不是印前预检。</p></section>
+<section id="pdf-inspector"><h3>检查尺寸、油墨和图层</h3><p>“检查 PDF”打开独立查看窗口，左侧为图层，右侧为对象属性。悬停或单击矢量形状或图像即可查看宽高，以及可读取的填充、轮廓油墨定义和轮廓粗细。专色名称可帮助理解徽标的制作方式，但不会自动判断生产用途。眼睛按钮可真实隐藏或显示图层，并将选择限制为可见对象。尺寸沿页面坐标轴测量，不包含轮廓粗细；受裁切影响时会有提示，分开的线段不会自动拼接。文本对象可选择，其尺寸根据字体度量计算，无法可靠读取的颜色会显示警告。此功能用于辅助估价，不是印前预检。</p></section>
 </main>
 
 <footer class="footer site-footer"><span class="footer-brand">InkCoverage.app</span><nav aria-label="网站导航"><a href="/zh/about">关于</a><a href="/zh/faq">常见问题</a><a href="/zh/contact">联系</a><a href="/zh/privacy">隐私</a></nav><span class="footer-caption">免费开源的油墨覆盖率分析工具。</span></footer>

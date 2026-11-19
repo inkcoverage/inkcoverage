@@ -96,6 +96,11 @@ const waitFrames = page => page.evaluate(() => new Promise(resolve => requestAni
       await at(200,110,true);assert(!(await page.locator('#inspectProperties').innerText()).includes('CutContour'));
       await cutEye.click();await layerReady();
       await at(80,130,true);
+      assert.match(await page.locator('#inspectProperties').innerText(), /Text box/);
+      assert.match(await page.locator('#inspectProperties').innerText(), /C 0% · M 0% · Y 0% · K 100%/);
+      // The live label above the panel is now selectable. Sample the panel
+      // away from that text box to verify its separate native ink recipe.
+      await at(80,145,true);
       assert.match(await page.locator('#inspectProperties').innerText(), /C 85% · M 25% · Y 0% · K 5%/);
       await at(295,60,true);
       assert.match(await page.locator('#inspectProperties').innerText(), /Gray · 75% black/);
@@ -214,5 +219,30 @@ const waitFrames = page => page.evaluate(() => new Promise(resolve => requestAni
     await page.locator('#inspectClose').click();
     assert.deepEqual(errors,[]);await context.close();
     console.log('PASS metadata/layer delayed-close ownership and layer failure rollback.');
+    // Decimal MediaBoxes round differently in Ghostscript's metadata output.
+    // Also keep the original preview selectable when its initial layer request
+    // fails, while rejecting an actually different page size.
+    for (const mode of ['rounded', 'failed', 'wrong-size']) {
+      const c=await browser.newContext({viewport:{width:1366,height:768}}),p=await c.newPage();
+      await p.route('**/*',r=>new URL(r.request().url()).origin===base?r.continue():r.abort());
+      await p.route('**/api/inspect',r=>r.fulfill({json:{...savedPacket,widthPt:savedPacket.widthPt+.00049}}));
+      await p.route('**/api/inspect/layers',r=>mode==='failed'
+        ?r.fulfill({status:422,json:{detail:'Initial layer preview test failure'}})
+        :r.fulfill({json:{...savedLayerView,widthPt:savedLayerView.widthPt+(mode==='wrong-size'?10:0)}}));
+      await p.goto(base);await p.locator('#fileInput').setInputFiles(sample);
+      await p.waitForFunction(()=>state.previewReady&&!state.isLoading);
+      await p.locator('#btnInspectPdf').click();
+      await p.waitForFunction(()=>!state.isAnalyzing&&!document.getElementById('inspectPage').hidden
+        &&document.getElementById('inspectViewport').getAttribute('aria-busy')==='false');
+      assert.equal(await p.locator('#inspectStatus').getAttribute('data-error'),String(mode!=='rounded'));
+      const b=await p.locator('#inspectCanvas').boundingBox();
+      await p.mouse.click(b.x+200/500*b.width,b.y+220/330*b.height);
+      assert.match(await p.locator('#inspectProperties').innerText(),/Selected object/i);
+      await p.locator('#inspectClear').click();await p.locator('#inspectViewport').focus();
+      await p.keyboard.press('ArrowRight');await p.keyboard.press('Enter');
+      assert.match(await p.locator('#inspectProperties').innerText(),/Selected object/i);
+      await c.close();
+    }
+    console.log('PASS rounded dimensions, initial layer failure selection and wrong-size rejection.');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode=1; });

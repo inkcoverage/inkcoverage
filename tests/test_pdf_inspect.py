@@ -193,6 +193,106 @@ class ColorTests(unittest.TestCase):
         self.assertEqual(result['objects'][0]['bounds'], [0, 180, 20, 200])
 
 
+class TextTests(unittest.TestCase):
+    @staticmethod
+    def resources(**extra):
+        font = dictionary(Type=NameObject('/Font'), Subtype=NameObject('/TrueType'),
+            BaseFont=NameObject('/OwnedMetrics'), FirstChar=NumberObject(32),
+            Widths=array(*([500]*95)),
+            FontDescriptor=dictionary(Ascent=NumberObject(800), Descent=NumberObject(-200),
+                                      FontBBox=array(-50, -200, 1100, 800)))
+        return dictionary(Font=dictionary(F1=font), **extra)
+
+    def test_multiline_text_object_keeps_metric_bounds_and_native_inks(self):
+        result = read('0 .3 1 .2 k 0 1 0 RG 2 w BT /F1 20 Tf 2 Tr 25 TL '
+                      '10 100 Td (AB) Tj T* (CD) Tj ET', self.resources())
+        self.assertFalse(result['limited']); self.assertTrue(result['textPresent'])
+        self.assertEqual(len(result['objects']), 1)
+        obj = result['objects'][0]
+        self.assertEqual(obj['type'], 'Text')
+        self.assertEqual(obj['bounds'], [10, 84, 30, 129])
+        self.assertEqual(obj['fill'], {'kind':'CMYK','values':[0,.3,1,.2]})
+        self.assertEqual(obj['stroke'], {'kind':'RGB','values':[0,1,0]})
+        self.assertEqual(obj['lineWidthPt'], 2)
+        self.assertNotIn('font', obj); self.assertNotIn('text', obj)
+
+    def test_spacing_scaling_rise_and_consecutive_show_advance(self):
+        result = read('BT /F1 10 Tf 2 Tc 3 Tw 50 Tz 4 Ts 10 40 Td (A B) Tj (A) Tj ET', self.resources())
+        self.assertFalse(result['limited'])
+        self.assertEqual(result['objects'][0]['bounds'], [10, 148, 24.5, 158])
+
+    def test_kerning_and_quote_operators_keep_one_text_box(self):
+        result = read('BT /F1 20 Tf 25 TL 10 100 Td [(A) -200 (B)] TJ '
+                      '(C) \' 3 2 (D E) " ET', self.resources())
+        self.assertFalse(result['limited'])
+        self.assertEqual(len(result['objects']), 1)
+        self.assertEqual(result['objects'][0]['bounds'], [10, 84, 47, 154])
+
+    def test_paint_changes_split_text_boxes_with_original_spot_fill_and_outline(self):
+        resources = self.resources(ColorSpace=dictionary(Gold=ArrayObject([
+            NameObject('/Separation'), NameObject('/Gold Foil'), NameObject('/DeviceCMYK'), dictionary()])))
+        result = read('BT /F1 20 Tf 10 100 Td /Gold cs .8 scn (AB) Tj '
+                      '1 Tr /Gold CS .5 SCN (CD) Tj ET', resources)
+        self.assertFalse(result['limited']); self.assertEqual(len(result['objects']), 2)
+        a, b = result['objects']
+        self.assertEqual(a['fill']['inks'], [{'name':'Gold Foil','tint':.8}])
+        self.assertEqual(a['stroke']['kind'], 'None')
+        self.assertEqual(b['fill']['kind'], 'None')
+        self.assertEqual(b['stroke']['inks'], [{'name':'Gold Foil','tint':.5}])
+
+    def test_rotated_text_form_and_physical_page_transform(self):
+        form = stream('BT /F1 20 Tf 0 1 -1 0 80 20 Tm (AB) Tj ET',
+            Subtype=NameObject('/Form'), BBox=array(0,0,100,100), Resources=self.resources())
+        result = read('1 0 0 0 k /F Do', dictionary(XObject=dictionary(F=form)),
+                      rotation=90, box=[10,20,110,120], unit=2)
+        self.assertFalse(result['limited'])
+        self.assertEqual(result['objects'][0]['bounds'], [0,108,40,148])
+        self.assertEqual(result['objects'][0]['fill']['values'], [1,0,0,0])
+
+    def test_invisible_and_clip_only_text_are_not_selectable(self):
+        for mode in (3, 7):
+            result = read(f'BT /F1 20 Tf {mode} Tr 10 100 Td (AB) Tj ET '
+                          '10 90 10 10 re f 200 20 10 10 re f', self.resources())
+            self.assertFalse(result['limited'])
+            self.assertTrue(all(o['type'] == 'Path' for o in result['objects']))
+            self.assertEqual(len(result['objects']), 1 if mode == 7 else 2)
+            if mode == 7: self.assertTrue(result['objects'][0]['geometryWarning'])
+
+    def test_identity_cid_widths_without_unicode_and_hidden_layer_membership(self):
+        font = dictionary(Type=NameObject('/Font'), Subtype=NameObject('/Type0'),
+            BaseFont=NameObject('/OwnedCID'), Encoding=NameObject('/Identity-H'),
+            DescendantFonts=ArrayObject([dictionary(Type=NameObject('/Font'), Subtype=NameObject('/CIDFontType2'),
+                W=ArrayObject([NumberObject(1),array(600,700)]), DW=NumberObject(1000),
+                FontDescriptor=dictionary(Ascent=NumberObject(800),Descent=NumberObject(-200)))]))
+        resources = dictionary(Font=dictionary(F1=font), Properties=dictionary(
+            A=dictionary(Type=NameObject('/OCG'), Name=TextStringObject('Text layer'))))
+        result = read('/OC /A BDC BT /F1 20 Tf 10 100 Td <00010002> Tj ET EMC', resources)
+        self.assertFalse(result['limited'])
+        obj = result['objects'][0]
+        self.assertEqual(obj['bounds'], [10,84,36,104])
+        self.assertEqual(obj['layers'], [result['layers'][0]['id']])
+
+    def test_q_restores_text_parameters_but_not_text_matrix(self):
+        result = read('BT /F1 20 Tf 10 100 Td q 50 Tz (AB) Tj Q (CD) Tj ET', self.resources())
+        self.assertFalse(result['limited'])
+        self.assertEqual([o['bounds'] for o in result['objects']], [[10,84,20,104],[20,84,40,104]])
+
+    def test_scattered_captions_do_not_create_a_text_box_over_intervening_artwork(self):
+        result = read('BT /F1 10 Tf 10 150 Td (AB) Tj 0 -70 Td (CD) Tj '
+                      '1 0 0 1 150 20 Tm (EF) Tj ET', self.resources())
+        self.assertFalse(result['limited'])
+        self.assertEqual([o['bounds'] for o in result['objects']],
+                         [[10,42,20,52], [10,112,20,122], [150,172,160,182]])
+
+    def test_unknown_font_does_not_discard_later_artwork_and_glyph_budget_is_bounded(self):
+        result = read('BT /Missing 20 Tf 10 100 Td (AB) Tj ET 100 20 20 20 re f')
+        self.assertTrue(result['limited']); self.assertEqual(len(result['objects']), 1)
+        self.assertEqual(result['objects'][0]['type'], 'Path')
+        with patch.object(pdf_inspect, 'MAX_TEXT_GLYPHS', 1):
+            result = read('BT /F1 20 Tf 10 100 Td (AB) Tj ET', self.resources())
+        self.assertTrue(result['limited']); self.assertEqual(result['objects'], [])
+
+
 class DocumentTests(unittest.TestCase):
     def setUp(self):
         (ROOT/'tmp').mkdir(exist_ok=True)
@@ -342,6 +442,41 @@ class ApiTests(unittest.TestCase):
                 self.assertTrue(result['objects']); self.assertFalse(result['limited'])
                 with self.assertRaises(backend.HTTPException):
                     backend._object_inspection_job(backend.PreviewRequest(id='a'*32,page=3), path)
+
+    @unittest.skipUnless(GS, 'Ghostscript unavailable')
+    def test_dense_outlined_artwork_survives_parser_and_worker_transport(self):
+        # Packaging often outlines every letter. Exercise all three former
+        # limits: >1500 objects, >18000 commands and >190KB of JSON. A small
+        # final object detects truncation of artwork painted late in the page.
+        with tempfile.TemporaryDirectory(dir=ROOT/'tmp') as directory:
+            path = Path(directory)/'dense.pdf'
+            writer = PdfWriter(); page = writer.add_blank_page(width=500, height=500)
+            shapes = []
+            for i in range(2100):
+                x, y = i % 50 * 8, i // 50 * 8
+                shapes.append(f'{x} {y} m {x+2} {y} l {x+3} {y+1} l {x+4} {y+2} l '
+                              f'{x+4} {y+3} l {x+3} {y+4} l {x+2} {y+4} l '
+                              f'{x+1} {y+3} l {x} {y+2} l h f')
+            shapes.append('0 1 0 0 k 470 470 12 15 re f')
+            page[NameObject('/Contents')] = writer._add_object(stream('\n'.join(shapes)))
+            writer.write(path)
+            with patch.object(backend, 'GS_EXECUTABLE', GS):
+                result = backend._object_inspection_job(backend.PreviewRequest(id='a'*32,page=1), path)
+            self.assertFalse(result['limited'])
+            self.assertEqual(len(result['objects']), 2101)
+            self.assertGreater(len(json.dumps(result)), 190000)
+            self.assertEqual(result['objects'][-1]['bounds'], [470, 15, 482, 30])
+            self.assertEqual(result['objects'][-1]['fill']['values'], [0, 1, 0, 0])
+
+    def test_structured_worker_output_keeps_stderr_and_stdout_bounded(self):
+        import workload
+        with patch.object(workload, 'MAX_DIAGNOSTIC_BYTES', 1024):
+            result = workload.execute_processor([sys.executable, '-c', 'print("x"*2048)'], 5,
+                                               stdout_limit=4096)
+            self.assertEqual(len(result.stdout.strip()), 2048)
+            for code in ('print("x"*8192)', 'import sys;sys.stderr.write("x"*2048)'):
+                with self.assertRaises(workload.WorkloadError):
+                    workload.execute_processor([sys.executable, '-c', code], 5, stdout_limit=4096)
 
 
 if __name__ == '__main__': unittest.main()
